@@ -1,5 +1,4 @@
-const { ESLint } = require('eslint')
-​
+const { ESLint } = require('eslint');
 const removeIgnoredFiles = async (files) => {
   const eslint = new ESLint()
   const isIgnored = await Promise.all(
@@ -10,9 +9,8 @@ const removeIgnoredFiles = async (files) => {
   const filteredFiles = files.filter((_, i) => !isIgnored[i])
   return filteredFiles.join(' ')
 }
-​
 module.exports = {
-  'src/**/*.{js,jsx,ts,tsx,html,css,scss}': async (files) => {
+  'src/**/*.{js,jsx,ts,tsx,html}': async (files) => {
     const filesToLint = await removeIgnoredFiles(files)
     return [`npx prettier --write ${filesToLint}`, `npx eslint ${filesToLint}`]
   },
