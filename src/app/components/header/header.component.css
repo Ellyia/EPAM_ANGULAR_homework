@@ -1,0 +1,39 @@
+header {
+  background-color: grey;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px 10px 50px;
+  align-items: center;
+}
+
+h4 {
+  margin-left: 10px;
+}
+
+.logo:last-child img {
+  width: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo div {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.logo img {
+  width: 45px;
+}
+
+.logo div:first-child {
+  margin-right: 15px;
+}
+
+.logo span {
+  margin-left: 5px;
+}
