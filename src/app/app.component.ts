@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { ICourse } from './models/course';
 import { IUser } from './models/user';
 import { courses } from './data/course';
-import { users } from './data/user'; 
+import { users } from './data/user';
 
 @Component({
   selector: 'app-root',

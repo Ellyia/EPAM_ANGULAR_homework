@@ -8,6 +8,10 @@
       "files": [
         "*.ts"
       ],
+      "env": {
+        "jest": true,
+        "browser": true
+      },
       "parserOptions": {
         "project": [
           "tsconfig.json",
@@ -37,16 +41,6 @@
             "style": "camelCase",
             "type": "attribute"
           }
-        ],
-        "sort-imports": [
-          "error",
-          {
-            "ignoreCase": false,
-            "ignoreDeclarationSort": false,
-            "ignoreMemberSort": false,
-            "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
-            "allowSeparatedGroups": false
-          }
         ]
       }
     },
@@ -58,14 +52,6 @@
         "plugin:@angular-eslint/template/recommended"
       ],
       "rules": {}
-    },
-    {
-      "files": [
-        "*.css"
-      ],
-      "extends": [
-        "plugin:css/recommended"
-      ]
     }
   ]
 }
