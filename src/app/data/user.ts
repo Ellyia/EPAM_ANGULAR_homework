@@ -1,9 +1,7 @@
 import { IUser } from '../models/user';
 
-export const users: IUser[] = [
-  {
-    id: 482,
-    firstName: 'Askold',
-    lastName: 'Dir'
-  }
-];
+export const USER: IUser = {
+  id: 482,
+  firstName: 'Askold',
+  lastName: 'Dir'
+};

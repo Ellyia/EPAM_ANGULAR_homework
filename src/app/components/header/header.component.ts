@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { IUser } from '../../models/user';
+import { USER } from '../../data/user';
 
 @Component({
   selector: 'app-header',
@@ -7,10 +8,5 @@ import { IUser } from '../../models/user';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  title = 'header';
-
-  @Input() user: IUser;
-  @Input() src: string;
-  @Input() srcLogout: string;
-  @Input() srcUser: string;
+  user: IUser = USER;
 }

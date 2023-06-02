@@ -23,7 +23,6 @@ h4 {
 .logo div {
   display: flex;
   align-items: center;
-  cursor: pointer;
 }
 
 .logo img {
@@ -36,4 +35,14 @@ h4 {
 
 .logo span {
   margin-left: 5px;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
