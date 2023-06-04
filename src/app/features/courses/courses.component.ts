@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ICourse } from '../../models/course';
-import { COURSES } from '../../data/courses';
+import { ICourse } from './models/course.model';
+import { COURSES } from '../../assets/static/mock-courses';
 
 @Component({
   selector: 'app-courses',

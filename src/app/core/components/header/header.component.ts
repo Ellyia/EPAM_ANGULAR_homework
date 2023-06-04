@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { IUser } from '../../models/user';
-import { USER } from '../../data/user';
+import { IUser } from '../../models/user.model';
+import { USER } from '../../../assets/static/mock-user';
 
 @Component({
   selector: 'app-header',
