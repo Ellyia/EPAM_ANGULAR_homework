@@ -1,0 +1,15 @@
+input {
+  padding: 10px 20px;
+  margin-right: 10px;
+  width: 30%;
+}
+
+button {
+  padding: 12px 20px;
+  background-color: rgb(185, 231, 116);
+  color: #fff;
+  border: none;
+  box-shadow: 0 0 5px 2px rgba(221, 221, 221, 1);
+  cursor: pointer;
+  font-size: 8px;
+}
