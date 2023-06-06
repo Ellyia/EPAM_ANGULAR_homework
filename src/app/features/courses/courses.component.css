@@ -15,14 +15,6 @@
   margin-bottom: 20px;
 }
 
-.bg-white {
-  background-color: #fff;
-}
-
-.bg-green {
-  background-color: rgb(185, 231, 116);
-}
-
 .load-more {
   display: flex;
   justify-content: center;
@@ -32,4 +24,11 @@
   padding: 20px;
   border-radius: 5px;
   font-size: 12px;
+}
+
+.load-more-btn {
+  border: none;
+  background-color: transparent;
+  text-decoration: underline;
+  cursor: pointer;
 }

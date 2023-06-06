@@ -1,16 +1,17 @@
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
+import { BreadcrumbsComponent } from './core/components/breadcrumbs/breadcrumbs.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { CourseCardComponent } from './components/courseCard/courseCard.component';
-import { CoursesComponent } from './components/courses/courses.component';
-import { FooterComponent } from './components/footer/footer.component';
+import { CourseCardComponent } from './features/courses/components/courseCard/courseCard.component';
+import { CoursesComponent } from './features/courses/courses.component';
+import { FooterComponent } from './core/components/footer/footer.component';
 
-import { HeaderComponent } from './components/header/header.component';
+import { HeaderComponent } from './core/components/header/header.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { SearchBarComponent } from './components/searchBar/searchBar.component';
+import { SearchBarComponent } from './features/courses/components/searchBar/searchBar.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { SearchBarComponent } from './components/searchBar/searchBar.component';
     SearchBarComponent,
     FooterComponent
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent]
 })

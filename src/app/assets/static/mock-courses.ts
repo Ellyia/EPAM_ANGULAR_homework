@@ -1,6 +1,6 @@
-import { ICourse } from '../models/course';
+import { ICourse } from '../../features/courses/models/course.model';
 
-export const courses: ICourse[] = [
+export const COURSES: ICourse[] = [
   {
     id: 988,
     title: 'Kyiv - Kyi, Shek, Horiv',
@@ -10,7 +10,7 @@ export const courses: ICourse[] = [
       'Anno Domini - AD. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquam, reprehenderit dolore. Laudantium voluptatem quidem totam optio natus distinctio quaerat illum, iste eius vitae maxime velit, doloribus mollitia, enim officiis sit ...'
   },
   {
-    id: -2000,
+    id: 2000,
     title: 'Iudaism - Moiseum',
     creationDate: 'May 30 0000',
     duration: 4023,
