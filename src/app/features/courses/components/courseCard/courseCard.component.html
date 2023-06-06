@@ -1,14 +1,14 @@
 <div class="main">
   <div class="card">
     <div class="title">
-      <h3>{{ course.title }}</h3>
+      <h3>{{ course?.title }}</h3>
       <div class="duration">
-        <span>{{ course.duration }}</span>
-        <span>{{ course.creationDate | date }}</span>
+        <span>{{ course?.duration }}</span>
+        <span>{{ course?.creationDate | date }}</span>
       </div>
     </div>
 
-    <p class="description">{{ course.description }}</p>
+    <p class="description">{{ course?.description }}</p>
   </div>
 
   <div class="btns">

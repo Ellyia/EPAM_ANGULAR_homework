@@ -7,13 +7,13 @@ import { ICourse } from '../../models/course.model';
   styleUrls: ['./courseCard.component.css']
 })
 export class CourseCardComponent {
-  @Input() course: ICourse;
+  @Input() course?: ICourse;
 
   @Output() deleteCourse = new EventEmitter<number>();
 
   onEdit(): void {}
 
   onDelete(): void {
-    this.deleteCourse.emit(this.course.id);
+    this.deleteCourse.emit(this.course?.id);
   }
 }
