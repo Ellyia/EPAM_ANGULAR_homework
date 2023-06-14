@@ -12,6 +12,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { SearchBarComponent } from './features/courses/components/searchBar/searchBar.component';
 import { FormsModule } from '@angular/forms';
+import { DateDependHighlightDirective } from './shared/directives/dateDependHighlight.directive';
+import { FormatDurationPipe } from './shared/pipes/duration.pipe';
+import { FilterItemsPipe } from './shared/pipes/filterItems.pipe';
+import { OrderByPipe } from './shared/pipes/orderBy.pipe';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,11 @@ import { FormsModule } from '@angular/forms';
     BreadcrumbsComponent,
     CoursesComponent,
     SearchBarComponent,
-    FooterComponent
+    FooterComponent,
+    DateDependHighlightDirective,
+    FormatDurationPipe,
+    FilterItemsPipe,
+    OrderByPipe
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],

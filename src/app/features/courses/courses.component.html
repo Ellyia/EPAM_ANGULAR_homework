@@ -1,16 +1,24 @@
 <div class="main">
-  <app-search-bar></app-search-bar>
+  <app-search-bar (searchItems)="filterCourses($event)"></app-search-bar>
 
   <button class="btn">+ Add courses</button>
 
-  <app-course-card
-    *ngFor="let course of courses; trackBy: identify"
-    [course]="course"
-    (deleteCourse)="deleteCourse($event)"
-  >
-  </app-course-card>
+  <div *ngIf="isCourses">
+    <app-course-card
+      *ngFor="let course of coursesToShow; trackBy: identify"
+      [course]="course"
+      (deleteItem)="deleteCourse($event)"
+    >
+    </app-course-card>
 
-  <div class="load-more">
-    <button class="load-more-btn" (click)="onClickLoadMore()">LOAD MORE</button>
+    <div class="load-more">
+      <button class="load-more-btn" (click)="onClickLoadMore()">
+        LOAD MORE
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="!isCourses">
+    <div class="load-more">NO DATA. FEEL FREE TO ADD NEW COURSE</div>
   </div>
 </div>
