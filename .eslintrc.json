@@ -42,7 +42,8 @@
             "style": "camelCase",
             "type": "attribute"
           }
-        ]
+        ],
+        "no-unused-vars": 0
       }
     },
     {

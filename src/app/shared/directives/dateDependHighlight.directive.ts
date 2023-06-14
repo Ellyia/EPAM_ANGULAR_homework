@@ -6,9 +6,7 @@ import { Directive, ElementRef, OnInit, Input } from '@angular/core';
 export class DateDependHighlightDirective implements OnInit {
   @Input() creationDate: string | undefined;
 
-  constructor(private elementRef: ElementRef) {
-    this.elementRef = elementRef;
-  }
+  constructor(private elementRef: ElementRef) {}
 
   ngOnInit(): void {
     const courseDate: Date = new Date(this.creationDate as string);

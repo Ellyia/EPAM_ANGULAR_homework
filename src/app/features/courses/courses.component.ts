@@ -18,9 +18,7 @@ export class CoursesComponent implements OnInit {
   constructor(
     private filterItems: FilterItemsPipe,
     private orderBy: OrderByPipe
-  ) {
-    (this.filterItems = filterItems), (this.orderBy = orderBy);
-  }
+  ) {}
 
   ngOnInit(): void {
     this.courses = this.orderBy.transform(COURSES);
