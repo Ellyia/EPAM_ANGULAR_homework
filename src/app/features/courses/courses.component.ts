@@ -23,7 +23,6 @@ export class CoursesComponent implements OnInit {
   ngOnInit(): void {
     this.courses = this.orderBy.transform(COURSES);
     this.coursesToShow = [...this.courses];
-    console.log(this.courses.length > 0);
     this.isCourses = this.courses.length > 0;
   }
 
