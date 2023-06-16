@@ -12,14 +12,6 @@
   background-color: rgb(252, 250, 228);
 }
 
-.border-green {
-  border-color: darkseagreen;
-}
-
-.border-blue {
-  border-color: deepskyblue;
-}
-
 .btn {
   display: flex;
   justify-content: center;

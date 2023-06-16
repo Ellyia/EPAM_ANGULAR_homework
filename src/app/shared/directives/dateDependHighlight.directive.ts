@@ -26,7 +26,7 @@ export class DateDependHighlightDirective implements OnInit {
       currentDate.getDate() - 14
     );
 
-    if (currentDate > courseDate && courseDate.getTime() <= fourteenDaysAgo) {
+    if (currentDate >= courseDate && courseDate.getTime() >= fourteenDaysAgo) {
       this.elementRef.nativeElement.style.border = '2px solid darkseagreen';
     } else if (currentDate.getTime() < courseDate.getTime()) {
       this.elementRef.nativeElement.style.border = '2px solid deepskyblue';
