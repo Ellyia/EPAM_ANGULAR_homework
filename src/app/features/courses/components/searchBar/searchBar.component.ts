@@ -6,7 +6,9 @@ import {
   Component,
   DoCheck,
   OnChanges,
-  OnInit
+  OnInit,
+  Output,
+  EventEmitter
 } from '@angular/core';
 
 @Component({
@@ -25,6 +27,13 @@ export class SearchBarComponent
     AfterViewChecked
 {
   searchString = '';
+
+  @Output() searchItems = new EventEmitter<string>();
+
+  onSearch(): void {
+    console.log(this.searchString);
+    this.searchItems.emit(this.searchString);
+  }
 
   constructor() {
     console.log('constructor');
@@ -56,9 +65,5 @@ export class SearchBarComponent
 
   ngAfterViewChecked(): void {
     console.log('ngAfterViewChecked');
-  }
-
-  onSearch(): void {
-    console.log(this.searchString);
   }
 }

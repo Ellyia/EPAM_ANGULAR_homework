@@ -9,4 +9,5 @@ import { USER } from '../../../assets/static/mock-user';
 })
 export class HeaderComponent {
   user: IUser = USER;
+  title = 'Video course';
 }

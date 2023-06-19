@@ -9,11 +9,11 @@ import { ICourse } from '../../models/course.model';
 export class CourseCardComponent {
   @Input() course?: ICourse;
 
-  @Output() deleteCourse = new EventEmitter<number>();
+  @Output() deleteItem = new EventEmitter<number>();
 
   onEdit(): void {}
 
   onDelete(): void {
-    this.deleteCourse.emit(this.course?.id);
+    this.deleteItem.emit(this.course?.id);
   }
 }

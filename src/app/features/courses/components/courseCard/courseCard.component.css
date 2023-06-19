@@ -1,11 +1,15 @@
-.main {
+.course-wrap {
   display: flex;
   justify-content: space-between;
-  background-color: lemonchiffon;
+  background-color: #fff;
   box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
   margin: 0px 0px 20px;
   padding: 20px;
   border-radius: 5px;
+}
+
+.bg-lightlemon {
+  background-color: rgb(252, 250, 228);
 }
 
 .btn {
@@ -57,4 +61,23 @@
 
 .btns img {
   width: 15px;
+}
+
+.duration img {
+  width: 17px;
+}
+
+.duration {
+  display: flex;
+}
+
+.duration span {
+  display: flex;
+  align-items: center;
+}
+
+.star::after {
+  margin-left: 10px;
+  content: '\2605';
+  color: gold;
 }

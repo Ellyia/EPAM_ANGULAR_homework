@@ -18,7 +18,7 @@
 .load-more {
   display: flex;
   justify-content: center;
-  background-color: lemonchiffon;
+  background-color: #fff;
   box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
   margin: 0px 0px 20px;
   padding: 20px;
