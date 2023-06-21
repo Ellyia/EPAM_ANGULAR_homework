@@ -1,7 +1,9 @@
 <app-header></app-header>
 
-<app-breadcrumbs></app-breadcrumbs>
+<app-breadcrumbs *appIsAuthenticated="isAuth()"></app-breadcrumbs>
 
-<app-courses></app-courses>
+<app-login *appIsAuthenticated="!isAuth()"></app-login>
+
+<app-courses *appIsAuthenticated="isAuth()"></app-courses>
 
 <app-footer></app-footer>

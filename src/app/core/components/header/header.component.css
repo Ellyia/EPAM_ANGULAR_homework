@@ -5,6 +5,7 @@ header {
   justify-content: space-between;
   padding: 10px 20px 10px 50px;
   align-items: center;
+  height: 65px;
 }
 
 h4 {

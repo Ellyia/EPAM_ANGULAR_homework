@@ -14,6 +14,9 @@ export class CourseCardComponent {
   onEdit(): void {}
 
   onDelete(): void {
-    this.deleteItem.emit(this.course?.id);
+    let confirmOnDelete = confirm('Do you really want to delete this course?');
+    if (confirmOnDelete) {
+      this.deleteItem.emit(this.course?.id);
+    }
   }
 }

@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ICourse } from './models/course.model';
-import { COURSES } from '../../assets/static/mock-courses';
 import { FilterItemsPipe } from '../../shared/pipes/filterItems.pipe';
 import { OrderByPipe } from '../../shared/pipes/orderBy.pipe';
-
+import { CoursesService } from './services/courses.service';
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.css'],
-  providers: [FilterItemsPipe, OrderByPipe]
+  providers: [FilterItemsPipe, OrderByPipe, CoursesService]
 })
 export class CoursesComponent implements OnInit {
   courses: ICourse[] = [];
@@ -17,11 +16,12 @@ export class CoursesComponent implements OnInit {
 
   constructor(
     private filterItems: FilterItemsPipe,
-    private orderBy: OrderByPipe
+    private orderBy: OrderByPipe,
+    private coursesService: CoursesService
   ) {}
 
   ngOnInit(): void {
-    this.courses = this.orderBy.transform(COURSES);
+    this.courses = this.orderBy.transform(this.coursesService.getList());
     this.coursesToShow = [...this.courses];
     this.isCourses = this.courses.length > 0;
   }
@@ -35,7 +35,8 @@ export class CoursesComponent implements OnInit {
   }
 
   deleteCourse($event: number) {
-    console.log($event);
+    // console.log($event);
+    this.coursesService.removeItem($event);
   }
 
   filterCourses(searchString: string) {
