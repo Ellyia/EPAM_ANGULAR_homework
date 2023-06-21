@@ -35,7 +35,6 @@ export class CoursesComponent implements OnInit {
   }
 
   deleteCourse($event: number) {
-    // console.log($event);
     this.coursesService.removeItem($event);
   }
 

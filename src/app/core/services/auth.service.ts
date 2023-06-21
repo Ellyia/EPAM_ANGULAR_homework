@@ -1,40 +1,34 @@
 import { IUser } from '../models/user.model';
+import { ILoginData } from '../models/loginData.model';
 
 export class AuthServise {
-  private USER: IUser = {
+  private TOKEN = 'token';
+
+  private user: IUser = {
     id: 1,
     firstName: 'FirstName',
-    lastName: 'SecondName'
+    lastName: 'SecondName',
+    email: ''
   };
-  private TOKEN = 'token';
-  private EMAIL = '';
-  private PASSWORD = '';
-
   private lsPropToken = 'token';
   private lsPropUser = 'user';
-  private lsPropEmail = 'email';
-  private lsPropPass = 'password';
 
-  login(email: string, password: string): void {
-    console.log('logged in successfully');
-    localStorage.setItem(this.lsPropUser, JSON.stringify(this.USER));
+  login(data: ILoginData): void {
+    this.user.email = data.email;
+    localStorage.setItem(this.lsPropUser, JSON.stringify(this.user));
     localStorage.setItem(this.lsPropToken, JSON.stringify(this.TOKEN));
-    this.EMAIL = email;
-    this.PASSWORD = password;
-    localStorage.setItem(this.lsPropEmail, JSON.stringify(this.EMAIL));
-    localStorage.setItem(this.lsPropPass, JSON.stringify(this.PASSWORD));
+
+    console.log('logged in successfully');
   }
 
   logout(): void {
-    console.log('Logout');
     localStorage.removeItem(this.lsPropUser);
     localStorage.removeItem(this.lsPropToken);
-    localStorage.removeItem(this.lsPropEmail);
-    localStorage.removeItem(this.lsPropPass);
+
+    console.log('Logout');
   }
 
   isAuthenticated(): boolean {
-    console.log(!!localStorage.getItem(this.lsPropToken));
     return !!localStorage.getItem(this.lsPropToken);
   }
 
@@ -45,8 +39,6 @@ export class AuthServise {
 
       return user;
     } else {
-      console.log('no info');
-
       return null;
     }
   }

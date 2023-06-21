@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthServise } from '../../core/services/auth.service';
-
+import { ILoginData } from 'src/app/core/models/loginData.model';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -8,12 +8,14 @@ import { AuthServise } from '../../core/services/auth.service';
   providers: [AuthServise]
 })
 export class LoginComponent {
-  email: string = '';
-  password: string = '';
+  loginData: ILoginData = {
+    email: '',
+    password: ''
+  };
 
   constructor(private authServise: AuthServise) {}
 
   login(): void {
-    this.authServise.login(this.email, this.password);
+    this.authServise.login(this.loginData);
   }
 }

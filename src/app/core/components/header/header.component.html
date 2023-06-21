@@ -5,12 +5,16 @@
   </div>
   <div class="logo" *appIsAuthenticated="isAuth()">
     <div>
-      <img src="app/assets/images/user-placeholder.png" alt="user" />
+      <img
+        class="img"
+        src="app/assets/images/user-placeholder.png"
+        alt="user"
+      />
       <span>{{ user.firstName }} {{ user.lastName }}</span>
     </div>
 
     <button (click)="logout()">
-      <img src="app/assets/images/logout.png" alt="logout" />
+      <img class="img" src="app/assets/images/logout.png" alt="logout" />
       <span>Log off</span>
     </button>
   </div>
