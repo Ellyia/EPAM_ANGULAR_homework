@@ -14,7 +14,7 @@ import {
 @Component({
   selector: 'app-search-bar',
   templateUrl: './searchBar.component.html',
-  styleUrls: ['./searchBar.component.css']
+  styleUrls: ['./searchBar.component.scss']
 })
 export class SearchBarComponent
   implements
