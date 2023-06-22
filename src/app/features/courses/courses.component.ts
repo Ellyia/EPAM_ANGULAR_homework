@@ -24,12 +24,12 @@ export class CoursesComponent implements OnInit {
 
   ngOnInit(): void {
     this.showCourses();
-    this.isCourses = this.courses.length > 0;
   }
 
   showCourses(): void {
     this.courses = this.orderBy.transform(this.coursesService.getList());
-    this.coursesToShow = [...this.courses];
+    this.coursesToShow = this.filterCourses(this.searchStr);
+    this.isCourses = this.courses.length > 0;
   }
 
   onClickLoadMore(): void {
@@ -43,12 +43,15 @@ export class CoursesComponent implements OnInit {
   deleteCourse($event: number): void {
     this.coursesService.removeItem($event);
     this.showCourses();
-    this.filterCourses(this.searchStr);
   }
 
-  filterCourses(searchString: string): void {
+  searchCourses(searchString: string): void {
     this.searchStr = searchString;
-    this.coursesToShow = searchString
+    this.showCourses();
+  }
+
+  filterCourses(searchString: string): ICourse[] {
+    return searchString
       ? this.filterItems.transform(this.courses, searchString)
       : [...this.courses];
   }
