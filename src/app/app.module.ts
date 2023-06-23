@@ -18,7 +18,7 @@ import { FilterItemsPipe } from './shared/pipes/filterItems.pipe';
 import { OrderByPipe } from './shared/pipes/orderBy.pipe';
 import { LoginModule } from './features/login/login.module';
 import { IsAuthenticatedDirective } from './shared/directives/ifAuthenticated.directive';
-import { AuthServise } from './core/services/auth.service';
+import { AuthService } from './core/services/auth.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +42,7 @@ import { AuthServise } from './core/services/auth.service';
     FormsModule,
     LoginModule
   ],
-  providers: [AuthServise],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

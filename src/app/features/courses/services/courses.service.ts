@@ -41,6 +41,5 @@ export class CoursesService {
 
   removeItem($event: number): void {
     this.COURSES = [...this.COURSES].filter((el) => el.id !== $event);
-    console.log('removed', $event, this.COURSES);
   }
 }

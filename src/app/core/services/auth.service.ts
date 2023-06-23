@@ -1,7 +1,7 @@
 import { IUser } from '../models/user.model';
 import { ILoginData } from '../models/loginData.model';
 
-export class AuthServise {
+export class AuthService {
   private TOKEN = 'token';
 
   private user: IUser = {
