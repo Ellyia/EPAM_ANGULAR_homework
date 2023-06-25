@@ -1,6 +1,10 @@
 import { IUser } from '../models/user.model';
 import { ILoginData } from '../models/loginData.model';
+import { Injectable } from '@angular/core';
 
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
   private TOKEN = 'token';
 

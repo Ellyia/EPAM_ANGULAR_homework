@@ -1,30 +1,37 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HeaderComponent } from './header.component';
-import { AuthService } from '../../services/auth.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
-  let authServiceStub: Partial<AuthService>;
-  // let authService: AuthService;
+  let mockService: jasmine.SpyObj<AuthService>;
 
   beforeEach(() => {
-    authServiceStub = {
-      isAuthenticated: () => true,
-      logout: () => {}
-    };
+    const mockService = jasmine.createSpyObj('AuthService', [
+      'logout',
+      'isAuthenticated'
+    ]);
+
+    TestBed.overrideComponent(HeaderComponent, {
+      set: {
+        providers: [
+          {
+            provide: AuthService,
+            useValue: mockService
+          }
+        ]
+      }
+    });
 
     TestBed.configureTestingModule({
       declarations: [HeaderComponent],
-      schemas: [NO_ERRORS_SCHEMA],
-      providers: [{ provide: AuthService, useValue: authServiceStub }]
+      schemas: [NO_ERRORS_SCHEMA]
     });
 
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
-
-    // authService = fixture.debugElement.injector.get(AuthService);
 
     fixture.detectChanges();
   });
@@ -38,28 +45,13 @@ describe('HeaderComponent', () => {
   });
 
   it('should call isAuthenticated method of AuthService', () => {
-    // spyOn(authService, 'isAuthenticated').and.returnValue(true);
+    mockService.isAuthenticated.and.returnValue(true);
     expect(component.isAuth()).toBeTrue();
+    expect(mockService.isAuthenticated).toHaveBeenCalled();
   });
 
-  // it('should call isAuthenticated method on AuthService', () => {
-  //   spyOn(authService, 'isAuthenticated').and.returnValue(true);
-  //   const result = component.isAuth();
-  //   expect(result).toBe(true);
-  //   expect(authService.isAuthenticated).toHaveBeenCalled();
-  // });
-
-  // it('should call logout method on AuthService', () => {
-  //   spyOn(authService, 'logout');
-  //   component.logout();
-  //   expect(authService.logout).toHaveBeenCalled();
-  // });
-
-  // it('should call logout method when logout is called', () => {
-  //   spyOn(component, 'logout');
-  //   spyOn(authService, 'logout');
-  //   component.logout();
-  //   expect(component.logout).toHaveBeenCalled();
-  //   expect(authService.logout).toHaveBeenCalled();
-  // });
+  it('should call logout method of AuthService', () => {
+    component.logout();
+    expect(mockService.logout).toHaveBeenCalled();
+  });
 });

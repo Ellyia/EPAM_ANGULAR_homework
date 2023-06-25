@@ -3,6 +3,7 @@ import { ICourse } from './models/course.model';
 import { FilterItemsPipe } from '../../shared/pipes/filterItems.pipe';
 import { OrderByPipe } from '../../shared/pipes/orderBy.pipe';
 import { CoursesService } from './services/courses.service';
+
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
