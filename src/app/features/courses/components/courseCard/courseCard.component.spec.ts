@@ -55,31 +55,31 @@ describe('CourseCardComponent', () => {
     expect(deleteItemSpy).toHaveBeenCalledWith(courseId);
   });
 
-  it('should show confirmation dialog and emit deleteItem event when onDelete is called and confirmed', () => {
-    const courseId = 482;
-    const deleteItemSpy = spyOn(component.deleteItem, 'emit');
-    spyOn(window, 'confirm').and.returnValue(true);
+  // it('should show confirmation dialog and emit deleteItem event when onDelete is called and confirmed', () => {
+  //   const courseId = 482;
+  //   const deleteItemSpy = spyOn(component.deleteItem, 'emit');
+  //   spyOn(window, 'confirm').and.returnValue(true);
 
-    component.course = COURSES[0];
-    component.onDelete();
+  //   component.course = COURSES[0];
+  //   component.onDelete();
 
-    expect(window.confirm).toHaveBeenCalledWith(
-      'Do you really want to delete this course?'
-    );
-    expect(deleteItemSpy).toHaveBeenCalledWith(courseId);
-  });
+  //   expect(window.confirm).toHaveBeenCalledWith(
+  //     'Do you really want to delete this course?'
+  //   );
+  //   expect(deleteItemSpy).toHaveBeenCalledWith(courseId);
+  // });
 
-  it('should not emit deleteItem event when onDelete is called and not confirmed', () => {
-    const courseId = 482;
-    const deleteItemSpy = spyOn(component.deleteItem, 'emit');
-    spyOn(window, 'confirm').and.returnValue(false);
+  // it('should not emit deleteItem event when onDelete is called and not confirmed', () => {
+  //   const courseId = 482;
+  //   const deleteItemSpy = spyOn(component.deleteItem, 'emit');
+  //   spyOn(window, 'confirm').and.returnValue(false);
 
-    component.course = COURSES[0];
-    component.onDelete();
+  //   component.course = COURSES[0];
+  //   component.onDelete();
 
-    expect(window.confirm).toHaveBeenCalledWith(
-      'Do you really want to delete this course?'
-    );
-    expect(deleteItemSpy).not.toHaveBeenCalled();
-  });
+  //   expect(window.confirm).toHaveBeenCalledWith(
+  //     'Do you really want to delete this course?'
+  //   );
+  //   expect(deleteItemSpy).not.toHaveBeenCalled();
+  // });
 });

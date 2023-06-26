@@ -42,8 +42,11 @@ export class CoursesComponent implements OnInit {
   }
 
   deleteCourse($event: number): void {
-    this.coursesService.removeItem($event);
-    this.showCourses();
+    let confirmOnDelete = confirm('Do you really want to delete this course?');
+    if (confirmOnDelete) {
+      this.coursesService.removeItem($event);
+      this.showCourses();
+    }
   }
 
   searchCourses(searchString: string): void {
