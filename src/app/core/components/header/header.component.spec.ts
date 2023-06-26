@@ -9,7 +9,7 @@ describe('HeaderComponent', () => {
   let mockService: jasmine.SpyObj<AuthService>;
 
   beforeEach(() => {
-    const mockService = jasmine.createSpyObj('AuthService', [
+    mockService = jasmine.createSpyObj('AuthService', [
       'logout',
       'isAuthenticated'
     ]);
