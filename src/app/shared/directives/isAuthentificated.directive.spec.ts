@@ -1,47 +1,45 @@
-import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
-import { MockBuilder, MockRender } from 'ng-mocks';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { IsAuthenticatedDirective } from './ifAuthenticated.directive';
+import { Component, DebugElement } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
-@Directive({
-  selector: '[appAuthTestDirective]'
+@Component({
+  selector: 'app-test',
+  template: ` <div *appIsAuthenticated="value">content</div> `
 })
-class IsAuthTestDirective {
-  public constructor(
-    protected templateRef: TemplateRef<any>,
-    protected viewContainerRef: ViewContainerRef
-  ) {}
-
-  @Input() public set appAuthTestDirective(value: any) {
-    if (value) {
-      this.viewContainerRef.createEmbeddedView(this.templateRef);
-    } else {
-      this.viewContainerRef.clear();
-    }
-  }
+class TestComponent {
+  value: boolean = true;
+  constructor() {}
 }
 
-describe('IsAuthTestDirective', () => {
-  beforeEach(() => MockBuilder(IsAuthTestDirective));
+describe('IsAuthenticatedDirective', () => {
+  let fixture: ComponentFixture<TestComponent>;
+  let component: TestComponent;
 
-  it('hides and renders its content', () => {
-    const fixture = MockRender(
-      `
-        <div *appAuthTestDirective="value">
-          content
-        </div>
-    `,
-      {
-        value: false
-      }
-    );
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [IsAuthenticatedDirective, TestComponent],
+      schemas: [NO_ERRORS_SCHEMA]
+    }).compileComponents();
+  });
 
-    expect(fixture.nativeElement.innerHTML).not.toContain('content');
-
-    fixture.componentInstance.value = true;
+  beforeEach(() => {
+    fixture = TestBed.createComponent(TestComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
-    expect(fixture.nativeElement.innerHTML).toContain('content');
+  });
 
+  it('should show element, which contains "content"', () => {
+    const el: DebugElement = fixture.debugElement.query(By.css('div'));
+    expect(el.nativeElement.textContent).toContain('content');
+  });
+
+  it('shouldn`t show element', () => {
     fixture.componentInstance.value = false;
     fixture.detectChanges();
-    expect(fixture.nativeElement.innerHTML).not.toContain('content');
+
+    const el: DebugElement = fixture.debugElement.query(By.css('div'));
+    expect(el).toBeNull();
   });
 });
