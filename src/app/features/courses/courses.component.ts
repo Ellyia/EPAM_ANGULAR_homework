@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ICourse } from './models/course.model';
 import { FilterItemsPipe } from '../../shared/pipes/filterItems.pipe';
 import { OrderByPipe } from '../../shared/pipes/orderBy.pipe';
@@ -16,6 +16,12 @@ export class CoursesComponent implements OnInit {
   coursesToShow: ICourse[] = [];
 
   searchStr: string = '';
+
+  isAddCourse: boolean = false;
+
+  onAddCourse(): void {
+    this.isAddCourse = true;
+  }
 
   constructor(
     private filterItems: FilterItemsPipe,

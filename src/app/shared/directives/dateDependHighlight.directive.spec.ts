@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
   template: `
     <div>
       <div appDateDependHighlight [creationDate]="'May 12 2024'"></div>
-      <div appDateDependHighlight [creationDate]="'Jun 13 2023'"></div>
+      <div appDateDependHighlight [creationDate]="'Jun 27 2023'"></div>
       <div appDateDependHighlight [creationDate]="'May 12 2023'"></div>
     </div>
   `

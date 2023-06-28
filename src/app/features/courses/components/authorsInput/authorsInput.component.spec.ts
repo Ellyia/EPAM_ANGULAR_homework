@@ -1,16 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { CourseAuthorsComponent } from './authorsInput.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { AuthorsInputComponent } from './authorsInput.component';
 
 describe('CourseAuthorsComponent', () => {
-  let component: CourseAuthorsComponent;
-  let fixture: ComponentFixture<CourseAuthorsComponent>;
+  let component: AuthorsInputComponent;
+  let fixture: ComponentFixture<AuthorsInputComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CourseAuthorsComponent]
+      declarations: [AuthorsInputComponent],
+      schemas: [NO_ERRORS_SCHEMA]
     });
-    fixture = TestBed.createComponent(CourseAuthorsComponent);
+    fixture = TestBed.createComponent(AuthorsInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

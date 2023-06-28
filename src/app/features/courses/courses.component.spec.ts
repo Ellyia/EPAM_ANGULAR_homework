@@ -114,31 +114,34 @@ describe('CoursesComponent', () => {
     expect(res).toEqual([...component.courses]);
   });
 
-  // it('should show confirmation dialog and emit deleteItem event when onDelete is called and confirmed', () => {
-  //   const courseId = 482;
-  //   const deleteItemSpy = spyOn(component.deleteItem, 'emit');
-  //   spyOn(window, 'confirm').and.returnValue(true);
+  it('should show confirmation dialog and call showCourses', () => {
+    component.courses = mockCourses;
+    const courseId = 1;
 
-  //   component.course = COURSES[0];
-  //   component.onDelete();
+    const deleteItemSpy = spyOn(component, 'showCourses');
+    spyOn(window, 'confirm').and.returnValue(true);
 
-  //   expect(window.confirm).toHaveBeenCalledWith(
-  //     'Do you really want to delete this course?'
-  //   );
-  //   expect(deleteItemSpy).toHaveBeenCalledWith(courseId);
-  // });
+    component.deleteCourse(courseId);
 
-  // it('should not emit deleteItem event when onDelete is called and not confirmed', () => {
-  //   const courseId = 482;
-  //   const deleteItemSpy = spyOn(component.deleteItem, 'emit');
-  //   spyOn(window, 'confirm').and.returnValue(false);
+    expect(window.confirm).toHaveBeenCalledWith(
+      'Do you really want to delete this course?'
+    );
 
-  //   component.course = COURSES[0];
-  //   component.onDelete();
+    expect(deleteItemSpy).toHaveBeenCalled();
+  });
 
-  //   expect(window.confirm).toHaveBeenCalledWith(
-  //     'Do you really want to delete this course?'
-  //   );
-  //   expect(deleteItemSpy).not.toHaveBeenCalled();
-  // });
+  it('should not emit deleteItem event when onDelete is called and not confirmed', () => {
+    component.courses = mockCourses;
+    const courseId = 1;
+
+    const deleteItemSpy = spyOn(component, 'showCourses');
+    spyOn(window, 'confirm').and.returnValue(false);
+
+    component.deleteCourse(courseId);
+
+    expect(window.confirm).toHaveBeenCalledWith(
+      'Do you really want to delete this course?'
+    );
+    expect(deleteItemSpy).not.toHaveBeenCalled();
+  });
 });

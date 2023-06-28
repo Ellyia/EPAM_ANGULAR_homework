@@ -1,19 +1,19 @@
 <form action="#">
   <label htmlFor="title">Title:</label>
-  <input type="text" name="title" id="title" [(ngModel)]="title" />
+  <input type="text" name="title" id="title" [(ngModel)]="COURSE.title" />
 
   <label htmlFor="description"> Description:</label>
   <textarea
     name="description"
     id="description"
     minLength="2"
-    [(ngModel)]="description"
-    >{{ description }}</textarea
+    [(ngModel)]="COURSE.description"
+    >{{ COURSE.description }}</textarea
   >
 
-  <app-duration-input [duration]="duration"></app-duration-input>
+  <app-duration-input [duration]="COURSE.duration"></app-duration-input>
 
-  <app-date-input [creationDate]="creationDate"></app-date-input>
+  <app-date-input [creationDate]="COURSE.creationDate"></app-date-input>
 
   <app-authors-input></app-authors-input>
 
