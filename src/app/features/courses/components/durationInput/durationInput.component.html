@@ -1,0 +1,8 @@
+<label htmlFor="duration"> Duration:</label>
+<input
+  type="text"
+  name="duration"
+  id="duration"
+  [ngModel]="duration | formatDuration"
+  (ngModelChange)="duration = $event"
+/>
