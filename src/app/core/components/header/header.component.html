@@ -3,14 +3,18 @@
     <img src="app/assets/images/logo.png" alt="logo" />
     <h4>{{ title | uppercase }}</h4>
   </div>
-  <div class="logo">
+  <div class="user-auth" *appIsAuthenticated="isAuth()">
     <div>
-      <img src="app/assets/images/user-placeholder.png" alt="user" />
+      <img
+        class="img"
+        src="app/assets/images/user-placeholder.png"
+        alt="user"
+      />
       <span>{{ user.firstName }} {{ user.lastName }}</span>
     </div>
 
-    <button>
-      <img src="app/assets/images/logout.png" alt="logout" />
+    <button (click)="logout()">
+      <img class="img" src="app/assets/images/logout.png" alt="logout" />
       <span>Log off</span>
     </button>
   </div>

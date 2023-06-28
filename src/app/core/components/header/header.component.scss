@@ -1,0 +1,52 @@
+@mixin flex {
+  display: flex;
+  align-items: center;
+}
+
+header {
+  @include flex;
+
+  background-color: grey;
+  color: #fff;
+  justify-content: space-between;
+  padding: 10px 20px 10px 50px;
+  height: 65px;
+
+  .logo {
+    @include flex;
+
+    img {
+      width: 45px;
+    }
+
+    h4 {
+      margin-left: 10px;
+    }
+  }
+
+  .user-auth {
+    @include flex;
+
+    div {
+      @include flex;
+      margin-right: 15px;
+    }
+
+    button {
+      @include flex;
+      background-color: transparent;
+      border: none;
+      color: white;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    img {
+      width: 20px;
+    }
+
+    span {
+      margin-left: 5px;
+    }
+  }
+}

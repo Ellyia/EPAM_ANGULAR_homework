@@ -4,7 +4,7 @@ import { ICourse } from '../../models/course.model';
 @Component({
   selector: 'app-course-card',
   templateUrl: './courseCard.component.html',
-  styleUrls: ['./courseCard.component.css']
+  styleUrls: ['./courseCard.component.scss']
 })
 export class CourseCardComponent {
   @Input() course?: ICourse;
@@ -14,6 +14,9 @@ export class CourseCardComponent {
   onEdit(): void {}
 
   onDelete(): void {
-    this.deleteItem.emit(this.course?.id);
+    let confirmOnDelete = confirm('Do you really want to delete this course?');
+    if (confirmOnDelete) {
+      this.deleteItem.emit(this.course?.id);
+    }
   }
 }

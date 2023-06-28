@@ -1,0 +1,79 @@
+@mixin flex-justify($justify: initial, $align: initial) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+.course-wrap {
+  @include flex-justify($justify: space-between);
+  margin: 0px 0px 20px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
+  border-radius: 5px;
+}
+
+.card {
+  width: 75%;
+
+  .title {
+    @include flex-justify($justify: space-between);
+    margin-bottom: 10px;
+
+    .duration {
+      display: flex;
+      color: gray;
+
+      img {
+        width: 17px;
+      }
+
+      span {
+        @include flex-justify($align: center);
+      }
+
+      span:first-child {
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .description {
+    color: rgb(97, 95, 95);
+    line-height: 1.5rem;
+  }
+}
+
+.btns {
+  @include flex-justify($justify: space-around, $align: center);
+  margin-left: 10px;
+
+  .btn {
+    @include flex-justify($justify: center, $align: center);
+    width: 80px;
+    padding: 5px 10px;
+    font-size: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 5px 2px rgba(221, 221, 221, 1);
+    border: none;
+    cursor: pointer;
+
+    &:first-child {
+      margin-right: 10px;
+    }
+  }
+
+  img {
+    width: 15px;
+  }
+}
+
+.bg-lightlemon {
+  background-color: rgb(252, 250, 228);
+}
+
+.star::after {
+  content: '\2605';
+  margin-left: 10px;
+  color: gold;
+}

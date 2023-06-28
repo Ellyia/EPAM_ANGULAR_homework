@@ -1,25 +1,63 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CoursesComponent } from './courses.component';
 import { ICourse } from './models/course.model';
-import { COURSES } from '../../assets/static/mock-courses';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FilterItemsPipe } from '../../shared/pipes/filterItems.pipe';
 import { OrderByPipe } from '../../shared/pipes/orderBy.pipe';
+import { CoursesService } from './services/courses.service';
+
+const mockCourses: ICourse[] = [
+  {
+    id: 1,
+    title: 'Alea jacta est.',
+    creationDate: 'Jun 14 2023',
+    duration: 1541,
+    description: 'Anno Domini - AD. Amīcus Plato, sed magis amīca verĭtas.',
+    topRated: true
+  },
+  {
+    id: 2,
+    title: 'Bibāmus!',
+    creationDate: 'May 29 2024',
+    duration: 767,
+    description:
+      'Ante Cristium - BC. In Domine Nomine Patres ... Aquĭla non captat muscas.',
+    topRated: false
+  },
+  {
+    id: 3,
+    title: 'Aurea mediocrĭtas.',
+    creationDate: 'May 29 2023',
+    duration: 11,
+    description: 'II ante Cristium - BC. Causa causārum.',
+    topRated: false
+  }
+];
 
 describe('CoursesComponent', () => {
   let component: CoursesComponent;
   let fixture: ComponentFixture<CoursesComponent>;
+  let coursesService: Partial<CoursesService>;
 
   beforeEach(async () => {
+    coursesService = {
+      getList: jasmine
+        .createSpy('getList')
+        .and.returnValue([...mockCourses] as ICourse[]),
+      removeItem: jasmine.createSpy('removeItem')
+    };
+
     await TestBed.configureTestingModule({
       declarations: [CoursesComponent, FilterItemsPipe, OrderByPipe],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [{ provide: CoursesService, useValue: coursesService }]
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CoursesComponent);
     component = fixture.debugElement.componentInstance;
+    coursesService = TestBed.inject(CoursesService);
     fixture.detectChanges();
   });
 
@@ -27,18 +65,20 @@ describe('CoursesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should initialize the courses', () => {
-  //   expect(component.courses).toEqual(COURSES);
-  // });
+  it('should sort the courses array, fetch and display on initialization', () => {
+    spyOn(component, 'filterCourses').and.callThrough();
+    component.ngOnInit();
 
-  it('should sort the courses array on initialization', () => {
     expect(component.courses).toEqual(
-      COURSES.sort((a, b) => {
+      mockCourses.sort((a, b) => {
         const a1 = new Date(a.creationDate).getTime();
         const b1 = new Date(b.creationDate).getTime();
         return a1 - b1;
       })
     );
+    expect(component.filterCourses).toHaveBeenCalled();
+    expect(component.coursesToShow).toEqual(mockCourses);
+    expect(component.isCourses).toBe(true);
   });
 
   it('should log "Load more..." on clicking load more', () => {
@@ -51,24 +91,17 @@ describe('CoursesComponent', () => {
   });
 
   it('should return the course id in identify method', () => {
-    const index = 988;
-    const course: ICourse = COURSES[0];
+    const index = 1;
+    const course: ICourse = mockCourses[0];
     const result = component.identify(index, course);
     expect(result).toBe(course.id);
   });
 
-  it('should log the event when deleting a course', () => {
-    spyOn(console, 'log');
-    const courseId = 988;
-    component.deleteCourse(courseId);
-    expect(console.log).toHaveBeenCalledWith(courseId);
-  });
-
-  it('should update coursesToShow when filterCourses is called with a searchString', () => {
-    component.courses = COURSES;
-    const search = 'search';
-    component.filterCourses('search');
-    expect(component.coursesToShow).toEqual(
+  it('should return filtered array when filterCourses is called with a searchString', () => {
+    component.courses = mockCourses;
+    const search = 'Alea';
+    const res = component.filterCourses('Alea');
+    expect(res).toEqual(
       component.courses.filter((item) =>
         item.title.toLowerCase().includes(search.toLowerCase())
       )
@@ -76,8 +109,8 @@ describe('CoursesComponent', () => {
   });
 
   it('should update coursesToShow when filterCourses is called without a searchString', () => {
-    component.courses = COURSES;
-    component.filterCourses('');
-    expect(component.coursesToShow).toEqual([...component.courses]);
+    component.courses = mockCourses;
+    const res = component.filterCourses('');
+    expect(res).toEqual([...component.courses]);
   });
 });

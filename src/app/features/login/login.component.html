@@ -1,0 +1,30 @@
+<div class="login">
+  <h3>Login</h3>
+  <form action="#">
+    <label htmlFor="email">E-mail: <span>*required</span></label>
+    <input
+      type="text"
+      name="email"
+      id="email"
+      placeholder="Enter e-mail"
+      [(ngModel)]="loginData.email"
+    />
+
+    <label htmlFor="password" className="{styles.label}">
+      Password: <span>*required</span></label
+    >
+    <input
+      className="{styles.inputBasis}"
+      type="text"
+      name="password"
+      id="password"
+      placeholder="Enter password"
+      [(ngModel)]="loginData.password"
+    />
+
+    <div>
+      <a href="#">Forgot password?</a>
+      <button (click)="login()">Login</button>
+    </div>
+  </form>
+</div>

@@ -16,6 +16,8 @@ import { DateDependHighlightDirective } from './shared/directives/dateDependHigh
 import { FormatDurationPipe } from './shared/pipes/duration.pipe';
 import { FilterItemsPipe } from './shared/pipes/filterItems.pipe';
 import { OrderByPipe } from './shared/pipes/orderBy.pipe';
+import { LoginModule } from './features/login/login.module';
+import { IsAuthenticatedDirective } from './shared/directives/ifAuthenticated.directive';
 
 @NgModule({
   declarations: [
@@ -29,10 +31,16 @@ import { OrderByPipe } from './shared/pipes/orderBy.pipe';
     DateDependHighlightDirective,
     FormatDurationPipe,
     FilterItemsPipe,
-    OrderByPipe
+    OrderByPipe,
+    IsAuthenticatedDirective
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
-  providers: [],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    LoginModule
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
