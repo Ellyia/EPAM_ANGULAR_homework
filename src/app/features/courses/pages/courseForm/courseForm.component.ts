@@ -1,19 +1,47 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
 import { ICourseForm } from '../../models/courseForm.model';
+import { CoursesService } from '../../services/courses.service';
+
+import { Router } from '@angular/router';
+import { ICourse } from '../../models/course.model';
 
 @Component({
   selector: 'app-course-form',
   templateUrl: './courseForm.component.html',
-  styleUrls: ['./courseForm.component.scss']
+  styleUrls: ['./courseForm.component.scss'],
+  providers: [CoursesService]
 })
 export class CourseFormComponent {
-  COURSE: ICourseForm = {
-    title: 'my title',
-    description: 'my description',
-    creationDate: 'Jun 27 2023',
-    duration: 45
+  course: ICourseForm = {
+    title: '',
+    description: '',
+    creationDate: ''
   };
 
-  save(): void {}
-  cancel(): void {}
+  constructor(
+    private router: Router,
+    private readonly activatedRoute: ActivatedRoute,
+    private coursesService: CoursesService
+  ) {}
+
+  ngOnInit() {
+    this.activatedRoute.paramMap.subscribe((params) => {
+      console.log(params.get('id'));
+      if (params.get('id')) {
+        const id: number = +(params.get('id') as string);
+
+        this.course = this.coursesService.getItemById(id);
+      }
+    });
+  }
+
+  save(): void {
+    this.router.navigate(['/courses']);
+  }
+
+  cancel(): void {
+    this.router.navigate(['/courses']);
+  }
 }

@@ -1,5 +1,11 @@
 <label htmlFor="duration"> Duration:</label>
 <div>
-  <input type="text" name="duration" id="duration" [(ngModel)]="duration" />
+  <input
+    placeholder="enter duration..."
+    type="text"
+    name="duration"
+    id="duration"
+    [(ngModel)]="duration"
+  />
   <p>{{ duration | formatDuration }}</p>
 </div>

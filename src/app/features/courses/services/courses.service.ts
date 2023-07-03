@@ -1,5 +1,6 @@
 import { ICourse } from '../models/course.model';
 import { Injectable } from '@angular/core';
+import { ICourseForm } from '../models/courseForm.model';
 
 @Injectable()
 export class CoursesService {
@@ -37,7 +38,11 @@ export class CoursesService {
 
   createCourse() {}
 
-  getItemById() {}
+  getItemById(id: number): ICourseForm {
+    // ICourse
+    const course = this.COURSES.find((item) => item.id === id) as ICourseForm;
+    return course;
+  }
 
   updateItem() {}
 

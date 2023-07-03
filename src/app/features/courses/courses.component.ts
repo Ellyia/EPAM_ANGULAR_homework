@@ -4,6 +4,8 @@ import { FilterItemsPipe } from '../../shared/pipes/filterItems.pipe';
 import { OrderByPipe } from '../../shared/pipes/orderBy.pipe';
 import { CoursesService } from './services/courses.service';
 
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
@@ -17,16 +19,15 @@ export class CoursesComponent implements OnInit {
 
   searchStr: string = '';
 
-  isAddCourse: boolean = false;
-
   onAddCourse(): void {
-    this.isAddCourse = true;
+    this.router.navigate(['/courses/new']);
   }
 
   constructor(
     private filterItems: FilterItemsPipe,
     private orderBy: OrderByPipe,
-    private coursesService: CoursesService
+    private coursesService: CoursesService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -45,6 +46,10 @@ export class CoursesComponent implements OnInit {
 
   identify(index: number, course: ICourse): number {
     return course.id;
+  }
+
+  editCourse(id: number): void {
+    this.router.navigate([`/courses/:${id}`]);
   }
 
   deleteCourse($event: number): void {

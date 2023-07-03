@@ -1,3 +1,5 @@
-<div class="main">
-  <div>Courses</div>
-</div>
+<ul class="main">
+  <li *ngFor="let breadcrumb of breadcrumbs$ | async">
+    <a [href]="breadcrumb.url">{{ breadcrumb.label }}</a>
+  </li>
+</ul>

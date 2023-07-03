@@ -23,6 +23,8 @@ import { DurationInputComponent } from './features/courses/components/durationIn
 import { DateInputComponent } from './features/courses/components/dateInput/dateInput.component';
 import { AuthorsInputComponent } from './features/courses/components/authorsInput/authorsInput.component';
 
+import { BreadcrumbModule } from 'xng-breadcrumb';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +49,8 @@ import { AuthorsInputComponent } from './features/courses/components/authorsInpu
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    LoginModule
+    LoginModule,
+    BreadcrumbModule
   ],
   bootstrap: [AppComponent]
 })
