@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { DurationInputComponent } from './durationInput.component';
-import { FormatDurationPipe } from '../../../../shared/pipes/duration.pipe';
+import { FormatDurationPipe } from '../../pipes/duration.pipe';
 
 describe('DurationInputComponent', () => {
   let component: DurationInputComponent;
