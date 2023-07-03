@@ -1,0 +1,24 @@
+<form action="#">
+  <label htmlFor="title">Title:</label>
+  <input type="text" name="title" id="title" [(ngModel)]="COURSE.title" />
+
+  <label htmlFor="description"> Description:</label>
+  <textarea
+    name="description"
+    id="description"
+    minLength="2"
+    [(ngModel)]="COURSE.description"
+    >{{ COURSE.description }}</textarea
+  >
+
+  <app-duration-input [duration]="COURSE.duration"></app-duration-input>
+
+  <app-date-input [creationDate]="COURSE.creationDate"></app-date-input>
+
+  <app-authors-input></app-authors-input>
+
+  <div>
+    <button (click)="save()">Save</button>
+    <button (click)="cancel()">Cancel</button>
+  </div>
+</form>

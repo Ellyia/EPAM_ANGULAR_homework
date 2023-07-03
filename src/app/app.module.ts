@@ -18,6 +18,10 @@ import { FilterItemsPipe } from './shared/pipes/filterItems.pipe';
 import { OrderByPipe } from './shared/pipes/orderBy.pipe';
 import { LoginModule } from './features/login/login.module';
 import { IsAuthenticatedDirective } from './shared/directives/ifAuthenticated.directive';
+import { CourseFormComponent } from './features/courses/pages/courseForm/courseForm.component';
+import { DurationInputComponent } from './shared/components/durationInput/durationInput.component';
+import { DateInputComponent } from './shared/components/dateInput/dateInput.component';
+import { AuthorsInputComponent } from './shared/components/authorsInput/authorsInput.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +36,11 @@ import { IsAuthenticatedDirective } from './shared/directives/ifAuthenticated.di
     FormatDurationPipe,
     FilterItemsPipe,
     OrderByPipe,
-    IsAuthenticatedDirective
+    IsAuthenticatedDirective,
+    CourseFormComponent,
+    DurationInputComponent,
+    DateInputComponent,
+    AuthorsInputComponent
   ],
   imports: [
     BrowserModule,

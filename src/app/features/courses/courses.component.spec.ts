@@ -113,4 +113,35 @@ describe('CoursesComponent', () => {
     const res = component.filterCourses('');
     expect(res).toEqual([...component.courses]);
   });
+
+  it('should show confirmation dialog and call showCourses', () => {
+    component.courses = mockCourses;
+    const courseId = 1;
+
+    const deleteItemSpy = spyOn(component, 'showCourses');
+    spyOn(window, 'confirm').and.returnValue(true);
+
+    component.deleteCourse(courseId);
+
+    expect(window.confirm).toHaveBeenCalledWith(
+      'Do you really want to delete this course?'
+    );
+
+    expect(deleteItemSpy).toHaveBeenCalled();
+  });
+
+  it('should not emit deleteItem event when onDelete is called and not confirmed', () => {
+    component.courses = mockCourses;
+    const courseId = 1;
+
+    const deleteItemSpy = spyOn(component, 'showCourses');
+    spyOn(window, 'confirm').and.returnValue(false);
+
+    component.deleteCourse(courseId);
+
+    expect(window.confirm).toHaveBeenCalledWith(
+      'Do you really want to delete this course?'
+    );
+    expect(deleteItemSpy).not.toHaveBeenCalled();
+  });
 });

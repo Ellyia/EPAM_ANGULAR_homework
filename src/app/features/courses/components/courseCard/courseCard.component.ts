@@ -1,10 +1,17 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { ICourse } from '../../models/course.model';
 
 @Component({
   selector: 'app-course-card',
   templateUrl: './courseCard.component.html',
-  styleUrls: ['./courseCard.component.scss']
+  styleUrls: ['./courseCard.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CourseCardComponent {
   @Input() course?: ICourse;
@@ -14,9 +21,6 @@ export class CourseCardComponent {
   onEdit(): void {}
 
   onDelete(): void {
-    let confirmOnDelete = confirm('Do you really want to delete this course?');
-    if (confirmOnDelete) {
-      this.deleteItem.emit(this.course?.id);
-    }
+    this.deleteItem.emit(this.course?.id);
   }
 }

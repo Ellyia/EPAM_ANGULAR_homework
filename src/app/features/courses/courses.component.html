@@ -1,7 +1,7 @@
-<div class="main">
+<div class="main" *ngIf="!isAddCourse">
   <app-search-bar (searchItems)="searchCourses($event)"></app-search-bar>
 
-  <button class="btn">+ Add courses</button>
+  <button class="btn" (click)="onAddCourse()">+ Add courses</button>
 
   <div *ngIf="isCourses">
     <app-course-card
@@ -22,3 +22,5 @@
     <div class="load-more">NO DATA. FEEL FREE TO ADD NEW COURSE</div>
   </div>
 </div>
+
+<app-course-form *ngIf="isAddCourse"></app-course-form>
