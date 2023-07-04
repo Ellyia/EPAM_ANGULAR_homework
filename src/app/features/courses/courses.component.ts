@@ -3,6 +3,7 @@ import { ICourse } from './models/course.model';
 import { FilterItemsPipe } from '../../shared/pipes/filterItems.pipe';
 import { OrderByPipe } from '../../shared/pipes/orderBy.pipe';
 import { CoursesService } from './services/courses.service';
+import { IBreadcrumb } from '../../core/models/breadcrumb.model';
 
 import { Router } from '@angular/router';
 
@@ -10,18 +11,15 @@ import { Router } from '@angular/router';
   selector: 'app-courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss'],
-  providers: [FilterItemsPipe, OrderByPipe, CoursesService]
+  providers: [FilterItemsPipe, OrderByPipe]
 })
 export class CoursesComponent implements OnInit {
   courses: ICourse[] = [];
   isCourses: boolean = false;
   coursesToShow: ICourse[] = [];
+  breadcrumbs: IBreadcrumb[] = [{ url: '/courses', label: 'Courses' }];
 
   searchStr: string = '';
-
-  onAddCourse(): void {
-    this.router.navigate(['/courses/new']);
-  }
 
   constructor(
     private filterItems: FilterItemsPipe,
@@ -38,6 +36,10 @@ export class CoursesComponent implements OnInit {
     this.courses = this.orderBy.transform(this.coursesService.getList());
     this.coursesToShow = this.filterCourses(this.searchStr);
     this.isCourses = this.courses.length > 0;
+  }
+
+  onAddCourse(): void {
+    this.router.navigate(['/courses/new']);
   }
 
   onClickLoadMore(): void {

@@ -1,9 +1,9 @@
 export interface ICourseForm {
-  id?: number;
-  title: string;
-  creationDate: string;
-  duration?: number;
-  description: string;
+  id: number | undefined;
+  title: string | undefined;
+  creationDate: string | undefined;
+  duration: number | undefined;
+  description: string | undefined;
   topRated?: boolean;
-  authors?: string;
+  authors: string | undefined;
 }

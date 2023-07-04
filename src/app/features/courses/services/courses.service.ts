@@ -2,7 +2,9 @@ import { ICourse } from '../models/course.model';
 import { Injectable } from '@angular/core';
 import { ICourseForm } from '../models/courseForm.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class CoursesService {
   private COURSES: ICourse[] = [
     {
@@ -36,17 +38,22 @@ export class CoursesService {
     return this.COURSES;
   }
 
-  createCourse() {}
+  createCourse(item: ICourseForm): void {
+    this.COURSES.push(item as ICourse);
+  }
 
   getItemById(id: number): ICourseForm {
-    // ICourse
     const course = this.COURSES.find((item) => item.id === id) as ICourseForm;
     return course;
   }
 
-  updateItem() {}
+  updateItem(item: ICourseForm): void {
+    const id = item.id as number;
+    const index = this.COURSES.findIndex((el) => el.id === id);
+    this.COURSES.splice(index, 1, item as ICourse);
+  }
 
-  removeItem($event: number): void {
-    this.COURSES = [...this.COURSES].filter((el) => el.id !== $event);
+  removeItem(id: number): void {
+    this.COURSES = [...this.COURSES].filter((el) => el.id !== id);
   }
 }

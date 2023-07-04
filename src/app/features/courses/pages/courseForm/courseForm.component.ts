@@ -5,20 +5,24 @@ import { ICourseForm } from '../../models/courseForm.model';
 import { CoursesService } from '../../services/courses.service';
 
 import { Router } from '@angular/router';
-import { ICourse } from '../../models/course.model';
+import { IBreadcrumb } from 'src/app/core/models/breadcrumb.model';
 
 @Component({
   selector: 'app-course-form',
   templateUrl: './courseForm.component.html',
-  styleUrls: ['./courseForm.component.scss'],
-  providers: [CoursesService]
+  styleUrls: ['./courseForm.component.scss']
 })
 export class CourseFormComponent {
   course: ICourseForm = {
-    title: '',
-    description: '',
-    creationDate: ''
+    id: undefined,
+    title: undefined,
+    creationDate: undefined,
+    duration: undefined,
+    description: undefined,
+    authors: undefined
   };
+
+  breadcrumbs: IBreadcrumb[] = [{ url: '/courses', label: 'Courses' }];
 
   constructor(
     private router: Router,
@@ -28,16 +32,23 @@ export class CourseFormComponent {
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe((params) => {
-      console.log(params.get('id'));
       if (params.get('id')) {
         const id: number = +(params.get('id') as string);
 
         this.course = this.coursesService.getItemById(id);
+        this.breadcrumbs.push({ label: this.course.title as string });
+      } else {
+        this.breadcrumbs.push({ label: 'Add course' });
       }
     });
   }
 
   save(): void {
+    if (this.course.id) {
+      this.coursesService.updateItem(this.course);
+    } else {
+      this.coursesService.createCourse(this.course);
+    }
     this.router.navigate(['/courses']);
   }
 

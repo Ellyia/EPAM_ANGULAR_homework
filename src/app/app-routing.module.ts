@@ -2,7 +2,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CoursesComponent } from './features/courses/courses.component';
 import { CourseFormComponent } from './features/courses/pages/courseForm/courseForm.component';
-import { LoginComponent } from './features/login/login.component';
 import { PageNotFoundComponent } from './core/components/pageNotFound/pageNotFound.component';
 
 import { authGuard } from './core/guards/auth.guard';
@@ -12,28 +11,22 @@ const routes: Routes = [
   {
     path: 'courses',
     component: CoursesComponent,
-    canActivate: [authGuard],
-    data: { breadcrumb: 'Courses' }
+    canActivate: [authGuard]
   },
   {
     path: 'courses/new',
     component: CourseFormComponent,
-    canActivate: [authGuard],
-    data: { breadcrumb: 'Course New' }
+    canActivate: [authGuard]
   },
   {
     path: 'courses/:id',
     component: CourseFormComponent,
-    canActivate: [authGuard],
-    data: { breadcrumb: 'Course Edit' }
-    // data: { breadcrumb: (data: any) => {
-    //   `${data.course.title}`
-    // } }
+    canActivate: [authGuard]
   },
   {
     path: 'login',
-    component: LoginComponent,
-    data: { breadcrumb: 'Login' }
+    loadChildren: () =>
+      import('./features/login/login.module').then((m) => m.LoginModule)
   },
   { path: '**', component: PageNotFoundComponent }
 ];

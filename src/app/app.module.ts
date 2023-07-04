@@ -1,7 +1,7 @@
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { BreadcrumbsComponent } from './core/components/breadcrumbs/breadcrumbs.component';
+import { BreadcrumbsComponent } from './shared/components/breadcrumbs/breadcrumbs.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { CourseCardComponent } from './features/courses/components/courseCard/courseCard.component';
 import { CoursesComponent } from './features/courses/courses.component';
@@ -16,7 +16,6 @@ import { DateDependHighlightDirective } from './shared/directives/dateDependHigh
 import { FormatDurationPipe } from './shared/pipes/duration.pipe';
 import { FilterItemsPipe } from './shared/pipes/filterItems.pipe';
 import { OrderByPipe } from './shared/pipes/orderBy.pipe';
-import { LoginModule } from './features/login/login.module';
 import { IsAuthenticatedDirective } from './shared/directives/ifAuthenticated.directive';
 import { CourseFormComponent } from './features/courses/pages/courseForm/courseForm.component';
 import { DurationInputComponent } from './shared/components/durationInput/durationInput.component';
@@ -49,7 +48,6 @@ import { BreadcrumbModule } from 'xng-breadcrumb';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    LoginModule,
     BreadcrumbModule
   ],
   bootstrap: [AppComponent]

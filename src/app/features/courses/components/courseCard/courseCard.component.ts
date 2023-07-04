@@ -19,12 +19,10 @@ export class CourseCardComponent {
   @Input() course?: ICourse;
 
   @Output() deleteItem = new EventEmitter<number>();
-  // @Output() editItem = new EventEmitter<number>();
 
   constructor(private router: Router) {}
 
   onEdit(): void {
-    // this.editItem.emit(this.course?.id);
     this.router.navigate([`/courses/${this.course?.id}`]);
   }
 
