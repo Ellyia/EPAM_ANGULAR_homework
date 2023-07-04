@@ -1,2 +1,9 @@
 <label htmlFor="authors"> Authors:</label>
-<input placeholder="add autors..." type="text" name="authors" id="authors" />
+<input
+  placeholder="add autors..."
+  type="text"
+  name="authors"
+  id="authors"
+  [ngModel]="authors"
+  (ngModelChange)="dateChanged($event)"
+/>

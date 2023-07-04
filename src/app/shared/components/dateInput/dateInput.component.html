@@ -4,5 +4,6 @@
   type="text"
   name="date"
   id="date"
-  [(ngModel)]="creationDate"
+  [ngModel]="creationDate"
+  (ngModelChange)="dateChanged($event)"
 />

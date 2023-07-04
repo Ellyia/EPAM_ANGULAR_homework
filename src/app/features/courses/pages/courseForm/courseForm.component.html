@@ -20,11 +20,17 @@
     >{{ course.description }}</textarea
   >
 
-  <app-duration-input [duration]="course.duration"></app-duration-input>
+  <app-duration-input
+    [duration]="course.duration"
+    (durationEvent)="getDuration($event)"
+  ></app-duration-input>
 
-  <app-date-input [creationDate]="course.creationDate"></app-date-input>
+  <app-date-input
+    [creationDate]="course.creationDate"
+    (dateEvent)="getDate($event)"
+  ></app-date-input>
 
-  <app-authors-input></app-authors-input>
+  <app-authors-input (authorsEvent)="getAuthors($event)"></app-authors-input>
 
   <div>
     <button (click)="save()">Save</button>

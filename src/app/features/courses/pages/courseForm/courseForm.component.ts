@@ -43,6 +43,18 @@ export class CourseFormComponent {
     });
   }
 
+  getDuration(duration: number): void {
+    this.course.duration = duration;
+  }
+
+  getDate(date: string): void {
+    this.course.creationDate = date;
+  }
+
+  getAuthors(authors: string): void {
+    this.course.authors = authors;
+  }
+
   save(): void {
     if (this.course.id) {
       this.coursesService.updateItem(this.course);

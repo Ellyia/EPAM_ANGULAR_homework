@@ -1,8 +1,23 @@
-import { Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 
 @Component({
   selector: 'app-authors-input',
   templateUrl: './authorsInput.component.html',
-  styleUrls: ['./authorsInput.component.scss']
+  styleUrls: ['./authorsInput.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AuthorsInputComponent {}
+export class AuthorsInputComponent {
+  @Input() authors?: string;
+
+  @Output() authorsEvent = new EventEmitter<string>();
+
+  dateChanged(value: string) {
+    this.authorsEvent.emit(value);
+  }
+}

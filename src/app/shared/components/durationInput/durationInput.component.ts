@@ -1,10 +1,22 @@
-import { Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 
 @Component({
   selector: 'app-duration-input',
   templateUrl: './durationInput.component.html',
-  styleUrls: ['./durationInput.component.scss']
+  styleUrls: ['./durationInput.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DurationInputComponent {
   @Input() duration?: number;
+  @Output() durationEvent = new EventEmitter<number>();
+
+  dataChanged(value: number) {
+    this.durationEvent.emit(value);
+  }
 }
