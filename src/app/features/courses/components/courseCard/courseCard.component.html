@@ -1,23 +1,23 @@
 <div
   class="course-wrap"
-  [ngClass]="course?.topRated ? 'bg-lightlemon' : null"
+  [ngClass]="course?.isTopRated ? 'bg-lightlemon' : null"
   appDateDependHighlight
-  [creationDate]="course?.creationDate"
+  [creationDate]="course?.date"
 >
   <div class="card">
     <div class="title">
-      <h3 [ngClass]="course?.topRated ? 'star' : null">
-        {{ course?.title | titlecase }}
+      <h3 [ngClass]="course?.isTopRated ? 'star' : null">
+        {{ course?.name | titlecase }}
       </h3>
       <div class="duration">
         <span
           ><img src="app/assets/images/duration.svg" alt="duration" />{{
-            course?.duration | formatDuration
+            course?.length | formatDuration
           }}</span
         >
         <span
           ><img src="app/assets/images/calendar.svg" alt="calendar" />{{
-            course?.creationDate | date
+            course?.date | date
           }}</span
         >
       </div>

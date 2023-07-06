@@ -13,7 +13,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DateInputComponent {
-  @Input() creationDate?: string;
+  @Input() date?: string;
 
   @Output() dateEvent = new EventEmitter<string>();
 

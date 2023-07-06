@@ -15,9 +15,9 @@ import { IBreadcrumb } from 'src/app/core/models/breadcrumb.model';
 export class CourseFormComponent {
   course: ICourseForm = {
     id: undefined,
-    title: undefined,
-    creationDate: undefined,
-    duration: undefined,
+    name: undefined,
+    date: undefined,
+    length: undefined,
     description: undefined,
     authors: undefined
   };
@@ -35,8 +35,10 @@ export class CourseFormComponent {
       if (params.get('id')) {
         const id: number = +(params.get('id') as string);
 
-        this.course = this.coursesService.getItemById(id);
-        this.breadcrumbs.push({ label: this.course.title as string });
+        this.coursesService.getItemById(id).subscribe((course) => {
+          this.course = course;
+          this.breadcrumbs.push({ label: this.course.name as string });
+        });
       } else {
         this.breadcrumbs.push({ label: 'Add course' });
       }
@@ -44,11 +46,11 @@ export class CourseFormComponent {
   }
 
   getDuration(duration: number): void {
-    this.course.duration = duration;
+    this.course.length = duration;
   }
 
   getDate(date: string): void {
-    this.course.creationDate = date;
+    this.course.date = date;
   }
 
   getAuthors(authors: string): void {

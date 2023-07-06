@@ -13,7 +13,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DurationInputComponent {
-  @Input() duration?: number;
+  @Input() length?: number;
   @Output() durationEvent = new EventEmitter<number>();
 
   dataChanged(value: number) {

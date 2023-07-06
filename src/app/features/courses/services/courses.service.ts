@@ -1,59 +1,71 @@
 import { ICourse } from '../models/course.model';
 import { Injectable } from '@angular/core';
 import { ICourseForm } from '../models/courseForm.model';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CoursesService {
+  constructor(private http: HttpClient) {}
+
   private COURSES: ICourse[] = [
     {
       id: 1,
-      title: 'Alea jacta est.',
-      creationDate: 'Jun 14 2023',
-      duration: 1541,
+      name: 'Alea jacta est.',
+      date: 'Jun 14 2023',
+      length: 1541,
       description: 'Anno Domini - AD. Amīcus Plato, sed magis amīca verĭtas.',
-      topRated: true
+      isTopRated: true,
+      authors: 'Socrat'
     },
     {
       id: 2,
-      title: 'Bibāmus!',
-      creationDate: 'May 29 2024',
-      duration: 767,
+      name: 'Bibāmus!',
+      date: 'May 29 2024',
+      length: 767,
       description:
         'Ante Cristium - BC. In Domine Nomine Patres ... Aquĭla non captat muscas.',
-      topRated: false
+      isTopRated: false,
+      authors: ''
     },
     {
       id: 3,
-      title: 'Aurea mediocrĭtas.',
-      creationDate: 'May 29 2023',
-      duration: 11,
+      name: 'Aurea mediocrĭtas.',
+      date: 'May 29 2023',
+      length: 11,
       description: 'II ante Cristium - BC. Causa causārum.',
-      topRated: false
+      isTopRated: false,
+      authors: ''
     }
   ];
 
-  getList(): ICourse[] {
-    return this.COURSES;
+  getList(): Observable<ICourse[]> {
+    return this.http.get<ICourse[]>(
+      'http://localhost:3004/courses?start=0&count=3'
+    );
   }
 
   createCourse(item: ICourseForm): void {
     this.COURSES.push(item as ICourse);
   }
 
-  getItemById(id: number): ICourseForm {
-    const course = this.COURSES.find((item) => item.id === id) as ICourseForm;
-    return course;
+  getItemById(id: number): Observable<ICourseForm> {
+    return this.http.get<ICourseForm>(`http://localhost:3004/courses/${id}`);
+    // const course = this.COURSES.find((item) => item.id === id) as ICourseForm;
+    // return course;
   }
 
   updateItem(item: ICourseForm): void {
     const id = item.id as number;
+
     const index = this.COURSES.findIndex((el) => el.id === id);
     this.COURSES.splice(index, 1, item as ICourse);
   }
 
-  removeItem(id: number): void {
-    this.COURSES = [...this.COURSES].filter((el) => el.id !== id);
+  removeItem(id: number): Observable<ICourse[]> {
+    return this.http.delete<ICourse[]>(`http://localhost:3004/courses/${id}`);
+    // this.COURSES = [...this.COURSES].filter((el) => el.id !== id);
   }
 }

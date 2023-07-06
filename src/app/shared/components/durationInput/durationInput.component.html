@@ -5,8 +5,8 @@
     type="text"
     name="duration"
     id="duration"
-    [ngModel]="duration"
+    [ngModel]="length"
     (ngModelChange)="dataChanged($event)"
   />
-  <p>{{ duration | formatDuration }}</p>
+  <p>{{ length | formatDuration }}</p>
 </div>

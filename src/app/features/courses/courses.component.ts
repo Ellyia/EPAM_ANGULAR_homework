@@ -33,9 +33,13 @@ export class CoursesComponent implements OnInit {
   }
 
   showCourses(): void {
-    this.courses = this.orderBy.transform(this.coursesService.getList());
-    this.coursesToShow = this.filterCourses(this.searchStr);
-    this.isCourses = this.courses.length > 0;
+    this.coursesService.getList().subscribe((courses) => {
+      this.courses = this.orderBy.transform(courses);
+      this.coursesToShow = this.filterCourses(this.searchStr);
+      this.isCourses = this.courses.length > 0;
+
+      console.log(courses);
+    });
   }
 
   onAddCourse(): void {
@@ -57,8 +61,9 @@ export class CoursesComponent implements OnInit {
   deleteCourse($event: number): void {
     let confirmOnDelete = confirm('Do you really want to delete this course?');
     if (confirmOnDelete) {
-      this.coursesService.removeItem($event);
-      this.showCourses();
+      this.coursesService.removeItem($event).subscribe(() => {
+        this.showCourses();
+      });
     }
   }
 
