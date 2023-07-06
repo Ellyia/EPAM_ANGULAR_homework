@@ -11,8 +11,8 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-course-card',
-  templateUrl: './courseCard.component.html',
-  styleUrls: ['./courseCard.component.scss'],
+  templateUrl: './course-card.component.html',
+  styleUrls: ['./course-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CourseCardComponent {

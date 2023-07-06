@@ -8,8 +8,8 @@ import {
 
 @Component({
   selector: 'app-duration-input',
-  templateUrl: './durationInput.component.html',
-  styleUrls: ['./durationInput.component.scss'],
+  templateUrl: './duration-input.component.html',
+  styleUrls: ['./duration-input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DurationInputComponent {

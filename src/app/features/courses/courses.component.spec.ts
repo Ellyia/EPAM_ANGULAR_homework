@@ -3,7 +3,7 @@ import { CoursesComponent } from './courses.component';
 import { ICourse } from './models/course.model';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FilterItemsPipe } from '../../shared/pipes/filterItems.pipe';
-import { OrderByPipe } from '../../shared/pipes/orderBy.pipe';
+import { OrderByPipe } from '../../shared/pipes/order-by.pipe';
 import { CoursesService } from './services/courses.service';
 
 const mockCourses: ICourse[] = [

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
-import { ILoginData } from 'src/app/core/models/loginData.model';
+import { ILoginData } from 'src/app/core/models/login-data.model';
 
 import { Router } from '@angular/router';
 

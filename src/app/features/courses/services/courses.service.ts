@@ -1,6 +1,6 @@
 import { ICourse } from '../models/course.model';
 import { Injectable } from '@angular/core';
-import { ICourseForm } from '../models/courseForm.model';
+import { ICourseForm } from '../models/course-form.model';
 
 @Injectable({
   providedIn: 'root'
