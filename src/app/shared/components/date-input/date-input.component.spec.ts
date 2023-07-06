@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { DateInputComponent } from './dateInput.component';
+import { DateInputComponent } from './date-input.component';
 import { By } from '@angular/platform-browser';
 
 describe('DateInputComponent', () => {

@@ -1,4 +1,4 @@
-import { OrderByPipe } from './orderBy.pipe';
+import { OrderByPipe } from './order-by.pipe';
 import { ICourse } from 'src/app/features/courses/models/course.model';
 import { COURSES } from 'src/app/assets/static/mock-courses';
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ICourse } from './models/course.model';
 import { FilterItemsPipe } from '../../shared/pipes/filterItems.pipe';
-import { OrderByPipe } from '../../shared/pipes/orderBy.pipe';
+import { OrderByPipe } from '../../shared/pipes/order-by.pipe';
 import { CoursesService } from './services/courses.service';
 import { IBreadcrumb } from '../../core/models/breadcrumb.model';
 

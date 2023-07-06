@@ -1,8 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { CoursesComponent } from './features/courses/courses.component';
-import { CourseFormComponent } from './features/courses/pages/courseForm/courseForm.component';
-import { PageNotFoundComponent } from './core/components/pageNotFound/pageNotFound.component';
+import { PageNotFoundComponent } from './core/components/page-not-found/page-not-found.component';
 
 import { authGuard } from './core/guards/auth.guard';
 
@@ -10,17 +8,8 @@ const routes: Routes = [
   { path: '', redirectTo: '/courses', pathMatch: 'full' },
   {
     path: 'courses',
-    component: CoursesComponent,
-    canActivate: [authGuard]
-  },
-  {
-    path: 'courses/new',
-    component: CourseFormComponent,
-    canActivate: [authGuard]
-  },
-  {
-    path: 'courses/:id',
-    component: CourseFormComponent,
+    loadChildren: () =>
+      import('./features/courses/courses.module').then((m) => m.CoursesModule),
     canActivate: [authGuard]
   },
   {

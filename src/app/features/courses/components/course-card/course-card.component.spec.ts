@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CourseCardComponent } from './courseCard.component';
+import { CourseCardComponent } from './course-card.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormatDurationPipe } from '../../../../shared/pipes/duration.pipe';
 

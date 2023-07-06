@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { ICourseForm } from '../../models/courseForm.model';
+import { ICourseForm } from '../../models/course-form.model';
 import { CoursesService } from '../../services/courses.service';
 
 import { Router } from '@angular/router';
@@ -9,8 +9,8 @@ import { IBreadcrumb } from 'src/app/core/models/breadcrumb.model';
 
 @Component({
   selector: 'app-course-form',
-  templateUrl: './courseForm.component.html',
-  styleUrls: ['./courseForm.component.scss']
+  templateUrl: './course-form.component.html',
+  styleUrls: ['./course-form.component.scss']
 })
 export class CourseFormComponent {
   course: ICourseForm = {

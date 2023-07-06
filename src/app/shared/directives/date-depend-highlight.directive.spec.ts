@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DateDependHighlightDirective } from './dateDependHighlight.directive';
+import { DateDependHighlightDirective } from './date-depend-highlight.directive';
 import { By } from '@angular/platform-browser';
 import { Component } from '@angular/core';
 

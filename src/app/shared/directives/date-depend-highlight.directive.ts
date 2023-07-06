@@ -1,5 +1,5 @@
 import { Directive, ElementRef, OnInit, Input } from '@angular/core';
-import { resetTime } from '../helpers/resetTime.helper';
+import { resetTime } from '../helpers/reset-time.helper';
 
 @Directive({
   selector: '[appDateDependHighlight]'

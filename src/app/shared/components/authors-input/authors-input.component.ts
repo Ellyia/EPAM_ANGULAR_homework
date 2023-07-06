@@ -8,8 +8,8 @@ import {
 
 @Component({
   selector: 'app-authors-input',
-  templateUrl: './authorsInput.component.html',
-  styleUrls: ['./authorsInput.component.scss'],
+  templateUrl: './authors-input.component.html',
+  styleUrls: ['./authors-input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AuthorsInputComponent {
