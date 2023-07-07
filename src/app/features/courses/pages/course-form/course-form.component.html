@@ -1,0 +1,39 @@
+<app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
+<form>
+  <label htmlFor="title">Title:</label>
+  <input
+    required
+    placeholder="type title..."
+    type="text"
+    name="title"
+    id="title"
+    [(ngModel)]="course.title"
+  />
+
+  <label htmlFor="description"> Description:</label>
+  <textarea
+    placeholder="type description..."
+    name="description"
+    id="description"
+    minLength="2"
+    [(ngModel)]="course.description"
+    >{{ course.description }}</textarea
+  >
+
+  <app-duration-input
+    [duration]="course.duration"
+    (durationEvent)="getDuration($event)"
+  ></app-duration-input>
+
+  <app-date-input
+    [creationDate]="course.creationDate"
+    (dateEvent)="getDate($event)"
+  ></app-date-input>
+
+  <app-authors-input (authorsEvent)="getAuthors($event)"></app-authors-input>
+
+  <div>
+    <button (click)="save()">Save</button>
+    <button (click)="cancel()">Cancel</button>
+  </div>
+</form>

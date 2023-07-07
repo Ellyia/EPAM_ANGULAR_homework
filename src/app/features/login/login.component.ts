@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
-import { ILoginData } from 'src/app/core/models/loginData.model';
+import { ILoginData } from 'src/app/core/models/login-data.model';
+
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,9 +15,10 @@ export class LoginComponent {
     password: ''
   };
 
-  constructor(private authServise: AuthService) {}
+  constructor(private authServise: AuthService, private router: Router) {}
 
   login(): void {
     this.authServise.login(this.loginData);
+    this.router.navigate(['/courses']);
   }
 }

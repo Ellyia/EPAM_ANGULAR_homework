@@ -1,0 +1,9 @@
+<label htmlFor="date"> Date:</label>
+<input
+  placeholder="type date..."
+  type="text"
+  name="date"
+  id="date"
+  [ngModel]="creationDate"
+  (ngModelChange)="dateChanged($event)"
+/>

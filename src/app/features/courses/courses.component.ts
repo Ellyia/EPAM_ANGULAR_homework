@@ -1,32 +1,31 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ICourse } from './models/course.model';
 import { FilterItemsPipe } from '../../shared/pipes/filterItems.pipe';
-import { OrderByPipe } from '../../shared/pipes/orderBy.pipe';
+import { OrderByPipe } from '../../shared/pipes/order-by.pipe';
 import { CoursesService } from './services/courses.service';
+import { IBreadcrumb } from '../../core/models/breadcrumb.model';
+
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss'],
-  providers: [FilterItemsPipe, OrderByPipe, CoursesService]
+  providers: [FilterItemsPipe, OrderByPipe]
 })
 export class CoursesComponent implements OnInit {
   courses: ICourse[] = [];
   isCourses: boolean = false;
   coursesToShow: ICourse[] = [];
+  breadcrumbs: IBreadcrumb[] = [{ url: '/courses', label: 'Courses' }];
 
   searchStr: string = '';
-
-  isAddCourse: boolean = false;
-
-  onAddCourse(): void {
-    this.isAddCourse = true;
-  }
 
   constructor(
     private filterItems: FilterItemsPipe,
     private orderBy: OrderByPipe,
-    private coursesService: CoursesService
+    private coursesService: CoursesService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -39,12 +38,20 @@ export class CoursesComponent implements OnInit {
     this.isCourses = this.courses.length > 0;
   }
 
+  onAddCourse(): void {
+    this.router.navigate(['/courses/new']);
+  }
+
   onClickLoadMore(): void {
     console.log('Load more...');
   }
 
   identify(index: number, course: ICourse): number {
     return course.id;
+  }
+
+  editCourse(id: number): void {
+    this.router.navigate([`/courses/:${id}`]);
   }
 
   deleteCourse($event: number): void {

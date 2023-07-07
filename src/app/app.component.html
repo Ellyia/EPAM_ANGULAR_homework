@@ -1,9 +1,5 @@
 <app-header></app-header>
 
-<app-breadcrumbs *appIsAuthenticated="isAuth()"></app-breadcrumbs>
-
-<app-login *appIsAuthenticated="!isAuth()"></app-login>
-
-<app-courses *appIsAuthenticated="isAuth()"></app-courses>
+<router-outlet></router-outlet>
 
 <app-footer></app-footer>

@@ -1,5 +1,5 @@
 import { IUser } from '../models/user.model';
-import { ILoginData } from '../models/loginData.model';
+import { ILoginData } from '../models/login-data.model';
 import { Injectable } from '@angular/core';
 
 @Injectable({

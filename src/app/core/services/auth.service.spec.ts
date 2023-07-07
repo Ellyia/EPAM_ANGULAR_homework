@@ -1,5 +1,5 @@
 import { AuthService } from './auth.service';
-import { ILoginData } from '../models/loginData.model';
+import { ILoginData } from '../models/login-data.model';
 
 describe('AuthServise', () => {
   let authService: AuthService;
