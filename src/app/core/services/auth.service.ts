@@ -1,49 +1,51 @@
 import { IUser } from '../models/user.model';
 import { ILoginData } from '../models/login-data.model';
 import { Injectable } from '@angular/core';
+import { catchError, Observable, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { ErrorService } from './error.service';
+import { IToken } from '../models/token.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private TOKEN = 'token';
-
-  private user: IUser = {
-    id: 1,
-    firstName: 'FirstName',
-    lastName: 'SecondName',
-    email: ''
-  };
   private lsPropToken = 'token';
   private lsPropUser = 'user';
 
-  login(data: ILoginData): void {
-    this.user.email = data.email;
-    localStorage.setItem(this.lsPropUser, JSON.stringify(this.user));
-    localStorage.setItem(this.lsPropToken, JSON.stringify(this.TOKEN));
+  constructor(private http: HttpClient, private errorService: ErrorService) {}
 
-    console.log('logged in successfully');
+  login(data: ILoginData): Observable<IToken> {
+    return this.http
+      .post<IToken>('http://localhost:3004/auth/login', data)
+      .pipe(catchError(this.errorHandler.bind(this)));
   }
 
   logout(): void {
     localStorage.removeItem(this.lsPropUser);
     localStorage.removeItem(this.lsPropToken);
-
-    console.log('Logout');
   }
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem(this.lsPropToken);
+    return !!this.getToken();
   }
 
-  getUserInfo(): IUser | null {
-    const userStr = localStorage.getItem(this.lsPropUser);
-    if (userStr) {
-      const user: IUser = JSON.parse(userStr as string);
+  getUserInfo(): Observable<IUser> {
+    const token = this.getToken();
 
-      return user;
-    } else {
-      return null;
-    }
+    return this.http
+      .post<IUser>('http://localhost:3004/auth/userinfo', { token })
+      .pipe(catchError(this.errorHandler.bind(this)));
+  }
+
+  getToken(): string {
+    const token = localStorage.getItem(this.lsPropToken);
+    return token || '';
+  }
+
+  private errorHandler(error: HttpErrorResponse) {
+    this.errorService.handle(error.message);
+
+    return throwError(() => error.message);
   }
 }

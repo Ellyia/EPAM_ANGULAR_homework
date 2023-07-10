@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { ICourseForm } from '../../models/course-form.model';
 import { CoursesService } from '../../services/courses.service';
-
-import { Router } from '@angular/router';
 import { IBreadcrumb } from 'src/app/core/models/breadcrumb.model';
 
 @Component({
@@ -59,9 +58,13 @@ export class CourseFormComponent {
 
   save(): void {
     if (this.course.id) {
-      this.coursesService.updateItem(this.course);
+      this.coursesService
+        .updateItem(this.course)
+        .subscribe((resp) => console.log(resp));
     } else {
-      this.coursesService.createCourse(this.course);
+      this.coursesService
+        .createCourse(this.course)
+        .subscribe((resp) => console.log(resp));
     }
     this.router.navigate(['/courses']);
   }

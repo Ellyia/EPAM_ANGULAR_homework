@@ -1,71 +1,60 @@
 import { ICourse } from '../models/course.model';
 import { Injectable } from '@angular/core';
 import { ICourseForm } from '../models/course-form.model';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams
+} from '@angular/common/http';
+import { catchError, Observable, throwError } from 'rxjs';
+import { ErrorService } from 'src/app/core/services/error.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CoursesService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private errorService: ErrorService) {}
 
-  private COURSES: ICourse[] = [
-    {
-      id: 1,
-      name: 'Alea jacta est.',
-      date: 'Jun 14 2023',
-      length: 1541,
-      description: 'Anno Domini - AD. Amīcus Plato, sed magis amīca verĭtas.',
-      isTopRated: true,
-      authors: 'Socrat'
-    },
-    {
-      id: 2,
-      name: 'Bibāmus!',
-      date: 'May 29 2024',
-      length: 767,
-      description:
-        'Ante Cristium - BC. In Domine Nomine Patres ... Aquĭla non captat muscas.',
-      isTopRated: false,
-      authors: ''
-    },
-    {
-      id: 3,
-      name: 'Aurea mediocrĭtas.',
-      date: 'May 29 2023',
-      length: 11,
-      description: 'II ante Cristium - BC. Causa causārum.',
-      isTopRated: false,
-      authors: ''
-    }
-  ];
-
-  getList(): Observable<ICourse[]> {
-    return this.http.get<ICourse[]>(
-      'http://localhost:3004/courses?start=0&count=3'
-    );
+  getList(
+    start: number,
+    count: number,
+    textFragment: string = ''
+  ): Observable<ICourse[]> {
+    return this.http
+      .get<ICourse[]>(
+        `http://localhost:3004/courses?start=${start}&count=${count}&textFragment=${textFragment}&sort=date`
+      )
+      .pipe(catchError(this.errorHandler.bind(this)));
   }
 
-  createCourse(item: ICourseForm): void {
-    this.COURSES.push(item as ICourse);
+  createCourse(item: ICourseForm): Observable<ICourse> {
+    return this.http
+      .post<ICourse>('http://localhost:3004/courses', item)
+      .pipe(catchError(this.errorHandler.bind(this)));
   }
 
-  getItemById(id: number): Observable<ICourseForm> {
-    return this.http.get<ICourseForm>(`http://localhost:3004/courses/${id}`);
-    // const course = this.COURSES.find((item) => item.id === id) as ICourseForm;
-    // return course;
+  getItemById(id: number): Observable<ICourse> {
+    return this.http
+      .get<ICourse>(`http://localhost:3004/courses/${id}`)
+      .pipe(catchError(this.errorHandler.bind(this)));
   }
 
-  updateItem(item: ICourseForm): void {
+  updateItem(item: ICourseForm): Observable<ICourse> {
     const id = item.id as number;
-
-    const index = this.COURSES.findIndex((el) => el.id === id);
-    this.COURSES.splice(index, 1, item as ICourse);
+    return this.http
+      .put<ICourse>(`http://localhost:3004/courses/${id}`, item)
+      .pipe(catchError(this.errorHandler.bind(this)));
   }
 
   removeItem(id: number): Observable<ICourse[]> {
-    return this.http.delete<ICourse[]>(`http://localhost:3004/courses/${id}`);
-    // this.COURSES = [...this.COURSES].filter((el) => el.id !== id);
+    return this.http
+      .delete<ICourse[]>(`http://localhost:3004/courses/${id}`)
+      .pipe(catchError(this.errorHandler.bind(this)));
+  }
+
+  private errorHandler(error: HttpErrorResponse) {
+    this.errorService.handle(error.message);
+
+    return throwError(() => error.message);
   }
 }

@@ -1,53 +1,49 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { ICourse } from './models/course.model';
-import { FilterItemsPipe } from '../../shared/pipes/filterItems.pipe';
-import { OrderByPipe } from '../../shared/pipes/order-by.pipe';
 import { CoursesService } from './services/courses.service';
 import { IBreadcrumb } from '../../core/models/breadcrumb.model';
-
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
-  styleUrls: ['./courses.component.scss'],
-  providers: [FilterItemsPipe, OrderByPipe]
+  styleUrls: ['./courses.component.scss']
 })
 export class CoursesComponent implements OnInit {
   courses: ICourse[] = [];
   isCourses: boolean = false;
-  coursesToShow: ICourse[] = [];
+  isCoursesToShow: boolean = false;
   breadcrumbs: IBreadcrumb[] = [{ url: '/courses', label: 'Courses' }];
 
   searchStr: string = '';
+  countToLoad = 3;
+  startToLoad = 0;
 
-  constructor(
-    private filterItems: FilterItemsPipe,
-    private orderBy: OrderByPipe,
-    private coursesService: CoursesService,
-    private router: Router
-  ) {}
+  constructor(private coursesService: CoursesService, private router: Router) {}
 
   ngOnInit(): void {
     this.showCourses();
   }
 
   showCourses(): void {
-    this.coursesService.getList().subscribe((courses) => {
-      this.courses = this.orderBy.transform(courses);
-      this.coursesToShow = this.filterCourses(this.searchStr);
-      this.isCourses = this.courses.length > 0;
+    this.coursesService
+      .getList(this.startToLoad, this.countToLoad, this.searchStr)
+      .subscribe((courses) => {
+        this.isCoursesToShow = !(courses.length < this.countToLoad);
+        this.courses = [...this.courses, ...courses];
 
-      console.log(courses);
-    });
+        this.isCourses = this.courses.length > 0;
+      });
   }
 
   onAddCourse(): void {
     this.router.navigate(['/courses/new']);
   }
 
-  onClickLoadMore(): void {
-    console.log('Load more...');
+  onLoadMore(): void {
+    this.startToLoad += this.countToLoad;
+    this.showCourses();
   }
 
   identify(index: number, course: ICourse): number {
@@ -62,19 +58,22 @@ export class CoursesComponent implements OnInit {
     let confirmOnDelete = confirm('Do you really want to delete this course?');
     if (confirmOnDelete) {
       this.coursesService.removeItem($event).subscribe(() => {
+        this.resetPaging();
+
         this.showCourses();
       });
     }
   }
 
   searchCourses(searchString: string): void {
+    this.resetPaging();
+
     this.searchStr = searchString;
     this.showCourses();
   }
 
-  filterCourses(searchString: string): ICourse[] {
-    return searchString
-      ? this.filterItems.transform(this.courses, searchString)
-      : [...this.courses];
+  resetPaging(): void {
+    this.courses = [];
+    this.startToLoad = 0;
   }
 }
