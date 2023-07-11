@@ -10,6 +10,8 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
+import { interval, Subject } from 'rxjs';
+import { filter, debounceTime, debounce } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search-bar',
@@ -26,21 +28,24 @@ export class SearchBarComponent
     AfterViewInit,
     AfterViewChecked
 {
-  searchString = '';
-
   @Output() searchItems = new EventEmitter<string>();
 
-  onSearch(): void {
-    console.log(this.searchString);
-    this.searchItems.emit(this.searchString);
-  }
+  subject = new Subject<string>();
 
-  constructor() {
-    console.log('constructor');
+  onSearch(event: any): void {
+    this.subject.next(event.target.value);
   }
 
   ngOnInit(): void {
-    console.log('ngOnInit');
+    this.subject
+      .pipe(
+        // debounceTime(1000),
+        debounce(() => interval(1000)),
+        filter((searchStr: string) => searchStr.length >= 3)
+      )
+      .subscribe((searchStr: string) => {
+        this.searchItems.emit(searchStr);
+      });
   }
 
   ngOnChanges(): void {
