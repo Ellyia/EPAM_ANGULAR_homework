@@ -1,7 +1,7 @@
 import { IUser } from '../models/user.model';
 import { ILoginData } from '../models/login-data.model';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, Subject, throwError } from 'rxjs';
+import { catchError, Observable, Subject, tap, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ErrorService } from './error.service';
 import { IToken } from '../models/token.model';
@@ -17,6 +17,8 @@ export class AuthService {
   public apiUrl?: string;
   environment = environment;
 
+  private subject = new Subject<IUser | null>();
+
   constructor(private http: HttpClient, private errorService: ErrorService) {
     this.apiUrl = `${this.environment.apiUrl}`;
   }
@@ -30,6 +32,8 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.lsPropUser);
     localStorage.removeItem(this.lsPropToken);
+
+    this.subject.next(null);
   }
 
   isAuthenticated(): boolean {
@@ -41,7 +45,12 @@ export class AuthService {
 
     return this.http
       .post<IUser>(`${this.apiUrl}/auth/userinfo`, { token })
-      .pipe(catchError(this.errorHandler.bind(this)));
+      .pipe(
+        tap((user: IUser) => {
+          this.subject.next(user);
+        }),
+        catchError(this.errorHandler.bind(this))
+      );
   }
 
   getToken(): string {
@@ -49,24 +58,9 @@ export class AuthService {
     return token || '';
   }
 
-  // subject = new Subject<string>();
-
-  // getUserName(): void {
-  //   if (this.isAuthenticated()) {
-  //     const userStr = localStorage.getItem(this.lsPropUser);
-
-  //   this.subject.next(this.userStr);
-
-  //   if (userStr) {
-  //     const userInfo: IUser = JSON.parse(userStr);
-  //     this.user.firstName = userInfo.name?.first;
-  //     this.user.lastName = userInfo.name?.last;
-  //   }
-  //   }
-  // }
-  // .subscribe((userStr: string) => {
-  //  this.searchItems.emit(searchStr);
-  // })
+  getUserInfoSubj(): Subject<IUser | null> {
+    return this.subject;
+  }
 
   private errorHandler(error: HttpErrorResponse) {
     this.errorService.handle(error.message);

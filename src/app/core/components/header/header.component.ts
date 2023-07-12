@@ -1,20 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IUser } from '../../models/user.model';
 import { AuthService } from '../../services/auth.service';
 
 import { Router } from '@angular/router';
 import { IUserName } from '../../models/user-name.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy {
   title = 'Video course';
 
-  private lsPropUser = 'user';
-  //
+  subscr?: Subscription;
+
   user: IUserName = {
     firstName: '',
     lastName: ''
@@ -22,16 +23,19 @@ export class HeaderComponent {
 
   constructor(private authServise: AuthService, private router: Router) {}
 
-  ngDoCheck(): void {
-    const userStr = localStorage.getItem(this.lsPropUser);
+  ngOnInit(): void {
+    const subj = this.authServise.getUserInfoSubj();
 
-    if (userStr) {
-      const userInfo: IUser = JSON.parse(userStr);
-      this.user.firstName = userInfo.name?.first;
-      this.user.lastName = userInfo.name?.last;
-    }
+    this.subscr = subj.subscribe((userInfo) => {
+      this.user.firstName = userInfo?.name?.first || '';
+      this.user.lastName = userInfo?.name?.last || '';
+    });
   }
-  //
+
+  ngOnDestroy(): void {
+    this.subscr?.unsubscribe();
+  }
+
   isAuth(): boolean {
     return this.authServise.isAuthenticated();
   }
