@@ -1,20 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ICourse } from './models/course.model';
 import { CoursesService } from './services/courses.service';
 import { IBreadcrumb } from '../../core/models/breadcrumb.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss']
 })
-export class CoursesComponent implements OnInit {
+export class CoursesComponent implements OnInit, OnDestroy {
   courses: ICourse[] = [];
   isCourses: boolean = false;
   isCoursesToShow: boolean = false;
   breadcrumbs: IBreadcrumb[] = [{ url: '/courses', label: 'Courses' }];
+  subscription?: Subscription;
 
   searchStr: string = '';
   countToLoad = 3;
@@ -26,11 +28,15 @@ export class CoursesComponent implements OnInit {
     this.showCourses();
   }
 
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+  }
+
   showCourses(): void {
-    this.coursesService
+    this.subscription = this.coursesService
       .getList(this.startToLoad, this.countToLoad, this.searchStr)
       .subscribe((courses) => {
-        this.isCoursesToShow = !(courses.length < this.countToLoad);
+        this.isCoursesToShow = courses.length >= this.countToLoad;
         this.courses = [...this.courses, ...courses];
 
         this.isCourses = this.courses.length > 0;

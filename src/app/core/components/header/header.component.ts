@@ -14,7 +14,7 @@ export class HeaderComponent {
   title = 'Video course';
 
   private lsPropUser = 'user';
-
+  //
   user: IUserName = {
     firstName: '',
     lastName: ''
@@ -31,7 +31,7 @@ export class HeaderComponent {
       this.user.lastName = userInfo.name?.last;
     }
   }
-
+  //
   isAuth(): boolean {
     return this.authServise.isAuthenticated();
   }
