@@ -1,7 +1,14 @@
 import { IUser } from '../models/user.model';
 import { ILoginData } from '../models/login-data.model';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, Subject, tap, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  Observable,
+  Subject,
+  tap,
+  throwError
+} from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ErrorService } from './error.service';
 import { IToken } from '../models/token.model';
@@ -17,7 +24,7 @@ export class AuthService {
   public apiUrl?: string;
   environment = environment;
 
-  private subject = new Subject<IUser | null>();
+  private subject = new BehaviorSubject<IUser | null>(this.getUserFromLS());
 
   constructor(private http: HttpClient, private errorService: ErrorService) {
     this.apiUrl = `${this.environment.apiUrl}`;
@@ -58,8 +65,12 @@ export class AuthService {
     return token || '';
   }
 
-  getUserInfoSubj(): Subject<IUser | null> {
-    return this.subject;
+  getUserInfoSubj(): Observable<IUser | null> {
+    return this.subject.asObservable();
+  }
+
+  private getUserFromLS(): IUser | null {
+    return JSON.parse(localStorage.getItem(this.lsPropUser) || '');
   }
 
   private errorHandler(error: HttpErrorResponse) {

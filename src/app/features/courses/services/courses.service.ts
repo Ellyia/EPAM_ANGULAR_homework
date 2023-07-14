@@ -16,9 +16,11 @@ import { environment } from 'src/environments/environment.prod';
 export class CoursesService {
   public apiUrl?: string;
   environment = environment;
+  url?: URL;
 
   constructor(private http: HttpClient, private errorService: ErrorService) {
-    this.apiUrl = `${this.environment.apiUrl}`;
+    this.apiUrl = this.environment.apiUrl;
+    this.url = new URL(`${this.apiUrl}/courses`);
   }
 
   getList(
@@ -28,33 +30,33 @@ export class CoursesService {
   ): Observable<ICourse[]> {
     return this.http
       .get<ICourse[]>(
-        `${this.apiUrl}/courses?start=${start}&count=${count}&textFragment=${textFragment}&sort=date`
+        `${this.url}?start=${start}&count=${count}&textFragment=${textFragment}&sort=date`
       )
       .pipe(catchError(this.errorHandler.bind(this)));
   }
 
   createCourse(item: ICourseForm): Observable<ICourse> {
     return this.http
-      .post<ICourse>(`${this.apiUrl}/courses`, item)
+      .post<ICourse>(`${this.url}`, item)
       .pipe(catchError(this.errorHandler.bind(this)));
   }
 
   getItemById(id: number): Observable<ICourse> {
     return this.http
-      .get<ICourse>(`${this.apiUrl}/courses/${id}`)
+      .get<ICourse>(`${this.url}/${id}`)
       .pipe(catchError(this.errorHandler.bind(this)));
   }
 
   updateItem(item: ICourseForm): Observable<ICourse> {
     const id = item.id as number;
     return this.http
-      .put<ICourse>(`${this.apiUrl}/courses/${id}`, item)
+      .put<ICourse>(`${this.url}/${id}`, item)
       .pipe(catchError(this.errorHandler.bind(this)));
   }
 
   removeItem(id: number): Observable<ICourse[]> {
     return this.http
-      .delete<ICourse[]>(`${this.apiUrl}/courses/${id}`)
+      .delete<ICourse[]>(`${this.url}/${id}`)
       .pipe(catchError(this.errorHandler.bind(this)));
   }
 
