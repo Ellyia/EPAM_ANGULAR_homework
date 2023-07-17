@@ -13,7 +13,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AuthorsInputComponent {
-  @Input() authors?: string;
+  @Input() authors?: [];
 
   @Output() authorsEvent = new EventEmitter<string>();
 

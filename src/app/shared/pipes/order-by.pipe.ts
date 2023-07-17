@@ -9,8 +9,8 @@ export class OrderByPipe implements PipeTransform {
     const sortedItems = [...items];
 
     return sortedItems.sort((a, b) => {
-      let a1 = new Date(a.creationDate).getTime();
-      let b1 = new Date(b.creationDate).getTime();
+      let a1 = new Date(a.date).getTime();
+      let b1 = new Date(b.date).getTime();
       return a1 - b1;
     });
   }

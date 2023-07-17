@@ -1,6 +1,10 @@
 export interface IUser {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email?: string;
+  id: number | null;
+  fakeToken: string;
+  name: {
+    first: string;
+    last: string;
+  };
+  login: string;
+  password: string;
 }

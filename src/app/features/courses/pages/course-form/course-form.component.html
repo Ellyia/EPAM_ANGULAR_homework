@@ -7,7 +7,7 @@
     type="text"
     name="title"
     id="title"
-    [(ngModel)]="course.title"
+    [(ngModel)]="course.name"
   />
 
   <label htmlFor="description"> Description:</label>
@@ -21,12 +21,12 @@
   >
 
   <app-duration-input
-    [duration]="course.duration"
+    [length]="course.length"
     (durationEvent)="getDuration($event)"
   ></app-duration-input>
 
   <app-date-input
-    [creationDate]="course.creationDate"
+    [date]="course.date"
     (dateEvent)="getDate($event)"
   ></app-date-input>
 

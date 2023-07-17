@@ -1,28 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { ICourseForm } from '../../models/course-form.model';
 import { CoursesService } from '../../services/courses.service';
-
-import { Router } from '@angular/router';
 import { IBreadcrumb } from 'src/app/core/models/breadcrumb.model';
+import { EMPTY, Subscription } from 'rxjs';
+import { ICourse } from '../../models/course.model';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-course-form',
   templateUrl: './course-form.component.html',
   styleUrls: ['./course-form.component.scss']
 })
-export class CourseFormComponent {
+export class CourseFormComponent implements OnDestroy {
   course: ICourseForm = {
     id: undefined,
-    title: undefined,
-    creationDate: undefined,
-    duration: undefined,
+    name: undefined,
+    date: undefined,
+    length: undefined,
     description: undefined,
     authors: undefined
   };
 
   breadcrumbs: IBreadcrumb[] = [{ url: '/courses', label: 'Courses' }];
+
+  private subs: Subscription[] = [];
 
   constructor(
     private router: Router,
@@ -30,25 +34,39 @@ export class CourseFormComponent {
     private coursesService: CoursesService
   ) {}
 
-  ngOnInit() {
-    this.activatedRoute.paramMap.subscribe((params) => {
-      if (params.get('id')) {
-        const id: number = +(params.get('id') as string);
+  ngOnDestroy(): void {
+    this.subs.forEach((subscr) => subscr.unsubscribe());
+  }
 
-        this.course = this.coursesService.getItemById(id);
-        this.breadcrumbs.push({ label: this.course.title as string });
-      } else {
-        this.breadcrumbs.push({ label: 'Add course' });
-      }
-    });
+  ngOnInit() {
+    const sub = this.activatedRoute.paramMap
+      .pipe(
+        switchMap((params) => {
+          if (params.get('id')) {
+            const id: number = +(params.get('id') as string);
+
+            return this.coursesService.getItemById(id);
+          } else {
+            this.breadcrumbs.push({ label: 'Add course' });
+
+            return EMPTY;
+          }
+        })
+      )
+      .subscribe((course: ICourse) => {
+        this.course = course;
+        this.breadcrumbs.push({ label: this.course.name as string });
+      });
+
+    this.subs.push(sub);
   }
 
   getDuration(duration: number): void {
-    this.course.duration = duration;
+    this.course.length = duration;
   }
 
   getDate(date: string): void {
-    this.course.creationDate = date;
+    this.course.date = date;
   }
 
   getAuthors(authors: string): void {
@@ -56,12 +74,19 @@ export class CourseFormComponent {
   }
 
   save(): void {
+    let courseOservable: any;
     if (this.course.id) {
-      this.coursesService.updateItem(this.course);
+      courseOservable = this.coursesService.updateItem(this.course);
     } else {
-      this.coursesService.createCourse(this.course);
+      courseOservable = this.coursesService.createCourse(this.course);
     }
-    this.router.navigate(['/courses']);
+
+    this.subs.push(
+      courseOservable.subscribe((resp: ICourse) => {
+        console.log(resp);
+        this.router.navigate(['/courses']);
+      })
+    );
   }
 
   cancel(): void {

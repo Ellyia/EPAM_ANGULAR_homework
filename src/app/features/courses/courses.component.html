@@ -7,16 +7,14 @@
 
   <div *ngIf="isCourses">
     <app-course-card
-      *ngFor="let course of coursesToShow; trackBy: identify"
+      *ngFor="let course of courses; trackBy: identify"
       [course]="course"
       (deleteItem)="deleteCourse($event)"
     >
     </app-course-card>
 
-    <div class="load-more">
-      <button class="load-more-btn" (click)="onClickLoadMore()">
-        LOAD MORE
-      </button>
+    <div class="load-more" *ngIf="isCoursesToShow">
+      <button class="load-more-btn" (click)="onLoadMore()">LOAD MORE</button>
     </div>
   </div>
 
