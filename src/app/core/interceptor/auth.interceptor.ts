@@ -4,22 +4,31 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpResponse,
   HttpErrorResponse
 } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { finalize, Observable, tap } from 'rxjs';
 
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { LoaderService } from '../services/loader.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService, private router: Router) {}
+  private totalRequests = 0;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private loaderService: LoaderService
+  ) {}
 
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    this.totalRequests++;
+    this.loaderService.setLoader(true);
+
     const token = this.authService.getToken();
 
     const authRequest = request.clone({
@@ -36,6 +45,12 @@ export class AuthInterceptor implements HttpInterceptor {
               this.router.navigate(['/login']);
             }
           }
+        }
+      }),
+      finalize(() => {
+        this.totalRequests--;
+        if (this.totalRequests <= 0) {
+          this.loaderService.setLoader(false);
         }
       })
     );
