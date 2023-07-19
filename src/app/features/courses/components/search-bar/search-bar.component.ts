@@ -40,8 +40,10 @@ export class SearchBarComponent
     this.subject
       .pipe(
         // debounceTime(1000),
-        debounce(() => interval(1000)),
-        filter((searchStr: string) => searchStr.length >= 3)
+        debounce(() => interval(500)),
+        filter(
+          (searchStr: string) => searchStr.length >= 3 || searchStr.length === 0
+        )
       )
       .subscribe((searchStr: string) => {
         this.searchItems.emit(searchStr);

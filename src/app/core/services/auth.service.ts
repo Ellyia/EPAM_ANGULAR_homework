@@ -27,7 +27,7 @@ export class AuthService {
   private subject = new BehaviorSubject<IUser | null>(this.getUserFromLS());
 
   constructor(private http: HttpClient, private errorService: ErrorService) {
-    this.apiUrl = `${this.environment.apiUrl}`;
+    this.apiUrl = this.environment.apiUrl;
   }
 
   login(data: ILoginData): Observable<IToken> {
@@ -65,12 +65,12 @@ export class AuthService {
     return token || '';
   }
 
-  getUserInfoSubj(): Observable<IUser | null> {
+  getUserInfoObservable(): Observable<IUser | null> {
     return this.subject.asObservable();
   }
 
   private getUserFromLS(): IUser | null {
-    return JSON.parse(localStorage.getItem(this.lsPropUser) || '');
+    return JSON.parse(localStorage.getItem(this.lsPropUser) || '{}');
   }
 
   private errorHandler(error: HttpErrorResponse) {

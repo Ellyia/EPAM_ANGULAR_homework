@@ -24,12 +24,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private authServise: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    const subj = this.authServise.getUserInfoSubj();
-
-    this.subscr = subj.subscribe((userInfo) => {
-      this.user.firstName = userInfo?.name?.first || '';
-      this.user.lastName = userInfo?.name?.last || '';
-    });
+    this.subscr = this.authServise
+      .getUserInfoObservable()
+      .subscribe((userInfo) => {
+        this.user.firstName = userInfo?.name?.first || '';
+        this.user.lastName = userInfo?.name?.last || '';
+      });
   }
 
   ngOnDestroy(): void {
