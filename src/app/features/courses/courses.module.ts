@@ -16,11 +16,20 @@ import { OrderByPipe } from '../../shared/pipes/order-by.pipe';
 import { DurationInputComponent } from '../../shared/components/duration-input/duration-input.component';
 import { DateInputComponent } from '../../shared/components/date-input/date-input.component';
 import { AuthorsInputComponent } from '../../shared/components/authors-input/authors-input.component';
+import { authGuard } from 'src/app/core/guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: CoursesComponent },
-  { path: 'new', component: CourseFormComponent },
-  { path: ':id', component: CourseFormComponent }
+  {
+    path: 'new',
+    component: CourseFormComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: ':id',
+    component: CourseFormComponent,
+    canActivate: [authGuard]
+  }
 ];
 
 @NgModule({

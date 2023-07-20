@@ -1,4 +1,3 @@
 <div class="searchBar">
-  <input type="text" placeholder="Text to search" [(ngModel)]="searchString" />
-  <button (click)="onSearch()">Search</button>
+  <input (keyup)="onSearch($event)" type="text" placeholder="Text to search" />
 </div>

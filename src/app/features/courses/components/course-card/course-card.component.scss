@@ -53,9 +53,11 @@
     width: 80px;
     padding: 5px 10px;
     font-size: 10px;
-    background-color: #fff;
+    background-color: #009ecc;
+    color: #fff;
     box-shadow: 0 0 5px 2px rgba(221, 221, 221, 1);
     border: none;
+    border-radius: 5px;
     cursor: pointer;
 
     &:first-child {

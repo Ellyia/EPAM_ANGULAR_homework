@@ -8,8 +8,12 @@ import {
   OnChanges,
   OnInit,
   Output,
-  EventEmitter
+  EventEmitter,
+  OnDestroy
 } from '@angular/core';
+import { Subject } from 'rxjs';
+import { filter, debounceTime } from 'rxjs/operators';
+import { BaseComponent } from 'src/app/core/components/base/base.component';
 
 @Component({
   selector: 'app-search-bar',
@@ -17,6 +21,7 @@ import {
   styleUrls: ['./search-bar.component.scss']
 })
 export class SearchBarComponent
+  extends BaseComponent
   implements
     OnInit,
     OnChanges,
@@ -24,23 +29,32 @@ export class SearchBarComponent
     AfterContentInit,
     AfterContentChecked,
     AfterViewInit,
-    AfterViewChecked
+    AfterViewChecked,
+    OnDestroy
 {
-  searchString = '';
-
   @Output() searchItems = new EventEmitter<string>();
 
-  onSearch(): void {
-    console.log(this.searchString);
-    this.searchItems.emit(this.searchString);
-  }
+  subject = new Subject<string>();
 
   constructor() {
-    console.log('constructor');
+    super();
+  }
+
+  onSearch(event: any): void {
+    this.subject.next(event.target.value);
   }
 
   ngOnInit(): void {
-    console.log('ngOnInit');
+    this.subs = this.subject
+      .pipe(
+        debounceTime(500),
+        filter(
+          (searchStr: string) => searchStr.length >= 3 || searchStr.length === 0
+        )
+      )
+      .subscribe((searchStr: string) => {
+        this.searchItems.emit(searchStr);
+      });
   }
 
   ngOnChanges(): void {

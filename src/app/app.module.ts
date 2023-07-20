@@ -10,6 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { IsAuthenticatedDirective } from './shared/directives/if-authenticated.directive';
 import { GlobalErrorComponent } from './core/components/global-error/global-error.component';
 import { AuthInterceptor } from './core/interceptor/auth.interceptor';
+import { LoaderComponent } from './core/components/loader/loader.component';
+import { BaseComponent } from './core/components/base/base.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { AuthInterceptor } from './core/interceptor/auth.interceptor';
     HeaderComponent,
     FooterComponent,
     IsAuthenticatedDirective,
-    GlobalErrorComponent
+    GlobalErrorComponent,
+    LoaderComponent,
+    BaseComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [
