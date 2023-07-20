@@ -5,16 +5,17 @@ import { Router } from '@angular/router';
 import { ICourseForm } from '../../models/course-form.model';
 import { CoursesService } from '../../services/courses.service';
 import { IBreadcrumb } from 'src/app/core/models/breadcrumb.model';
-import { EMPTY, Subscription } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { ICourse } from '../../models/course.model';
 import { switchMap } from 'rxjs/operators';
+import { BaseComponent } from 'src/app/core/components/base/base.component';
 
 @Component({
   selector: 'app-course-form',
   templateUrl: './course-form.component.html',
   styleUrls: ['./course-form.component.scss']
 })
-export class CourseFormComponent implements OnDestroy {
+export class CourseFormComponent extends BaseComponent implements OnDestroy {
   course: ICourseForm = {
     id: undefined,
     name: undefined,
@@ -26,20 +27,16 @@ export class CourseFormComponent implements OnDestroy {
 
   breadcrumbs: IBreadcrumb[] = [{ url: '/courses', label: 'Courses' }];
 
-  private subs: Subscription[] = [];
-
   constructor(
     private router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private coursesService: CoursesService
-  ) {}
-
-  ngOnDestroy(): void {
-    this.subs.forEach((subscr) => subscr.unsubscribe());
+  ) {
+    super();
   }
 
   ngOnInit() {
-    const sub = this.activatedRoute.paramMap
+    this.subs = this.activatedRoute.paramMap
       .pipe(
         switchMap((params) => {
           if (params.get('id')) {
@@ -57,8 +54,6 @@ export class CourseFormComponent implements OnDestroy {
         this.course = course;
         this.breadcrumbs.push({ label: this.course.name as string });
       });
-
-    this.subs.push(sub);
   }
 
   getDuration(duration: number): void {
@@ -81,12 +76,10 @@ export class CourseFormComponent implements OnDestroy {
       courseOservable = this.coursesService.createCourse(this.course);
     }
 
-    this.subs.push(
-      courseOservable.subscribe((resp: ICourse) => {
-        console.log(resp);
-        this.router.navigate(['/courses']);
-      })
-    );
+    this.subs = courseOservable.subscribe((resp: ICourse) => {
+      console.log(resp);
+      this.router.navigate(['/courses']);
+    });
   }
 
   cancel(): void {

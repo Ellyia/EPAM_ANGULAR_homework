@@ -1,39 +1,34 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IUser } from '../../models/user.model';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 
 import { Router } from '@angular/router';
 import { IUserName } from '../../models/user-name.model';
-import { Subscription } from 'rxjs';
+import { BaseComponent } from '../base/base.component';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent extends BaseComponent implements OnInit {
   title = 'Video course';
-
-  subscr?: Subscription;
 
   user: IUserName = {
     firstName: '',
     lastName: ''
   };
 
-  constructor(private authServise: AuthService, private router: Router) {}
+  constructor(private authServise: AuthService, private router: Router) {
+    super();
+  }
 
   ngOnInit(): void {
-    this.subscr = this.authServise
+    this.subs = this.authServise
       .getUserInfoObservable()
       .subscribe((userInfo) => {
         this.user.firstName = userInfo?.name?.first || '';
         this.user.lastName = userInfo?.name?.last || '';
       });
-  }
-
-  ngOnDestroy(): void {
-    this.subscr?.unsubscribe();
   }
 
   isAuth(): boolean {

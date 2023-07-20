@@ -11,6 +11,7 @@ import { IsAuthenticatedDirective } from './shared/directives/if-authenticated.d
 import { GlobalErrorComponent } from './core/components/global-error/global-error.component';
 import { AuthInterceptor } from './core/interceptor/auth.interceptor';
 import { LoaderComponent } from './core/components/loader/loader.component';
+import { BaseComponent } from './core/components/base/base.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { LoaderComponent } from './core/components/loader/loader.component';
     FooterComponent,
     IsAuthenticatedDirective,
     GlobalErrorComponent,
-    LoaderComponent
+    LoaderComponent,
+    BaseComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [

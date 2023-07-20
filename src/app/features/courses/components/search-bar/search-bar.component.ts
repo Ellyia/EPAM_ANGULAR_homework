@@ -11,8 +11,9 @@ import {
   EventEmitter,
   OnDestroy
 } from '@angular/core';
-import { interval, Subject } from 'rxjs';
-import { filter, debounceTime, debounce } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { filter, debounceTime } from 'rxjs/operators';
+import { BaseComponent } from 'src/app/core/components/base/base.component';
 
 @Component({
   selector: 'app-search-bar',
@@ -20,6 +21,7 @@ import { filter, debounceTime, debounce } from 'rxjs/operators';
   styleUrls: ['./search-bar.component.scss']
 })
 export class SearchBarComponent
+  extends BaseComponent
   implements
     OnInit,
     OnChanges,
@@ -34,12 +36,16 @@ export class SearchBarComponent
 
   subject = new Subject<string>();
 
+  constructor() {
+    super();
+  }
+
   onSearch(event: any): void {
     this.subject.next(event.target.value);
   }
 
   ngOnInit(): void {
-    this.subject
+    this.subs = this.subject
       .pipe(
         debounceTime(500),
         filter(
@@ -49,10 +55,6 @@ export class SearchBarComponent
       .subscribe((searchStr: string) => {
         this.searchItems.emit(searchStr);
       });
-  }
-
-  ngOnDestroy(): void {
-    this.subject.unsubscribe();
   }
 
   ngOnChanges(): void {

@@ -1,36 +1,33 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { ILoginData } from 'src/app/core/models/login-data.model';
 import { IToken } from 'src/app/core/models/token.model';
 
 import { Router } from '@angular/router';
-import { Subscription, switchMap } from 'rxjs';
+import { switchMap } from 'rxjs';
 import { IUser } from 'src/app/core/models/user.model';
+import { BaseComponent } from 'src/app/core/components/base/base.component';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnDestroy {
+export class LoginComponent extends BaseComponent {
   loginData: ILoginData = {
     login: '',
     password: ''
   };
 
-  subscription?: Subscription;
-
   private lsPropToken = 'token';
   private lsPropUser = 'user';
 
-  constructor(private authServise: AuthService, private router: Router) {}
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+  constructor(private authServise: AuthService, private router: Router) {
+    super();
   }
 
   login(): void {
-    this.subscription = this.authServise
+    this.subs = this.authServise
       .login(this.loginData)
       .pipe(
         switchMap((data: IToken) => {
