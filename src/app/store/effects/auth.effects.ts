@@ -14,16 +14,15 @@ import {
 } from '../actions/auth.actions';
 import { AuthService } from 'src/app/core/services/auth.service';
 
-// @Injectable()
 export class AuthEffects {
-  getAuth$ = createEffect(
-    () => {
-      this._actions.pipe(ofType<GetAuth>(EAuthUserActions.GetAuth)),
-        // withLatestFrom(this.store.select())
-        switchMap(() => this._authService.isAuthenticated());
-    },
-    { dispatch: false }
-  );
+  // getAuth$ = createEffect(
+  //   () => {
+  //     this._actions.pipe(
+  //       ofType(EAuthUserActions.GetAuth)),
+  //       switchMap(() => this._authService.isAuthenticated());
+  //   },
+  //   { dispatch: false }
+  // );
 
   constructor(
     private _authService: AuthService,

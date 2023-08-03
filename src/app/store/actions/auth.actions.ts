@@ -1,9 +1,9 @@
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
+import { ILoginData } from 'src/app/core/models/login-data.model';
 
 import { IUserName } from 'src/app/core/models/user-name.model';
 
 export enum EAuthUserActions {
-  // GetUser = '[User] Get User',
   GetAuth = '[Auth] Get Auth',
   LoginUser = '[Auth] Login User',
   LogoutUser = '[Auth] Logout User'
@@ -13,19 +13,18 @@ export enum EAuthUserActions {
 //   public readonly type = EAuthUserActions.GetUser;
 // }
 
-export class GetAuth implements Action {
-  public readonly type = EAuthUserActions.GetAuth;
-}
+export const GetAuth = createAction(EAuthUserActions.GetAuth);
 
-export class LoginUser implements Action {
-  public readonly type = EAuthUserActions.LoginUser;
-  constructor(public payload: IUserName) {}
-}
+export const LoginUser = createAction(
+  EAuthUserActions.LoginUser,
+  props<{ user: IUserName }>()
+  // props<{login: string, password: string}>()
+);
+// constructor(public payload: IUserName) {}
+// constructor(public payload: ILoginData) {}
+// login: string;
+// password: string;
 
-export class LogoutUser implements Action {
-  public readonly type = EAuthUserActions.LogoutUser;
-}
+export const LogoutUser = createAction(EAuthUserActions.LogoutUser);
 
-export type AuthUserActions =
-  // GetUser
-  GetAuth | LoginUser | LogoutUser;
+// export type AuthUserActions = GetAuth | LoginUser | LogoutUser;

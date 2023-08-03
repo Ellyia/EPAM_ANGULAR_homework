@@ -5,6 +5,11 @@ import { ICourse } from './models/course.model';
 import { CoursesService } from './services/courses.service';
 import { IBreadcrumb } from '../../core/models/breadcrumb.model';
 import { BaseComponent } from 'src/app/core/components/base/base.component';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { GetCourses } from 'src/app/store/actions/courses.actions';
+import { Observable } from 'rxjs';
+import { selectCoursesList } from 'src/app/store/selectors/courses.selectors';
 
 @Component({
   selector: 'app-courses',
@@ -12,7 +17,9 @@ import { BaseComponent } from 'src/app/core/components/base/base.component';
   styleUrls: ['./courses.component.scss']
 })
 export class CoursesComponent extends BaseComponent implements OnInit {
-  courses: ICourse[] = [];
+  // courses: ICourse[] = [];
+  courses$: Observable<ICourse[]> = this._store.select(selectCoursesList);
+
   isCourses: boolean = false;
   isCoursesToShow: boolean = false;
   breadcrumbs: IBreadcrumb[] = [{ url: '/courses', label: 'Courses' }];
@@ -21,7 +28,11 @@ export class CoursesComponent extends BaseComponent implements OnInit {
   countToLoad = 3;
   startToLoad = 0;
 
-  constructor(private coursesService: CoursesService, private router: Router) {
+  constructor(
+    private coursesService: CoursesService,
+    private router: Router,
+    private _store: Store<IAppState>
+  ) {
     super();
   }
 
@@ -30,14 +41,27 @@ export class CoursesComponent extends BaseComponent implements OnInit {
   }
 
   showCourses(): void {
-    this.subs = this.coursesService
-      .getList(this.startToLoad, this.countToLoad, this.searchStr)
-      .subscribe((courses) => {
-        this.isCoursesToShow = courses.length >= this.countToLoad;
-        this.courses = [...this.courses, ...courses];
+    // this.subs = this.coursesService
+    //   .getList(this.startToLoad, this.countToLoad, this.searchStr)
+    //   .subscribe((courses) => {
+    //     this.isCoursesToShow = courses.length >= this.countToLoad;
+    //     this.courses = [...this.courses, ...courses];
 
-        this.isCourses = this.courses.length > 0;
-      });
+    //     this.isCourses = this.courses.length > 0;
+    //   });
+    this._store.dispatch(
+      GetCourses({
+        start: this.startToLoad,
+        count: this.countToLoad,
+        textFragment: this.searchStr
+      })
+    );
+
+    this.subs = this.courses$.subscribe((courses) => {
+      this.isCoursesToShow = courses.length >= this.countToLoad;
+
+      this.isCourses = courses.length > 0;
+    });
   }
 
   onAddCourse(): void {
@@ -76,7 +100,7 @@ export class CoursesComponent extends BaseComponent implements OnInit {
   }
 
   resetPaging(): void {
-    this.courses = [];
+    // this.courses = [];
     this.startToLoad = 0;
   }
 }

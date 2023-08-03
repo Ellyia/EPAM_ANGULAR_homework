@@ -1,22 +1,37 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, ofType, Actions } from '@ngrx/effects';
+import { ofType, Actions, createEffect } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { of } from 'rxjs';
 import { switchMap, map, withLatestFrom } from 'rxjs/operators';
 
 import { IAppState } from '../state/app.state';
 
-import { GetCourses, ECoursesActions } from '../actions/courses.actions';
+import {
+  GetCourses,
+  GetCoursesSuccess,
+  ECoursesActions
+} from '../actions/courses.actions';
 import { CoursesService } from '../../features/courses/services/courses.service';
 import { selectCoursesList } from '../selectors/courses.selectors';
+import { isNgInjectionToken } from 'ng-mocks';
 
-@Injectable()
 export class CoursesEffects {
-  @Effect()
-  GetCourses$ = this._actions.pipe(
-    ofType<GetCourses>(ECoursesActions.GetCourses),
-    switchMap(() => this._coursesService.getList())
+  GetCourses$ = createEffect(
+    () => {
+      this._actions.pipe(ofType(ECoursesActions.GetCourses)),
+        switchMap(
+          (payload: { start: number; count: number; textFragment: string }) =>
+            this._coursesService
+              .getList(payload.start, payload.count, payload.textFragment)
+              .pipe(
+                switchMap((courses) => of(GetCoursesSuccess({ courses })))
+                // map(courses => GetCoursesSuccess({ courses })),
+                // catchError( e => of(failAct()))
+              )
+        );
+    }
+    // { dispatch: false }
   );
 
   constructor(
