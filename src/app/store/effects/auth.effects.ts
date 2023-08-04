@@ -23,10 +23,9 @@ export class AuthEffects {
   //   },
   //   { dispatch: false }
   // );
-
-  constructor(
-    private _authService: AuthService,
-    private _actions: Actions,
-    private store: Store
-  ) {}
+  // constructor(
+  //   private _authService: AuthService,
+  //   private _actions: Actions,
+  //   private store: Store
+  // ) {}
 }
