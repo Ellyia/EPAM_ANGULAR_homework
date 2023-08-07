@@ -3,13 +3,15 @@ import {
   EAuthUserActions,
   LoginUser,
   LogoutUser,
-  GetLoginSuccess
+  GetLoginSuccess,
+  GetAuth
 } from '../actions/auth.actions';
 
 import { initialUserAuthState, IUserAuthState } from '../state/auth.state';
 
 export const authUserReducer = createReducer(
   initialUserAuthState,
+  on(GetAuth, (state) => ({ ...state })),
   on(LoginUser, (state) => ({ ...state })),
   on(GetLoginSuccess, (state, action) => ({
     ...state,

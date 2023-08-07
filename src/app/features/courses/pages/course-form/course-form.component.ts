@@ -9,6 +9,9 @@ import { EMPTY } from 'rxjs';
 import { ICourse } from '../../models/course.model';
 import { switchMap } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/core/components/base/base.component';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { ResetCourses } from 'src/app/store/actions/courses.actions';
 
 @Component({
   selector: 'app-course-form',
@@ -30,7 +33,8 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
   constructor(
     private router: Router,
     private readonly activatedRoute: ActivatedRoute,
-    private coursesService: CoursesService
+    private coursesService: CoursesService,
+    private _store: Store<IAppState>
   ) {
     super();
   }
@@ -70,6 +74,9 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
 
   save(): void {
     let courseOservable: any;
+
+    this._store.dispatch(ResetCourses());
+
     if (this.course.id) {
       courseOservable = this.coursesService.updateItem(this.course);
     } else {
@@ -83,6 +90,7 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
   }
 
   cancel(): void {
+    this._store.dispatch(ResetCourses());
     this.router.navigate(['/courses']);
   }
 }

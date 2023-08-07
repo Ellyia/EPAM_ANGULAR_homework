@@ -14,3 +14,13 @@ export const isCoursesToShow = createSelector(
   selectCourses,
   (state: ICourseState) => state.isCoursesToShow
 );
+
+export const searchStr = createSelector(
+  selectCourses,
+  (state: ICourseState) => state.searchStr
+);
+
+export const startToLoad = createSelector(
+  selectCourses,
+  (state: ICourseState) => state.startToLoad
+);

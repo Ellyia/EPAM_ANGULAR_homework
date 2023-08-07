@@ -81,13 +81,7 @@ export class CoursesComponent extends BaseComponent implements OnInit {
   deleteCourse(id: number): void {
     let confirmOnDelete = confirm('Do you really want to delete this course?');
     if (confirmOnDelete) {
-      // this._store.dispatch(
-      //   DeleteCourse({id}))
-      this.subs = this.coursesService.removeItem(id).subscribe(() => {
-        this.resetPaging();
-
-        this.showCourses();
-      });
+      this._store.dispatch(DeleteCourse({ id }));
     }
   }
 
