@@ -6,25 +6,20 @@ import { IUserName } from 'src/app/core/models/user-name.model';
 export enum EAuthUserActions {
   GetAuth = '[Auth] Get Auth',
   LoginUser = '[Auth] Login User',
-  LogoutUser = '[Auth] Logout User'
+  LogoutUser = '[Auth] Logout User',
+  GetLoginSuccess = '[Auth] Get Login Success'
 }
-
-// export class GetUser implements Action {
-//   public readonly type = EAuthUserActions.GetUser;
-// }
 
 export const GetAuth = createAction(EAuthUserActions.GetAuth);
 
 export const LoginUser = createAction(
   EAuthUserActions.LoginUser,
-  props<{ user: IUserName }>()
-  // props<{login: string, password: string}>()
+  props<{ login: string; password: string }>()
 );
-// constructor(public payload: IUserName) {}
-// constructor(public payload: ILoginData) {}
-// login: string;
-// password: string;
+
+export const GetLoginSuccess = createAction(
+  EAuthUserActions.GetLoginSuccess,
+  props<{ user: IUserName }>()
+);
 
 export const LogoutUser = createAction(EAuthUserActions.LogoutUser);
-
-// export type AuthUserActions = GetAuth | LoginUser | LogoutUser;

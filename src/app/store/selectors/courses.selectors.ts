@@ -9,3 +9,8 @@ export const selectCoursesList = createSelector(
   selectCourses,
   (state: ICourseState) => state.courses
 );
+
+export const isCoursesToShow = createSelector(
+  selectCourses,
+  (state: ICourseState) => state.isCoursesToShow
+);

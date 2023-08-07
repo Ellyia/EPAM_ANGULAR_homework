@@ -5,10 +5,13 @@ import { ICourse } from 'src/app/features/courses/models/course.model';
 export enum ECoursesActions {
   GetCourses = '[Courses] Get Courses',
   GetCoursesSuccess = '[Courses] Get Courses Success',
+  ResetCourses = '[Courses] Reset Courses',
   DeleteCourse = '[Courses] Delete Course',
   EditCourse = '[Courses] Edit Course',
   AddCourse = '[Courses] Add Course',
-  GetCourse = '[Courses] Get Course'
+  GetCourse = '[Courses] Get Course',
+  ShowLoadMore = '[Courses] Show Load More',
+  HideLoadMore = '[Courses] Hide Load More'
 }
 
 export const GetCourses = createAction(
@@ -20,6 +23,12 @@ export const GetCoursesSuccess = createAction(
   ECoursesActions.GetCoursesSuccess,
   props<{ courses: ICourse[] }>()
 );
+
+export const ResetCourses = createAction(ECoursesActions.ResetCourses);
+
+export const ShowLoadMore = createAction(ECoursesActions.ShowLoadMore);
+
+export const HideLoadMore = createAction(ECoursesActions.HideLoadMore);
 
 export const DeleteCourse = createAction(
   ECoursesActions.DeleteCourse,

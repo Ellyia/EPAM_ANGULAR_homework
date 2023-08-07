@@ -7,9 +7,16 @@ import { IBreadcrumb } from '../../core/models/breadcrumb.model';
 import { BaseComponent } from 'src/app/core/components/base/base.component';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
-import { GetCourses } from 'src/app/store/actions/courses.actions';
+import {
+  DeleteCourse,
+  GetCourses,
+  ResetCourses
+} from 'src/app/store/actions/courses.actions';
 import { Observable } from 'rxjs';
-import { selectCoursesList } from 'src/app/store/selectors/courses.selectors';
+import {
+  selectCoursesList,
+  isCoursesToShow
+} from 'src/app/store/selectors/courses.selectors';
 
 @Component({
   selector: 'app-courses',
@@ -17,8 +24,8 @@ import { selectCoursesList } from 'src/app/store/selectors/courses.selectors';
   styleUrls: ['./courses.component.scss']
 })
 export class CoursesComponent extends BaseComponent implements OnInit {
-  // courses: ICourse[] = [];
   courses$: Observable<ICourse[]> = this._store.select(selectCoursesList);
+  isCoursesToShow$: Observable<boolean> = this._store.select(isCoursesToShow);
 
   isCourses: boolean = false;
   isCoursesToShow: boolean = false;
@@ -41,14 +48,6 @@ export class CoursesComponent extends BaseComponent implements OnInit {
   }
 
   showCourses(): void {
-    // this.subs = this.coursesService
-    //   .getList(this.startToLoad, this.countToLoad, this.searchStr)
-    //   .subscribe((courses) => {
-    //     this.isCoursesToShow = courses.length >= this.countToLoad;
-    //     this.courses = [...this.courses, ...courses];
-
-    //     this.isCourses = this.courses.length > 0;
-    //   });
     this._store.dispatch(
       GetCourses({
         start: this.startToLoad,
@@ -58,7 +57,9 @@ export class CoursesComponent extends BaseComponent implements OnInit {
     );
 
     this.subs = this.courses$.subscribe((courses) => {
-      this.isCoursesToShow = courses.length >= this.countToLoad;
+      this.isCoursesToShow$.subscribe((isCoursesToShow) => {
+        this.isCoursesToShow = isCoursesToShow;
+      });
 
       this.isCourses = courses.length > 0;
     });
@@ -77,14 +78,12 @@ export class CoursesComponent extends BaseComponent implements OnInit {
     return course.id;
   }
 
-  editCourse(id: number): void {
-    this.router.navigate([`/courses/:${id}`]);
-  }
-
-  deleteCourse($event: number): void {
+  deleteCourse(id: number): void {
     let confirmOnDelete = confirm('Do you really want to delete this course?');
     if (confirmOnDelete) {
-      this.subs = this.coursesService.removeItem($event).subscribe(() => {
+      // this._store.dispatch(
+      //   DeleteCourse({id}))
+      this.subs = this.coursesService.removeItem(id).subscribe(() => {
         this.resetPaging();
 
         this.showCourses();
@@ -100,7 +99,7 @@ export class CoursesComponent extends BaseComponent implements OnInit {
   }
 
   resetPaging(): void {
-    // this.courses = [];
+    this._store.dispatch(ResetCourses());
     this.startToLoad = 0;
   }
 }
