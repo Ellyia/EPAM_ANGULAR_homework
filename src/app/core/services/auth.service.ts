@@ -43,9 +43,9 @@ export class AuthService {
     this.subject.next(null);
   }
 
-  isAuthenticated(): boolean {
-    return !!this.getToken();
-  }
+  // isAuthenticated(): boolean {
+  //   return !!this.getToken();
+  // }
 
   getUserInfo(): Observable<IUser> {
     const token = this.getToken();

@@ -4,6 +4,12 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { IUserName } from '../../models/user-name.model';
 import { BaseComponent } from '../base/base.component';
+import { selectIsAuth } from 'src/app/store/selectors/auth.selectors';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { LogoutUser } from 'src/app/store/actions/auth.actions';
+// import { GetAuth } from 'src/app/store/actions/auth.actions';
 
 @Component({
   selector: 'app-header',
@@ -13,12 +19,18 @@ import { BaseComponent } from '../base/base.component';
 export class HeaderComponent extends BaseComponent implements OnInit {
   title = 'Video course';
 
+  isAuth$: Observable<boolean> = this._store.select(selectIsAuth);
+
   user: IUserName = {
     firstName: '',
     lastName: ''
   };
 
-  constructor(private authServise: AuthService, private router: Router) {
+  constructor(
+    private authServise: AuthService,
+    private router: Router,
+    private _store: Store<IAppState>
+  ) {
     super();
   }
 
@@ -31,12 +43,13 @@ export class HeaderComponent extends BaseComponent implements OnInit {
       });
   }
 
-  isAuth(): boolean {
-    return this.authServise.isAuthenticated();
-  }
+  // isAuth(): boolean {
+  //   return this.authServise.isAuthenticated();
+  // }
 
   logout(): void {
-    this.authServise.logout();
-    this.router.navigate(['/login']);
+    this._store.dispatch(LogoutUser());
+    // this.authServise.logout();
+    // this.router.navigate(['/login']);
   }
 }

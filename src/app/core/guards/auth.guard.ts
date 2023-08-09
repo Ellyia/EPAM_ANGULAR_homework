@@ -6,7 +6,9 @@ import {
   RouterStateSnapshot,
   Router
 } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { map, Observable, of } from 'rxjs';
+import { selectIsAuth } from 'src/app/store/selectors/auth.selectors';
 
 import { AuthService } from '../services/auth.service';
 
@@ -14,12 +16,13 @@ export const authGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ): Observable<boolean> => {
-  const authService = inject(AuthService);
+  // const authService = inject(AuthService);
+  const store = inject(Store);
   const router = inject(Router);
 
-  return of(authService.isAuthenticated()).pipe(
-    map((v) => {
-      if (v) {
+  return store.select(selectIsAuth).pipe(
+    map((isAuth) => {
+      if (isAuth) {
         return true;
       } else {
         router.navigate(['/login']);
@@ -27,4 +30,15 @@ export const authGuard: CanActivateFn = (
       }
     })
   );
+
+  // return of(authService.isAuthenticated()).pipe(
+  //   map((v) => {
+  //     if (v) {
+  //       return true;
+  //     } else {
+  //       router.navigate(['/login']);
+  //       return false;
+  //     }
+  //   })
+  // );
 };

@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { IUser } from 'src/app/core/models/user.model';
 import { BaseComponent } from 'src/app/core/components/base/base.component';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { LoginUser } from 'src/app/store/actions/auth.actions';
 
 @Component({
   selector: 'app-login',
@@ -22,24 +25,29 @@ export class LoginComponent extends BaseComponent {
   private lsPropToken = 'token';
   private lsPropUser = 'user';
 
-  constructor(private authServise: AuthService, private router: Router) {
+  constructor(
+    private authServise: AuthService,
+    private router: Router,
+    private _store: Store<IAppState>
+  ) {
     super();
   }
 
   login(): void {
-    this.subs = this.authServise
-      .login(this.loginData)
-      .pipe(
-        switchMap((data: IToken) => {
-          localStorage.setItem(this.lsPropToken, data.token);
+    this._store.dispatch(LoginUser(this.loginData));
+    // this.subs = this.authServise
+    //   .login(this.loginData)
+    //   .pipe(
+    //     switchMap((data: IToken) => {
+    //       localStorage.setItem(this.lsPropToken, data.token);
 
-          return this.authServise.getUserInfo();
-        })
-      )
-      .subscribe((userData: IUser) => {
-        localStorage.setItem(this.lsPropUser, JSON.stringify(userData));
+    //       return this.authServise.getUserInfo();
+    //     })
+    //   )
+    //   .subscribe((userData: IUser) => {
+    //     localStorage.setItem(this.lsPropUser, JSON.stringify(userData));
 
-        this.router.navigate(['/courses']);
-      });
+    //     this.router.navigate(['/courses']);
+    //   });
   }
 }

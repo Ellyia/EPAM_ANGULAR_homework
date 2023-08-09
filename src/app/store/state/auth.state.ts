@@ -2,11 +2,11 @@ import { IUserName } from 'src/app/core/models/user-name.model';
 
 export interface IUserAuthState {
   user: IUserName;
-  auth: boolean;
+  token: string;
 }
 
 export const initialUserAuthState = {
-  auth: false,
+  token: '',
   user: {
     firstName: '',
     lastName: ''

@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { AuthService } from './core/services/auth.service';
+import { selectIsAuth } from './store/selectors/auth.selectors';
+import { IAppState } from './store/state/app.state';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +11,14 @@ import { AuthService } from './core/services/auth.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(private authServise: AuthService) {}
+  isAuth$: Observable<boolean> = this._store.select(selectIsAuth);
 
-  isAuth = (): boolean => {
-    return this.authServise.isAuthenticated();
-  };
+  constructor(
+    private authServise: AuthService,
+    private _store: Store<IAppState>
+  ) {}
+
+  // isAuth = (): boolean => {
+  //   return this.authServise.isAuthenticated();
+  // };
 }

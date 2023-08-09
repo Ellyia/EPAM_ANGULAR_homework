@@ -44,9 +44,3 @@ export const AddCourse = createAction(
   ECoursesActions.AddCourse,
   props<{ course: ICourseForm }>()
 );
-
-// export type CoursesActions =
-//   | GetCourses
-//   | DeleteCourse
-//   | EditCourse
-//   | AddCourse;

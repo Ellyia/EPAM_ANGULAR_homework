@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ofType, Actions, createEffect } from '@ngrx/effects';
-import { Store, select } from '@ngrx/store';
-import { concat, Observable, of } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { switchMap, map, mergeMap } from 'rxjs/operators';
 
 import { IAppState } from '../state/app.state';
@@ -16,12 +15,6 @@ import {
   ResetCourses
 } from '../actions/courses.actions';
 import { CoursesService } from '../../features/courses/services/courses.service';
-import {
-  searchStr,
-  selectCoursesList,
-  startToLoad
-} from '../selectors/courses.selectors';
-import { isNgInjectionToken } from 'ng-mocks';
 import { ICourseForm } from 'src/app/features/courses/models/course-form.model';
 
 @Injectable()
@@ -32,7 +25,7 @@ export class CoursesEffects {
   GetCourses$ = createEffect(() =>
     this._actions.pipe(
       ofType(ECoursesActions.GetCourses),
-      mergeMap(
+      switchMap(
         (payload: { start: number; count: number; textFragment: string }) =>
           this._coursesService
             .getList(payload.start, payload.count, payload.textFragment)
@@ -47,30 +40,28 @@ export class CoursesEffects {
                 actions.push(GetCoursesSuccess({ courses }));
                 return actions;
               })
-              // catchError((error) => of(/* handle error here */))
+              // catchError( e => of(failAct()))
             )
       )
     )
   );
 
-  CreateCourse$ = createEffect(
-    () =>
-      this._actions.pipe(
-        ofType(ECoursesActions.AddCourse),
-        switchMap((payload: { item: ICourseForm }) =>
-          this._coursesService.createCourse(payload.item).pipe(
-            map(() => {
-              const start = 0;
-              const count = 3;
-              const textFragment = '';
+  CreateCourse$ = createEffect(() =>
+    this._actions.pipe(
+      ofType(ECoursesActions.AddCourse),
+      switchMap((payload: { item: ICourseForm }) =>
+        this._coursesService.createCourse(payload.item).pipe(
+          map(() => {
+            const start = 0;
+            const count = 3;
+            const textFragment = '';
 
-              this._store.dispatch(GetCourses({ start, count, textFragment }));
-            })
-            // catchError( e => of(failAct()))
-          )
+            return GetCourses({ start, count, textFragment });
+          })
+          // catchError( e => of(failAct()))
         )
-      ),
-    { dispatch: false }
+      )
+    )
   );
 
   DeleteCourse$ = createEffect(() =>

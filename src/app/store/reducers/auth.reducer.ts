@@ -3,30 +3,42 @@ import {
   EAuthUserActions,
   LoginUser,
   LogoutUser,
-  GetLoginSuccess,
-  GetAuth
+  SetToken,
+  RemoveToken,
+  SetUser
+  // GetLoginSuccess,
+  // GetAuthSuccess
 } from '../actions/auth.actions';
 
 import { initialUserAuthState, IUserAuthState } from '../state/auth.state';
 
 export const authUserReducer = createReducer(
   initialUserAuthState,
-  on(GetAuth, (state) => ({ ...state })),
-  on(LoginUser, (state) => ({ ...state })),
-  on(GetLoginSuccess, (state, action) => ({
+  on(SetToken, (state, { token }) => ({ ...state, token })),
+  on(RemoveToken, (state) => ({ ...state, token: '' })),
+  on(SetUser, (state, { user }) => ({
     ...state,
-    auth: true,
     user: {
-      firstName: action.user.firstName,
-      lastName: action.user.lastName
+      firstName: user.name.first,
+      lastName: user.name.last
     }
   })),
+  on(LoginUser, (state) => ({ ...state })),
   on(LogoutUser, (state) => ({
     ...state,
-    auth: false,
-    user: {
-      firstName: '',
-      lastName: ''
-    }
+    ...initialUserAuthState
+    // auth: false,
+    // user: {
+    //   firstName: '',
+    //   lastName: ''
+    // }
   }))
+  // on(GetLoginSuccess, (state, action) => ({
+  //   ...state,
+  //   auth: true,
+  //   user: {
+  //     firstName: action.user.firstName,
+  //     lastName: action.user.lastName
+  //   }
+  // })),
 );
