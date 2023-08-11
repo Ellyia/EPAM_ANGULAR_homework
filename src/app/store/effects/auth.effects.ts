@@ -45,9 +45,6 @@ export class AuthEffects {
     () =>
       this._actions.pipe(
         ofType(EAuthUserActions.LogoutUser),
-        // mergeMap(() => {
-        //   return of(this._authService.logout()).pipe(map(() => LogoutUser()));
-        // }),
         tap(() => {
           localStorage.removeItem('token');
           this._router.navigate(['/login']);
