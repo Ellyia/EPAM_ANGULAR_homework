@@ -3,7 +3,7 @@
     <img src="app/assets/images/logo.png" alt="logo" />
     <h4>{{ title | uppercase }}</h4>
   </div>
-  <div class="user-auth" *appIsAuthenticated="isAuth$ | async">
+  <div class="user-auth" *appIsAuthenticated="isAuth()">
     <div>
       <img
         class="img"
@@ -11,6 +11,7 @@
         alt="user"
       />
       <span>{{ user.firstName }} {{ user.lastName }}</span>
+      <!-- <span>{{ (user$ | async)?.firstName }} {{ (user$ | async)?.lastName }}</span> -->
     </div>
 
     <button (click)="logout()">

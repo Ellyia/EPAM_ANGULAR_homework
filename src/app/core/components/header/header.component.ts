@@ -4,7 +4,10 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { IUserName } from '../../models/user-name.model';
 import { BaseComponent } from '../base/base.component';
-import { selectIsAuth } from 'src/app/store/selectors/auth.selectors';
+import {
+  selectIsAuth,
+  selectUser
+} from 'src/app/store/selectors/auth.selectors';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -16,11 +19,11 @@ import { LogoutUser } from 'src/app/store/actions/auth.actions';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent extends BaseComponent implements OnInit {
+export class HeaderComponent extends BaseComponent {
   title = 'Video course';
 
-  isAuth$: Observable<boolean> = this._store.select(selectIsAuth);
-
+  // isAuth$: Observable<boolean> = this._store.select(selectIsAuth);
+  // user$: Observable<IUserName> = this._store.select(selectUser);
   user: IUserName = {
     firstName: '',
     lastName: ''
@@ -43,9 +46,9 @@ export class HeaderComponent extends BaseComponent implements OnInit {
       });
   }
 
-  // isAuth(): boolean {
-  //   return this.authServise.isAuthenticated();
-  // }
+  isAuth(): boolean {
+    return this.authServise.isAuthenticated();
+  }
 
   logout(): void {
     this._store.dispatch(LogoutUser());

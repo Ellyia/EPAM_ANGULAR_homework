@@ -34,20 +34,20 @@ export class LoginComponent extends BaseComponent {
   }
 
   login(): void {
-    this._store.dispatch(LoginUser(this.loginData));
-    // this.subs = this.authServise
-    //   .login(this.loginData)
-    //   .pipe(
-    //     switchMap((data: IToken) => {
-    //       localStorage.setItem(this.lsPropToken, data.token);
+    // this._store.dispatch(LoginUser(this.loginData));
+    this.subs = this.authServise
+      .login(this.loginData)
+      .pipe(
+        switchMap((data: IToken) => {
+          localStorage.setItem(this.lsPropToken, data.token);
 
-    //       return this.authServise.getUserInfo();
-    //     })
-    //   )
-    //   .subscribe((userData: IUser) => {
-    //     localStorage.setItem(this.lsPropUser, JSON.stringify(userData));
+          return this.authServise.getUserInfo();
+        })
+      )
+      .subscribe((userData: IUser) => {
+        localStorage.setItem(this.lsPropUser, JSON.stringify(userData));
 
-    //     this.router.navigate(['/courses']);
-    //   });
+        this.router.navigate(['/courses']);
+      });
   }
 }
