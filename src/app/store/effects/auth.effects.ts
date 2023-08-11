@@ -18,7 +18,8 @@ import {
   LoginError,
   LoginUser,
   LogoutUser,
-  SetUser
+  SetUser,
+  GetUser
 } from '../actions/auth.actions';
 
 @Injectable()
@@ -30,32 +31,15 @@ export class AuthEffects {
         this._authService.login(payload).pipe(
           tap((data: IToken) => {
             localStorage.setItem('token', data.token);
+            // this._router.navigate(['/courses']);
           }),
           map((data: IToken) => SetToken(data)),
+          map((data: IToken) => GetUser(data)),
           catchError(() => of(LoginError({ message: 'Login failed' })))
         )
       )
     )
   );
-
-  // Login$ = createEffect(() =>
-  //   this._actions.pipe(
-  //     ofType(EAuthUserActions.LoginUser),
-  //     switchMap((payload: { login: string; password: string }) =>
-  //       this._authService.login(payload).pipe(
-  //         tap((data: IToken) => {
-  //           localStorage.setItem('token', data.token);
-  //         }),
-  //         mergeMap((data: IToken) => {
-  //           const actions = [];
-  //           actions.push(SetToken(data));
-  //           actions.push(
-  //         }),
-  //         catchError(() => of(LoginError({ message: 'Login failed' })))
-  //       )
-  //     )
-  //   )
-  // );
 
   Logout$ = createEffect(
     () =>
@@ -72,21 +56,21 @@ export class AuthEffects {
     { dispatch: false }
   );
 
-  // init$ = createEffect(() => {
-  //   return this._actions.pipe(
-  //     ofType(ROOT_EFFECTS_INIT),
-  //     mergeMap(({ email, password }) => {
-  //       return this._authService.getUserInfo().pipe(
-  //         map((user: IUser) => SetUser({ user })),
-  //         tap((user) => {
-  //           // localStorage.setItem('user', JSON.stringify(user));
-  //           this._router.navigate(['/courses']);
-  //         }),
-  //         catchError(() => of(LoginError({ message: 'Login failed' })))
-  //       );
-  //     })
-  //   );
-  // });
+  GetUser$ = createEffect(() => {
+    return this._actions.pipe(
+      ofType(EAuthUserActions.GetUser),
+      mergeMap(({ email, password }) => {
+        return this._authService.getUserInfo().pipe(
+          map((user: IUser) => SetUser({ user })),
+          tap((user) => {
+            // localStorage.setItem('user', JSON.stringify(user));
+            this._router.navigate(['/courses']);
+          }),
+          catchError(() => of(LoginError({ message: 'Login failed' })))
+        );
+      })
+    );
+  });
 
   constructor(
     private _authService: AuthService,

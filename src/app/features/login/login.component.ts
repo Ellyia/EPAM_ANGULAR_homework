@@ -4,12 +4,13 @@ import { ILoginData } from 'src/app/core/models/login-data.model';
 import { IToken } from 'src/app/core/models/token.model';
 
 import { Router } from '@angular/router';
-import { switchMap } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { IUser } from 'src/app/core/models/user.model';
 import { BaseComponent } from 'src/app/core/components/base/base.component';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
-import { LoginUser } from 'src/app/store/actions/auth.actions';
+import { LoginUser, SetUser } from 'src/app/store/actions/auth.actions';
+import { selectToken } from 'src/app/store/selectors/auth.selectors';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,8 @@ import { LoginUser } from 'src/app/store/actions/auth.actions';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent extends BaseComponent {
+  token$: Observable<string> = this._store.select(selectToken);
+
   loginData: ILoginData = {
     login: '',
     password: ''
@@ -34,20 +37,21 @@ export class LoginComponent extends BaseComponent {
   }
 
   login(): void {
-    // this._store.dispatch(LoginUser(this.loginData));
-    this.subs = this.authServise
-      .login(this.loginData)
-      .pipe(
-        switchMap((data: IToken) => {
-          localStorage.setItem(this.lsPropToken, data.token);
+    this._store.dispatch(LoginUser(this.loginData));
 
-          return this.authServise.getUserInfo();
-        })
-      )
-      .subscribe((userData: IUser) => {
-        localStorage.setItem(this.lsPropUser, JSON.stringify(userData));
+    // this.subs = this.authServise
+    //   .login(this.loginData)
+    //   .pipe(
+    //     switchMap((data: IToken) => {
+    //       localStorage.setItem(this.lsPropToken, data.token);
 
-        this.router.navigate(['/courses']);
-      });
+    //       return this.authServise.getUserInfo();
+    //     })
+    //   )
+    //   .subscribe((userData: IUser) => {
+    //     localStorage.setItem(this.lsPropUser, JSON.stringify(userData));
+
+    //     this.router.navigate(['/courses']);
+    //   });
   }
 }

@@ -38,7 +38,7 @@ import { AuthEffects } from './store/effects/auth.effects';
     FormsModule,
     StoreModule.forRoot(appReducers),
     EffectsModule.forRoot([CoursesEffects, AuthEffects]),
-    // StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' })
     // !environment.prod ? StoreDevtoolsModule.instrument() : [],
   ],

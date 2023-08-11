@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { LogoutUser } from 'src/app/store/actions/auth.actions';
+import { ResetCourses } from 'src/app/store/actions/courses.actions';
 // import { GetAuth } from 'src/app/store/actions/auth.actions';
 
 @Component({
@@ -52,6 +53,7 @@ export class HeaderComponent extends BaseComponent {
 
   logout(): void {
     this._store.dispatch(LogoutUser());
+    this._store.dispatch(ResetCourses());
     // this.authServise.logout();
     // this.router.navigate(['/login']);
   }

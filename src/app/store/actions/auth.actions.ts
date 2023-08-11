@@ -7,6 +7,7 @@ import { IUser } from 'src/app/core/models/user.model';
 export enum EAuthUserActions {
   SetToken = '[Auth] Set Token',
   SetUser = '[Auth] Set user',
+  GetUser = '[Auth] Get user',
   RemoveToken = '[Auth] Remove Token',
   LoginUser = '[Auth] Login User',
   LoginError = '[Auth] Login Err',
@@ -17,6 +18,11 @@ export enum EAuthUserActions {
 
 export const SetToken = createAction(
   EAuthUserActions.SetToken,
+  props<{ token: string }>()
+);
+
+export const GetUser = createAction(
+  EAuthUserActions.GetUser,
   props<{ token: string }>()
 );
 
