@@ -19,7 +19,7 @@ export class AuthService {
   public apiUrl?: string;
   environment = environment;
 
-  // token$: Observable<string> = this._store.select(selectToken);
+  token$: Observable<string> = this._store.select(selectToken);
 
   constructor(
     private http: HttpClient,
@@ -47,11 +47,19 @@ export class AuthService {
     //     })
     //   );
 
-    const token = this.getTokenFromLS();
+    return this.token$.pipe(
+      switchMap((token) => {
+        return this.http
+          .post<IUser>(`${this.apiUrl}/auth/userinfo`, { token })
+          .pipe(catchError(this.errorHandler.bind(this)));
+      })
+    );
 
-    return this.http
-      .post<IUser>(`${this.apiUrl}/auth/userinfo`, { token })
-      .pipe(catchError(this.errorHandler.bind(this)));
+    // const token = this.getTokenFromLS();
+
+    // return this.http
+    //   .post<IUser>(`${this.apiUrl}/auth/userinfo`, { token })
+    //   .pipe(catchError(this.errorHandler.bind(this)));
   }
 
   getTokenFromLS(): string {
