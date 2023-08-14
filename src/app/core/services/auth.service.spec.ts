@@ -1,7 +1,7 @@
 import { AuthService } from './auth.service';
 import { ILoginData } from '../models/login-data.model';
 
-describe('AuthServise', () => {
+describe('AuthService', () => {
   let authService: AuthService;
 
   beforeEach(() => {

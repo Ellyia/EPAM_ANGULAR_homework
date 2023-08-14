@@ -24,17 +24,24 @@ import {
 
 @Injectable()
 export class AuthEffects {
+  private lsPropToken = 'token';
+
   Login$ = createEffect(() =>
     this._actions.pipe(
       ofType(EAuthUserActions.LoginUser),
-      mergeMap((payload: { login: string; password: string }) =>
+      switchMap((payload: { login: string; password: string }) =>
         this._authService.login(payload).pipe(
           tap((data: IToken) => {
-            localStorage.setItem('token', data.token);
-            // this._router.navigate(['/courses']);
+            localStorage.setItem(this.lsPropToken, data.token);
+            this._router.navigate(['/courses']);
           }),
-          map((data: IToken) => SetToken(data)),
-          map((data: IToken) => GetUser(data)),
+          mergeMap((data: IToken) => {
+            const actions = [];
+            actions.push(SetToken({ token: data.token })),
+              actions.push(GetUser(data));
+
+            return actions;
+          }),
           catchError(() => of(LoginError({ message: 'Login failed' })))
         )
       )
@@ -46,7 +53,7 @@ export class AuthEffects {
       this._actions.pipe(
         ofType(EAuthUserActions.LogoutUser),
         tap(() => {
-          localStorage.removeItem('token');
+          localStorage.removeItem(this.lsPropToken);
           this._router.navigate(['/login']);
         })
       ),
@@ -56,14 +63,10 @@ export class AuthEffects {
   GetUser$ = createEffect(() => {
     return this._actions.pipe(
       ofType(EAuthUserActions.GetUser),
-      mergeMap(({ email, password }) => {
+      mergeMap(() => {
         return this._authService.getUserInfo().pipe(
           map((user: IUser) => SetUser({ user })),
-          tap((user) => {
-            // localStorage.setItem('user', JSON.stringify(user));
-            this._router.navigate(['/courses']);
-          }),
-          catchError(() => of(LoginError({ message: 'Login failed' })))
+          catchError(() => of(LoginError({ message: 'No user' })))
         );
       })
     );

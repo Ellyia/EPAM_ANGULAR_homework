@@ -1,32 +1,31 @@
 import { IUser } from '../models/user.model';
 import { ILoginData } from '../models/login-data.model';
 import { Injectable } from '@angular/core';
-import {
-  BehaviorSubject,
-  catchError,
-  Observable,
-  Subject,
-  tap,
-  throwError
-} from 'rxjs';
+import { catchError, Observable, switchMap, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ErrorService } from './error.service';
 import { IToken } from '../models/token.model';
 import { environment } from 'src/environments/environment.prod';
+import { select, Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { selectToken } from 'src/app/store/selectors/auth.selectors';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private lsPropToken = 'token';
-  private lsPropUser = 'user';
 
   public apiUrl?: string;
   environment = environment;
 
-  private subject = new BehaviorSubject<IUser | null>(this.getUserFromLS());
+  // token$: Observable<string> = this._store.select(selectToken);
 
-  constructor(private http: HttpClient, private errorService: ErrorService) {
+  constructor(
+    private http: HttpClient,
+    private errorService: ErrorService,
+    private _store: Store<IAppState>
+  ) {
     this.apiUrl = this.environment.apiUrl;
   }
 
@@ -36,41 +35,27 @@ export class AuthService {
       .pipe(catchError(this.errorHandler.bind(this)));
   }
 
-  logout(): void {
-    localStorage.removeItem(this.lsPropUser);
-    localStorage.removeItem(this.lsPropToken);
-
-    this.subject.next(null);
-  }
-
-  isAuthenticated(): boolean {
-    return !!this.getToken();
-  }
-
   getUserInfo(): Observable<IUser> {
-    const token = this.getToken();
+    // return this._store
+    //   .pipe(
+    //     select(selectToken),
+    //     switchMap((token) => {
+    //       return this.http.post<IUser>(`${this.apiUrl}/auth/userinfo`, { token })
+    //         .pipe(
+    //           catchError(this.errorHandler.bind(this))
+    //         );
+    //     })
+    //   );
+
+    const token = this.getTokenFromLS();
 
     return this.http
       .post<IUser>(`${this.apiUrl}/auth/userinfo`, { token })
-      .pipe(
-        tap((user: IUser) => {
-          this.subject.next(user);
-        }),
-        catchError(this.errorHandler.bind(this))
-      );
+      .pipe(catchError(this.errorHandler.bind(this)));
   }
 
-  getToken(): string {
-    const token = localStorage.getItem(this.lsPropToken);
-    return token || '';
-  }
-
-  getUserInfoObservable(): Observable<IUser | null> {
-    return this.subject.asObservable();
-  }
-
-  private getUserFromLS(): IUser | null {
-    return JSON.parse(localStorage.getItem(this.lsPropUser) || '{}');
+  getTokenFromLS(): string {
+    return localStorage.getItem(this.lsPropToken) || '';
   }
 
   private errorHandler(error: HttpErrorResponse) {

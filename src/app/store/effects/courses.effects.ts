@@ -19,9 +19,6 @@ import { ICourseForm } from 'src/app/features/courses/models/course-form.model';
 
 @Injectable()
 export class CoursesEffects {
-  // searchStr$: Observable<string> = this._store.select(searchStr);
-  // startToLoad$: Observable<number> = this._store.select(startToLoad);
-
   GetCourses$ = createEffect(() =>
     this._actions.pipe(
       ofType(ECoursesActions.GetCourses),
@@ -40,7 +37,6 @@ export class CoursesEffects {
                 actions.push(GetCoursesSuccess({ courses }));
                 return actions;
               })
-              // catchError( e => of(failAct()))
             )
       )
     )
@@ -58,7 +54,6 @@ export class CoursesEffects {
 
             return GetCourses({ start, count, textFragment });
           })
-          // catchError( e => of(failAct()))
         )
       )
     )
@@ -80,7 +75,6 @@ export class CoursesEffects {
 
             return actions;
           })
-          // catchError( e => of(failAct()))
         )
       )
     )
