@@ -86,8 +86,7 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
       courseOservable = this.coursesService.createCourse(this.course);
     }
 
-    this.subs = courseOservable.subscribe((resp: ICourse) => {
-      console.log(resp);
+    this.subs = courseOservable.subscribe(() => {
       this.router.navigate(['/courses']);
     });
   }
