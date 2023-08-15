@@ -13,12 +13,27 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { ResetCourses } from 'src/app/store/actions/courses.actions';
 
+import { FormControl, FormGroup } from '@angular/forms';
+
 @Component({
   selector: 'app-course-form',
   templateUrl: './course-form.component.html',
   styleUrls: ['./course-form.component.scss']
 })
 export class CourseFormComponent extends BaseComponent implements OnDestroy {
+  courseForm: FormGroup | null = null;
+
+  private _createForm() {
+    this.courseForm = new FormGroup({
+      id: new FormControl(null),
+      name: new FormControl(null),
+      date: new FormControl(null),
+      length: new FormControl(null),
+      description: new FormControl(null),
+      authors: new FormControl(null)
+    });
+  }
+
   course: ICourseForm = {
     id: undefined,
     name: undefined,
@@ -37,6 +52,7 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
     private _store: Store<IAppState>
   ) {
     super();
+    this._createForm();
   }
 
   ngOnInit() {
@@ -49,7 +65,7 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
             return this.coursesService.getItemById(id);
           } else {
             this.breadcrumbs.push({ label: 'Add course' });
-            this._store.dispatch(ResetCourses());
+            // this._store.dispatch(ResetCourses());
 
             return EMPTY;
           }
