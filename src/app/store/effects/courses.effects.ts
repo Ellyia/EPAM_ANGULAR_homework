@@ -15,6 +15,8 @@ import { ICourseForm } from 'src/app/features/courses/models/course-form.model';
 
 @Injectable()
 export class CoursesEffects {
+  count = 3;
+
   GetCourses$ = createEffect(() =>
     this._actions.pipe(
       ofType(ECoursesActions.GetCourses),
@@ -25,7 +27,7 @@ export class CoursesEffects {
             .pipe(
               mergeMap((courses) => {
                 const actions = [];
-                if (courses.length < 3) {
+                if (courses.length < this.count) {
                   actions.push(HideLoadMore());
                 } else {
                   actions.push(ShowLoadMore());

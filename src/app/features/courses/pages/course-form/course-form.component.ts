@@ -49,6 +49,7 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
             return this.coursesService.getItemById(id);
           } else {
             this.breadcrumbs.push({ label: 'Add course' });
+            this._store.dispatch(ResetCourses());
 
             return EMPTY;
           }
@@ -57,6 +58,8 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
       .subscribe((course: ICourse) => {
         this.course = course;
         this.breadcrumbs.push({ label: this.course.name as string });
+
+        this._store.dispatch(ResetCourses());
       });
   }
 
