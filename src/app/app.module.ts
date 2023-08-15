@@ -40,7 +40,6 @@ import { AuthEffects } from './store/effects/auth.effects';
     EffectsModule.forRoot([CoursesEffects, AuthEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' })
-    // !environment.prod ? StoreDevtoolsModule.instrument() : [],
   ],
   providers: [
     {

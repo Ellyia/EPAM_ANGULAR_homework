@@ -1,7 +1,7 @@
 import { IUser } from '../models/user.model';
 import { ILoginData } from '../models/login-data.model';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, switchMap, throwError } from 'rxjs';
+import { catchError, Observable, switchMap, take, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ErrorService } from './error.service';
 import { IToken } from '../models/token.model';
@@ -19,8 +19,6 @@ export class AuthService {
   public apiUrl?: string;
   environment = environment;
 
-  token$: Observable<string> = this._store.select(selectToken);
-
   constructor(
     private http: HttpClient,
     private errorService: ErrorService,
@@ -36,30 +34,15 @@ export class AuthService {
   }
 
   getUserInfo(): Observable<IUser> {
-    // return this._store
-    //   .pipe(
-    //     select(selectToken),
-    //     switchMap((token) => {
-    //       return this.http.post<IUser>(`${this.apiUrl}/auth/userinfo`, { token })
-    //         .pipe(
-    //           catchError(this.errorHandler.bind(this))
-    //         );
-    //     })
-    //   );
-
-    return this.token$.pipe(
+    return this._store.pipe(
+      select(selectToken),
+      take(1),
       switchMap((token) => {
         return this.http
           .post<IUser>(`${this.apiUrl}/auth/userinfo`, { token })
           .pipe(catchError(this.errorHandler.bind(this)));
       })
     );
-
-    // const token = this.getTokenFromLS();
-
-    // return this.http
-    //   .post<IUser>(`${this.apiUrl}/auth/userinfo`, { token })
-    //   .pipe(catchError(this.errorHandler.bind(this)));
   }
 
   getTokenFromLS(): string {

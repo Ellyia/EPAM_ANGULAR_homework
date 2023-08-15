@@ -1,12 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  createEffect,
-  Actions,
-  ofType,
-  ROOT_EFFECTS_INIT
-} from '@ngrx/effects';
-import { Store } from '@ngrx/store';
+import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { IToken } from 'src/app/core/models/token.model';
 import { IUser } from 'src/app/core/models/user.model';
@@ -16,8 +10,6 @@ import {
   EAuthUserActions,
   SetToken,
   LoginError,
-  LoginUser,
-  LogoutUser,
   SetUser,
   GetUser
 } from '../actions/auth.actions';
@@ -75,7 +67,6 @@ export class AuthEffects {
   constructor(
     private _authService: AuthService,
     private _actions: Actions,
-    private _store: Store,
     private _router: Router
   ) {}
 }

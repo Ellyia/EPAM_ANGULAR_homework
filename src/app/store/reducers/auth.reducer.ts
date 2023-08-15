@@ -1,6 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
 import {
-  EAuthUserActions,
   LoginUser,
   LogoutUser,
   SetToken,
@@ -8,7 +7,7 @@ import {
   SetUser
 } from '../actions/auth.actions';
 
-import { initialUserAuthState, IUserAuthState } from '../state/auth.state';
+import { initialUserAuthState } from '../state/auth.state';
 
 export const authUserReducer = createReducer(
   initialUserAuthState,
@@ -27,9 +26,7 @@ export const authUserReducer = createReducer(
       lastName: user.name.last
     }
   })),
-  on(LoginUser, (state) => ({
-    ...state
-  })),
+  on(LoginUser, (state) => state),
   on(LogoutUser, (state) => ({
     ...state,
     ...initialUserAuthState

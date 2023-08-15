@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { Component } from '@angular/core';
 
 import { IUserName } from '../../models/user-name.model';
 import { BaseComponent } from '../base/base.component';
@@ -24,10 +23,7 @@ export class HeaderComponent extends BaseComponent {
   isAuth$: Observable<boolean> = this._store.select(selectIsAuth);
   user$: Observable<IUserName> = this._store.select(selectUser);
 
-  constructor(
-    private authService: AuthService,
-    private _store: Store<IAppState>
-  ) {
+  constructor(private _store: Store<IAppState>) {
     super();
   }
 

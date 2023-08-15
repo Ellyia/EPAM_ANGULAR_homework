@@ -1,11 +1,7 @@
 import { ICourse } from '../models/course.model';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ICourseForm } from '../models/course-form.model';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpParams
-} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { ErrorService } from 'src/app/core/services/error.service';
 import { environment } from 'src/environments/environment.prod';

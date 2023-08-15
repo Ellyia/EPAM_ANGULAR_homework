@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ofType, Actions, createEffect } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
 import { switchMap, map, mergeMap } from 'rxjs/operators';
-
-import { IAppState } from '../state/app.state';
 
 import {
   GetCourses,
   GetCoursesSuccess,
-  DeleteCourse,
   ECoursesActions,
   HideLoadMore,
   ShowLoadMore,
@@ -82,7 +78,6 @@ export class CoursesEffects {
 
   constructor(
     private _coursesService: CoursesService,
-    private _actions: Actions,
-    private _store: Store<IAppState>
+    private _actions: Actions
   ) {}
 }

@@ -7,10 +7,8 @@ import {
   Router
 } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { map, Observable, of } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { selectIsAuth } from 'src/app/store/selectors/auth.selectors';
-
-import { AuthService } from '../services/auth.service';
 
 export const authGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,

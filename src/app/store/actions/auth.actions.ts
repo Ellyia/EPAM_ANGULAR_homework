@@ -1,7 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { ILoginData } from 'src/app/core/models/login-data.model';
 
-import { IUserName } from 'src/app/core/models/user-name.model';
 import { IUser } from 'src/app/core/models/user.model';
 
 export enum EAuthUserActions {
