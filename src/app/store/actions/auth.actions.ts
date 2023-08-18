@@ -4,10 +4,10 @@ import { IUser } from 'src/app/core/models/user.model';
 
 export enum EAuthUserActions {
   SetToken = '[Auth] Set Token',
-  RemoveToken = '[Auth] Remove Token',
-  GetUser = '[Auth] Get user',
+  GetUserInit = '[Auth] Get user',
   SetUser = '[Auth] Set user',
   LoginUser = '[Auth] Login User',
+  LoginSuccess = '[Auth] Login Success',
   LoginError = '[Auth] Login Err',
   LogoutUser = '[Auth] Logout User'
 }
@@ -17,12 +17,7 @@ export const SetToken = createAction(
   props<{ token: string }>()
 );
 
-export const GetUser = createAction(
-  EAuthUserActions.GetUser,
-  props<{ token: string }>()
-);
-
-export const RemoveToken = createAction(EAuthUserActions.RemoveToken);
+export const GetUserInit = createAction(EAuthUserActions.GetUserInit);
 
 export const SetUser = createAction(
   EAuthUserActions.SetUser,
@@ -32,6 +27,11 @@ export const SetUser = createAction(
 export const LoginUser = createAction(
   EAuthUserActions.LoginUser,
   props<{ login: string; password: string }>()
+);
+
+export const LoginSuccess = createAction(
+  EAuthUserActions.LoginSuccess,
+  props<{ token: string }>()
 );
 
 export const LoginError = createAction(

@@ -3,21 +3,18 @@ import {
   LoginUser,
   LogoutUser,
   SetToken,
-  RemoveToken,
-  SetUser
+  SetUser,
+  GetUserInit,
+  LoginSuccess
 } from '../actions/auth.actions';
 
 import { initialUserAuthState } from '../state/auth.state';
 
 export const authUserReducer = createReducer(
   initialUserAuthState,
-  on(SetToken, (state, { token }) => ({
+  on(SetToken, LoginSuccess, (state, { token }) => ({
     ...state,
     token
-  })),
-  on(RemoveToken, (state) => ({
-    ...state,
-    token: ''
   })),
   on(SetUser, (state, { user }) => ({
     ...state,
@@ -26,7 +23,7 @@ export const authUserReducer = createReducer(
       lastName: user.name.last
     }
   })),
-  on(LoginUser, (state) => state),
+  on(LoginUser, GetUserInit, (state) => state),
   on(LogoutUser, (state) => ({
     ...state,
     ...initialUserAuthState

@@ -20,15 +20,15 @@ import { ResetCourses } from 'src/app/store/actions/courses.actions';
 export class HeaderComponent extends BaseComponent {
   title = 'Video course';
 
-  isAuth$: Observable<boolean> = this._store.select(selectIsAuth);
-  user$: Observable<IUserName> = this._store.select(selectUser);
+  isAuth$: Observable<boolean> = this.store.select(selectIsAuth);
+  user$: Observable<IUserName> = this.store.select(selectUser);
 
-  constructor(private _store: Store<IAppState>) {
+  constructor(private store: Store<IAppState>) {
     super();
   }
 
   logout(): void {
-    this._store.dispatch(LogoutUser());
-    this._store.dispatch(ResetCourses());
+    this.store.dispatch(LogoutUser());
+    this.store.dispatch(ResetCourses());
   }
 }

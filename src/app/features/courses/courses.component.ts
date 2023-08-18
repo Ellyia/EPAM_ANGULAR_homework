@@ -11,7 +11,7 @@ import {
   GetCourses,
   ResetCourses
 } from 'src/app/store/actions/courses.actions';
-import { Observable } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import {
   selectCoursesList,
   isCoursesToShow
@@ -23,8 +23,8 @@ import {
   styleUrls: ['./courses.component.scss']
 })
 export class CoursesComponent extends BaseComponent implements OnInit {
-  courses$: Observable<ICourse[]> = this._store.select(selectCoursesList);
-  isCoursesToShow$: Observable<boolean> = this._store.select(isCoursesToShow);
+  courses$: Observable<ICourse[]> = this.store.select(selectCoursesList);
+  isCoursesToShow$: Observable<boolean> = this.store.select(isCoursesToShow);
 
   isCourses: boolean = false;
   isCoursesToShow: boolean = false;
@@ -34,7 +34,7 @@ export class CoursesComponent extends BaseComponent implements OnInit {
   countToLoad = 3;
   startToLoad = 0;
 
-  constructor(private router: Router, private _store: Store<IAppState>) {
+  constructor(private router: Router, private store: Store<IAppState>) {
     super();
   }
 
@@ -43,7 +43,7 @@ export class CoursesComponent extends BaseComponent implements OnInit {
   }
 
   showCourses(): void {
-    this._store.dispatch(
+    this.store.dispatch(
       GetCourses({
         start: this.startToLoad,
         count: this.countToLoad,
@@ -51,13 +51,17 @@ export class CoursesComponent extends BaseComponent implements OnInit {
       })
     );
 
-    this.subs = this.courses$.subscribe((courses) => {
-      this.isCoursesToShow$.subscribe((isCoursesToShow) => {
+    this.subs = this.courses$
+      .pipe(
+        switchMap((courses) => {
+          this.isCourses = courses.length > 0;
+
+          return this.isCoursesToShow$;
+        })
+      )
+      .subscribe((isCoursesToShow) => {
         this.isCoursesToShow = isCoursesToShow;
       });
-
-      this.isCourses = courses.length > 0;
-    });
   }
 
   onAddCourse(): void {
@@ -77,7 +81,7 @@ export class CoursesComponent extends BaseComponent implements OnInit {
   deleteCourse(id: number): void {
     let confirmOnDelete = confirm('Do you really want to delete this course?');
     if (confirmOnDelete) {
-      this._store.dispatch(DeleteCourse({ id }));
+      this.store.dispatch(DeleteCourse({ id }));
 
       this.startToLoad = 0;
     }
@@ -91,7 +95,7 @@ export class CoursesComponent extends BaseComponent implements OnInit {
   }
 
   resetPaging(): void {
-    this._store.dispatch(ResetCourses());
+    this.store.dispatch(ResetCourses());
     this.startToLoad = 0;
   }
 }

@@ -34,7 +34,7 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
     private router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private coursesService: CoursesService,
-    private _store: Store<IAppState>
+    private store: Store<IAppState>
   ) {
     super();
   }
@@ -49,7 +49,7 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
             return this.coursesService.getItemById(id);
           } else {
             this.breadcrumbs.push({ label: 'Add course' });
-            this._store.dispatch(ResetCourses());
+            this.store.dispatch(ResetCourses());
 
             return EMPTY;
           }
@@ -59,7 +59,7 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
         this.course = course;
         this.breadcrumbs.push({ label: this.course.name as string });
 
-        this._store.dispatch(ResetCourses());
+        this.store.dispatch(ResetCourses());
       });
   }
 
@@ -78,7 +78,7 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
   save(): void {
     let courseOservable: any;
 
-    this._store.dispatch(ResetCourses());
+    this.store.dispatch(ResetCourses());
 
     if (this.course.id) {
       courseOservable = this.coursesService.updateItem(this.course);
@@ -92,7 +92,7 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
   }
 
   cancel(): void {
-    this._store.dispatch(ResetCourses());
+    this.store.dispatch(ResetCourses());
     this.router.navigate(['/courses']);
   }
 }

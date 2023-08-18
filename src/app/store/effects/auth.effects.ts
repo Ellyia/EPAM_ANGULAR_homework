@@ -11,7 +11,8 @@ import {
   SetToken,
   LoginError,
   SetUser,
-  GetUser
+  GetUserInit,
+  LoginSuccess
 } from '../actions/auth.actions';
 
 @Injectable()
@@ -19,20 +20,16 @@ export class AuthEffects {
   private lsPropToken = 'token';
 
   Login$ = createEffect(() =>
-    this._actions.pipe(
+    this.actions.pipe(
       ofType(EAuthUserActions.LoginUser),
       switchMap((payload: { login: string; password: string }) =>
-        this._authService.login(payload).pipe(
+        this.authService.login(payload).pipe(
           tap((data: IToken) => {
             localStorage.setItem(this.lsPropToken, data.token);
-            this._router.navigate(['/courses']);
+            this.router.navigate(['/courses']);
           }),
-          mergeMap((data: IToken) => {
-            const actions = [];
-            actions.push(SetToken({ token: data.token })),
-              actions.push(GetUser(data));
-
-            return actions;
+          map((data: IToken) => {
+            return LoginSuccess({ token: data.token });
           }),
           catchError(() => of(LoginError({ message: 'Login failed' })))
         )
@@ -40,23 +37,33 @@ export class AuthEffects {
     )
   );
 
+  LoginSuccess$ = createEffect(() =>
+    this.actions.pipe(
+      ofType(EAuthUserActions.LoginSuccess),
+      map(() => {
+        return GetUserInit();
+      }),
+      catchError(() => of(LoginError({ message: 'Login failed' })))
+    )
+  );
+
   Logout$ = createEffect(
     () =>
-      this._actions.pipe(
+      this.actions.pipe(
         ofType(EAuthUserActions.LogoutUser),
         tap(() => {
           localStorage.removeItem(this.lsPropToken);
-          this._router.navigate(['/login']);
+          this.router.navigate(['/login']);
         })
       ),
     { dispatch: false }
   );
 
   GetUser$ = createEffect(() => {
-    return this._actions.pipe(
-      ofType(EAuthUserActions.GetUser),
+    return this.actions.pipe(
+      ofType(EAuthUserActions.GetUserInit),
       mergeMap(() => {
-        return this._authService.getUserInfo().pipe(
+        return this.authService.getUserInfo().pipe(
           map((user: IUser) => SetUser({ user })),
           catchError(() => of(LoginError({ message: 'No user' })))
         );
@@ -65,8 +72,8 @@ export class AuthEffects {
   });
 
   constructor(
-    private _authService: AuthService,
-    private _actions: Actions,
-    private _router: Router
+    private authService: AuthService,
+    private actions: Actions,
+    private router: Router
   ) {}
 }

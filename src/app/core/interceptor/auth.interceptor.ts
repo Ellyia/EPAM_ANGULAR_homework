@@ -6,7 +6,7 @@ import {
   HttpInterceptor,
   HttpErrorResponse
 } from '@angular/common/http';
-import { finalize, Observable, switchMap, take, tap } from 'rxjs';
+import { catchError, finalize, Observable, switchMap, take } from 'rxjs';
 
 import { Router } from '@angular/router';
 import { LoaderService } from '../services/loader.service';
@@ -21,7 +21,7 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(
     private router: Router,
     private loaderService: LoaderService,
-    private _store: Store<IAppState>
+    private store: Store<IAppState>
   ) {}
 
   intercept(
@@ -31,7 +31,7 @@ export class AuthInterceptor implements HttpInterceptor {
     this.totalRequests++;
     this.loaderService.setLoader(true);
 
-    return this._store.pipe(
+    return this.store.pipe(
       select(selectToken),
       take(1),
       switchMap((token) => {
@@ -39,24 +39,22 @@ export class AuthInterceptor implements HttpInterceptor {
           headers: request.headers.set('Authorization', token)
         });
 
-        return next.handle(authRequest).pipe(
-          tap({
-            error: (err) => {
-              if (err instanceof HttpErrorResponse) {
-                if (err.status === 401) {
-                  alert('Unauthorized, oops');
-                  this.router.navigate(['/login']);
-                }
-              }
-            }
-          }),
-          finalize(() => {
-            this.totalRequests--;
-            if (this.totalRequests <= 0) {
-              this.loaderService.setLoader(false);
-            }
-          })
-        );
+        return next.handle(authRequest);
+      }),
+      catchError((err) => {
+        if (err instanceof HttpErrorResponse) {
+          if (err.status === 401) {
+            alert('Unauthorized, oops');
+            this.router.navigate(['/login']);
+          }
+        }
+        throw err;
+      }),
+      finalize(() => {
+        this.totalRequests--;
+        if (this.totalRequests <= 0) {
+          this.loaderService.setLoader(false);
+        }
       })
     );
   }

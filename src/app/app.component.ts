@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AuthService } from './core/services/auth.service';
-import { GetUser, SetToken } from './store/actions/auth.actions';
+import { GetUserInit, SetToken } from './store/actions/auth.actions';
 import { selectIsAuth } from './store/selectors/auth.selectors';
 import { IAppState } from './store/state/app.state';
 
@@ -13,11 +13,11 @@ import { IAppState } from './store/state/app.state';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  isAuth$: Observable<boolean> = this._store.select(selectIsAuth);
+  isAuth$: Observable<boolean> = this.store.select(selectIsAuth);
 
   constructor(
-    private _store: Store<IAppState>,
-    private _router: Router,
+    private store: Store<IAppState>,
+    private router: Router,
     private authService: AuthService
   ) {}
 
@@ -25,9 +25,9 @@ export class AppComponent implements OnInit {
     const token = this.authService.getTokenFromLS();
 
     if (token) {
-      this._store.dispatch(SetToken({ token }));
-      this._store.dispatch(GetUser({ token }));
-      this._router.navigate(['/courses']);
+      this.store.dispatch(SetToken({ token }));
+      this.store.dispatch(GetUserInit());
+      this.router.navigate(['/courses']);
     }
   }
 }
