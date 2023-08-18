@@ -9,9 +9,7 @@ export enum ECoursesActions {
   DeleteCourse = '[Courses] Delete Course',
   EditCourse = '[Courses] Edit Course',
   AddCourse = '[Courses] Add Course',
-  GetCourse = '[Courses] Get Course',
-  ShowLoadMore = '[Courses] Show Load More',
-  HideLoadMore = '[Courses] Hide Load More'
+  GetCourse = '[Courses] Get Course'
 }
 
 export const GetCourses = createAction(
@@ -25,10 +23,6 @@ export const GetCoursesSuccess = createAction(
 );
 
 export const ResetCourses = createAction(ECoursesActions.ResetCourses);
-
-export const ShowLoadMore = createAction(ECoursesActions.ShowLoadMore);
-
-export const HideLoadMore = createAction(ECoursesActions.HideLoadMore);
 
 export const DeleteCourse = createAction(
   ECoursesActions.DeleteCourse,

@@ -22,7 +22,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private errorService: ErrorService,
-    private _store: Store<IAppState>
+    private store: Store<IAppState>
   ) {
     this.apiUrl = this.environment.apiUrl;
   }
@@ -34,7 +34,7 @@ export class AuthService {
   }
 
   getUserInfo(): Observable<IUser> {
-    return this._store.pipe(
+    return this.store.pipe(
       select(selectToken),
       take(1),
       switchMap((token) => {

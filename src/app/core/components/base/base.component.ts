@@ -7,13 +7,13 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./base.component.css']
 })
 export class BaseComponent implements OnDestroy {
-  private _subscriptions = new Subscription();
+  private subscriptions = new Subscription();
 
   public set subs(subscription: Subscription) {
-    this._subscriptions.add(subscription);
+    this.subscriptions.add(subscription);
   }
 
   ngOnDestroy() {
-    this._subscriptions.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 }

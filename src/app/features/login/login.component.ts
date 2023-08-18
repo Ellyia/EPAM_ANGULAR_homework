@@ -17,11 +17,11 @@ export class LoginComponent extends BaseComponent {
     password: ''
   };
 
-  constructor(private _store: Store<IAppState>) {
+  constructor(private store: Store<IAppState>) {
     super();
   }
 
   login(): void {
-    this._store.dispatch(LoginUser(this.loginData));
+    this.store.dispatch(LoginUser(this.loginData));
   }
 }
