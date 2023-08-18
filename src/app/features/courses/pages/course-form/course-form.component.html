@@ -1,5 +1,5 @@
 <app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
-<form [formGroup]="courseForm">
+<form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
   <label htmlFor="title">Title:</label>
   <input
     required
@@ -13,6 +13,7 @@
 
   <label htmlFor="description"> Description:</label>
   <textarea
+    required
     placeholder="type description..."
     name="description"
     id="description"
@@ -35,7 +36,9 @@
   <app-authors-input (authorsEvent)="getAuthors($event)"></app-authors-input>
 
   <div>
-    <button (click)="save()" [disabled]="!myForm.valid">Save</button>
+    <button (click)="save()" type="submit" [disabled]="!myForm.valid">
+      Save
+    </button>
     <button (click)="cancel()">Cancel</button>
   </div>
 </form>

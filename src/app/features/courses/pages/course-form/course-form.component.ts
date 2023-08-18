@@ -13,7 +13,7 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { ResetCourses } from 'src/app/store/actions/courses.actions';
 
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-course-form',
@@ -25,12 +25,12 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
 
   private _createForm() {
     this.courseForm = new FormGroup({
-      id: new FormControl(null),
-      name: new FormControl(null),
-      date: new FormControl(null),
-      length: new FormControl(null),
-      description: new FormControl(null),
-      authors: new FormControl(null)
+      id: new FormControl(null, Validators.required),
+      name: new FormControl(null, Validators.required),
+      date: new FormControl(null, Validators.required),
+      length: new FormControl(null, Validators.required),
+      description: new FormControl(null, Validators.required),
+      authors: new FormControl(null, Validators.required)
     });
   }
 
@@ -53,6 +53,10 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
   ) {
     super();
     this._createForm();
+  }
+
+  onSubmit() {
+    console.log(this.courseForm?.value);
   }
 
   ngOnInit() {
