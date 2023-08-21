@@ -1,15 +1,20 @@
 <app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
-<form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
-  <label htmlFor="title">Title:</label>
-  <input
-    required
-    placeholder="type title..."
-    type="text"
-    name="title"
-    id="title"
-    [(ngModel)]="course.name"
-    formControlName="id"
-  />
+<form [formGroup]="courseForm">
+  <div>
+    <label htmlFor="title">Title:</label>
+    <input
+      required
+      placeholder="type title..."
+      type="text"
+      name="title"
+      id="title"
+      formControlName="id"
+      maxlength="50"
+    />
+    <!-- <div *ngIf="title.invalid && (title.dirty || title.touched)">
+      <div *ngIf="title.errors.required">Title is required.</div>
+    </div> -->
+  </div>
 
   <label htmlFor="description"> Description:</label>
   <textarea
@@ -18,7 +23,6 @@
     name="description"
     id="description"
     minLength="2"
-    [(ngModel)]="course.description"
     formControlName="description"
     >{{ course.description }}</textarea
   >
@@ -36,7 +40,7 @@
   <app-authors-input (authorsEvent)="getAuthors($event)"></app-authors-input>
 
   <div>
-    <button (click)="save()" type="submit" [disabled]="!myForm.valid">
+    <button (click)="save()" type="submit" [disabled]="!courseForm.valid">
       Save
     </button>
     <button (click)="cancel()">Cancel</button>

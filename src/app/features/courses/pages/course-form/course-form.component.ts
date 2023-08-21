@@ -21,18 +21,27 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./course-form.component.scss']
 })
 export class CourseFormComponent extends BaseComponent implements OnDestroy {
-  courseForm: FormGroup | null = null;
+  // courseForm: FormGroup | null = null;
 
-  private _createForm() {
-    this.courseForm = new FormGroup({
-      id: new FormControl(null, Validators.required),
-      name: new FormControl(null, Validators.required),
-      date: new FormControl(null, Validators.required),
-      length: new FormControl(null, Validators.required),
-      description: new FormControl(null, Validators.required),
-      authors: new FormControl(null, Validators.required)
-    });
-  }
+  // private _createForm() {
+  //   this.courseForm = new FormGroup({
+  //     id: new FormControl(null, Validators.required),
+  //     name: new FormControl(null, Validators.required),
+  //     date: new FormControl(null, Validators.required),
+  //     length: new FormControl(null, Validators.required),
+  //     description: new FormControl(null, Validators.required),
+  //     authors: new FormControl(null, Validators.required)
+  //   });
+  // }
+
+  courseForm = new FormGroup({
+    id: new FormControl(null, Validators.required),
+    name: new FormControl(null, Validators.required),
+    date: new FormControl(null, Validators.required),
+    length: new FormControl(null, Validators.required),
+    description: new FormControl(null, Validators.required),
+    authors: new FormControl(null, Validators.required)
+  });
 
   course: ICourseForm = {
     id: undefined,
@@ -52,7 +61,7 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
     private store: Store<IAppState>
   ) {
     super();
-    this._createForm();
+    // this._createForm();
   }
 
   onSubmit() {
