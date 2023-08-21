@@ -3,7 +3,7 @@ import { createAction, props } from '@ngrx/store';
 import { IUser } from 'src/app/core/models/user.model';
 
 export enum EAuthUserActions {
-  SetToken = '[Auth] Set Token',
+  TokenExists = '[Auth] Token Exists',
   GetUserInit = '[Auth] Get user',
   SetUser = '[Auth] Set user',
   LoginUser = '[Auth] Login User',
@@ -12,8 +12,8 @@ export enum EAuthUserActions {
   LogoutUser = '[Auth] Logout User'
 }
 
-export const SetToken = createAction(
-  EAuthUserActions.SetToken,
+export const TokenExists = createAction(
+  EAuthUserActions.TokenExists,
   props<{ token: string }>()
 );
 

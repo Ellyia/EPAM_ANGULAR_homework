@@ -1,11 +1,14 @@
 import { createReducer, on } from '@ngrx/store';
 import {
   DeleteCourse,
-  GetCourses,
+  CoursesInit,
   ResetCourses,
   EditCourse,
   AddCourse,
-  GetCoursesSuccess
+  GetCoursesSuccess,
+  AddCourseSuccess,
+  EditCourseSuccess,
+  DeleteCourseSuccess
 } from '../actions/courses.actions';
 
 import { initialCoursesState } from '../state/courses.state';
@@ -14,11 +17,20 @@ const count = 3;
 
 export const coursesReducer = createReducer(
   initialCoursesState,
-  on(GetCourses, DeleteCourse, EditCourse, AddCourse, (state) => state),
+  on(CoursesInit, DeleteCourse, EditCourse, AddCourse, (state) => state),
   on(GetCoursesSuccess, (state, action) => ({
     ...state,
     courses: [...state.courses, ...action.courses],
     isCoursesToShow: action.courses.length >= count
   })),
-  on(ResetCourses, (state) => ({ ...state, courses: [] }))
+  on(
+    ResetCourses,
+    AddCourseSuccess,
+    EditCourseSuccess,
+    DeleteCourseSuccess,
+    (state) => ({
+      ...state,
+      courses: []
+    })
+  )
 );

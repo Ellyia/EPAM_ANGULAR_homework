@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AuthService } from './core/services/auth.service';
-import { GetUserInit, SetToken } from './store/actions/auth.actions';
+import { GetUserInit, TokenExists } from './store/actions/auth.actions';
 import { selectIsAuth } from './store/selectors/auth.selectors';
 import { IAppState } from './store/state/app.state';
 
@@ -25,8 +25,7 @@ export class AppComponent implements OnInit {
     const token = this.authService.getTokenFromLS();
 
     if (token) {
-      this.store.dispatch(SetToken({ token }));
-      this.store.dispatch(GetUserInit());
+      this.store.dispatch(TokenExists({ token }));
       this.router.navigate(['/courses']);
     }
   }

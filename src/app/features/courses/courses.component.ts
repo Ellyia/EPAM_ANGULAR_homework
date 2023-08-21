@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import {
   DeleteCourse,
-  GetCourses,
+  CoursesInit,
   ResetCourses
 } from 'src/app/store/actions/courses.actions';
 import { Observable, switchMap } from 'rxjs';
@@ -44,7 +44,7 @@ export class CoursesComponent extends BaseComponent implements OnInit {
 
   showCourses(): void {
     this.store.dispatch(
-      GetCourses({
+      CoursesInit({
         start: this.startToLoad,
         count: this.countToLoad,
         textFragment: this.searchStr

@@ -8,7 +8,6 @@ import { AuthService } from 'src/app/core/services/auth.service';
 
 import {
   EAuthUserActions,
-  SetToken,
   LoginError,
   SetUser,
   GetUserInit,
@@ -18,6 +17,16 @@ import {
 @Injectable()
 export class AuthEffects {
   private lsPropToken = 'token';
+
+  GetUserInit$ = createEffect(() =>
+    this.actions.pipe(
+      ofType(EAuthUserActions.TokenExists),
+      map(() => {
+        return GetUserInit();
+      }),
+      catchError(() => of(LoginError({ message: 'Login failed' })))
+    )
+  );
 
   Login$ = createEffect(() =>
     this.actions.pipe(
