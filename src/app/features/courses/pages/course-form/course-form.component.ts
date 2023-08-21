@@ -11,7 +11,11 @@ import { switchMap } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/core/components/base/base.component';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
-import { ResetCourses } from 'src/app/store/actions/courses.actions';
+import {
+  AddCourse,
+  EditCourse,
+  ResetCourses
+} from 'src/app/store/actions/courses.actions';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -106,22 +110,20 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
   }
 
   save(): void {
-    let courseOservable: any;
-
-    this.store.dispatch(ResetCourses());
-
     if (this.course.id) {
-      courseOservable = this.coursesService.updateItem(this.course);
+      this.store.dispatch(EditCourse({ course: this.course }));
     } else {
-      courseOservable = this.coursesService.createCourse(this.course);
+      this.store.dispatch(AddCourse({ course: this.course }));
     }
 
-    this.subs = courseOservable.subscribe(() => {
-      this.router.navigate(['/courses']);
-    });
+    this.reset();
   }
 
   cancel(): void {
+    this.reset();
+  }
+
+  reset(): void {
     this.store.dispatch(ResetCourses());
     this.router.navigate(['/courses']);
   }

@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import {
   LoginUser,
   LogoutUser,
-  SetToken,
+  TokenExists,
   SetUser,
   GetUserInit,
   LoginSuccess
@@ -12,7 +12,7 @@ import { initialUserAuthState } from '../state/auth.state';
 
 export const authUserReducer = createReducer(
   initialUserAuthState,
-  on(SetToken, LoginSuccess, (state, { token }) => ({
+  on(TokenExists, LoginSuccess, (state, { token }) => ({
     ...state,
     token
   })),
