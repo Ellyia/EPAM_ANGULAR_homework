@@ -12,7 +12,7 @@ export class IsAuthenticatedDirective {
   @Input() set appIsAuthenticated(isAuth: boolean) {
     if (isAuth) {
       this.viewContainer.createEmbeddedView(this.templateRef);
-    } else if (!isAuth) {
+    } else {
       this.viewContainer.clear();
     }
   }

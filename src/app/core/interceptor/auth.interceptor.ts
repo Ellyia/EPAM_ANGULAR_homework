@@ -6,20 +6,22 @@ import {
   HttpInterceptor,
   HttpErrorResponse
 } from '@angular/common/http';
-import { finalize, Observable, tap } from 'rxjs';
+import { catchError, finalize, Observable, switchMap, take } from 'rxjs';
 
-import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { LoaderService } from '../services/loader.service';
+import { select, Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { selectToken } from 'src/app/store/selectors/auth.selectors';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private totalRequests = 0;
 
   constructor(
-    private authService: AuthService,
     private router: Router,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private store: Store<IAppState>
   ) {}
 
   intercept(
@@ -29,23 +31,24 @@ export class AuthInterceptor implements HttpInterceptor {
     this.totalRequests++;
     this.loaderService.setLoader(true);
 
-    const token = this.authService.getToken();
+    return this.store.pipe(
+      select(selectToken),
+      take(1),
+      switchMap((token) => {
+        const authRequest = request.clone({
+          headers: request.headers.set('Authorization', token)
+        });
 
-    const authRequest = request.clone({
-      headers: request.headers.set('Authorization', token)
-    });
-
-    return next.handle(authRequest).pipe(
-      tap({
-        error: (err) => {
-          if (err instanceof HttpErrorResponse) {
-            if (err.status === 401) {
-              alert('Unauthorized, oops');
-
-              this.router.navigate(['/login']);
-            }
+        return next.handle(authRequest);
+      }),
+      catchError((err) => {
+        if (err instanceof HttpErrorResponse) {
+          if (err.status === 401) {
+            alert('Unauthorized, oops');
+            this.router.navigate(['/login']);
           }
         }
+        throw err;
       }),
       finalize(() => {
         this.totalRequests--;

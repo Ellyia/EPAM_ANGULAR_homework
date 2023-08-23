@@ -1,42 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { Component } from '@angular/core';
 
-import { Router } from '@angular/router';
 import { IUserName } from '../../models/user-name.model';
 import { BaseComponent } from '../base/base.component';
+import {
+  selectIsAuth,
+  selectUser
+} from 'src/app/store/selectors/auth.selectors';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { LogoutUser } from 'src/app/store/actions/auth.actions';
+import { ResetCourses } from 'src/app/store/actions/courses.actions';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent extends BaseComponent implements OnInit {
+export class HeaderComponent extends BaseComponent {
   title = 'Video course';
 
-  user: IUserName = {
-    firstName: '',
-    lastName: ''
-  };
+  isAuth$: Observable<boolean> = this.store.select(selectIsAuth);
+  user$: Observable<IUserName> = this.store.select(selectUser);
 
-  constructor(private authServise: AuthService, private router: Router) {
+  constructor(private store: Store<IAppState>) {
     super();
   }
 
-  ngOnInit(): void {
-    this.subs = this.authServise
-      .getUserInfoObservable()
-      .subscribe((userInfo) => {
-        this.user.firstName = userInfo?.name?.first || '';
-        this.user.lastName = userInfo?.name?.last || '';
-      });
-  }
-
-  isAuth(): boolean {
-    return this.authServise.isAuthenticated();
-  }
-
   logout(): void {
-    this.authServise.logout();
-    this.router.navigate(['/login']);
+    this.store.dispatch(LogoutUser());
+    this.store.dispatch(ResetCourses());
   }
 }

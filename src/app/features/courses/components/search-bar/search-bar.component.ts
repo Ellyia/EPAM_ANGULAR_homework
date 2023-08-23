@@ -1,16 +1,4 @@
-import {
-  AfterContentChecked,
-  AfterContentInit,
-  AfterViewChecked,
-  AfterViewInit,
-  Component,
-  DoCheck,
-  OnChanges,
-  OnInit,
-  Output,
-  EventEmitter,
-  OnDestroy
-} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs';
 import { filter, debounceTime } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/core/components/base/base.component';
@@ -20,18 +8,7 @@ import { BaseComponent } from 'src/app/core/components/base/base.component';
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.scss']
 })
-export class SearchBarComponent
-  extends BaseComponent
-  implements
-    OnInit,
-    OnChanges,
-    DoCheck,
-    AfterContentInit,
-    AfterContentChecked,
-    AfterViewInit,
-    AfterViewChecked,
-    OnDestroy
-{
+export class SearchBarComponent extends BaseComponent implements OnInit {
   @Output() searchItems = new EventEmitter<string>();
 
   subject = new Subject<string>();
@@ -55,29 +32,5 @@ export class SearchBarComponent
       .subscribe((searchStr: string) => {
         this.searchItems.emit(searchStr);
       });
-  }
-
-  ngOnChanges(): void {
-    console.log('ngOnChanges');
-  }
-
-  ngDoCheck(): void {
-    console.log('ngDoCheck');
-  }
-
-  ngAfterContentInit(): void {
-    console.log('ngAfterContentInit');
-  }
-
-  ngAfterContentChecked(): void {
-    console.log('ngAfterContentChecked');
-  }
-
-  ngAfterViewInit(): void {
-    console.log('ngAfterViewInit');
-  }
-
-  ngAfterViewChecked(): void {
-    console.log('ngAfterViewChecked');
   }
 }

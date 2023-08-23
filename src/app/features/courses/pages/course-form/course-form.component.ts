@@ -9,6 +9,13 @@ import { EMPTY } from 'rxjs';
 import { ICourse } from '../../models/course.model';
 import { switchMap } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/core/components/base/base.component';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import {
+  AddCourse,
+  EditCourse,
+  ResetCourses
+} from 'src/app/store/actions/courses.actions';
 
 @Component({
   selector: 'app-course-form',
@@ -30,7 +37,8 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
   constructor(
     private router: Router,
     private readonly activatedRoute: ActivatedRoute,
-    private coursesService: CoursesService
+    private coursesService: CoursesService,
+    private store: Store<IAppState>
   ) {
     super();
   }
@@ -45,6 +53,7 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
             return this.coursesService.getItemById(id);
           } else {
             this.breadcrumbs.push({ label: 'Add course' });
+            this.store.dispatch(ResetCourses());
 
             return EMPTY;
           }
@@ -53,6 +62,8 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
       .subscribe((course: ICourse) => {
         this.course = course;
         this.breadcrumbs.push({ label: this.course.name as string });
+
+        this.store.dispatch(ResetCourses());
       });
   }
 
@@ -69,20 +80,21 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
   }
 
   save(): void {
-    let courseOservable: any;
     if (this.course.id) {
-      courseOservable = this.coursesService.updateItem(this.course);
+      this.store.dispatch(EditCourse({ course: this.course }));
     } else {
-      courseOservable = this.coursesService.createCourse(this.course);
+      this.store.dispatch(AddCourse({ course: this.course }));
     }
 
-    this.subs = courseOservable.subscribe((resp: ICourse) => {
-      console.log(resp);
-      this.router.navigate(['/courses']);
-    });
+    this.reset();
   }
 
   cancel(): void {
+    this.reset();
+  }
+
+  reset(): void {
+    this.store.dispatch(ResetCourses());
     this.router.navigate(['/courses']);
   }
 }

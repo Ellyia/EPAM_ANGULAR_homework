@@ -2,9 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ICourse } from './models/course.model';
-import { CoursesService } from './services/courses.service';
 import { IBreadcrumb } from '../../core/models/breadcrumb.model';
 import { BaseComponent } from 'src/app/core/components/base/base.component';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import {
+  DeleteCourse,
+  CoursesInit,
+  ResetCourses
+} from 'src/app/store/actions/courses.actions';
+import { Observable, switchMap } from 'rxjs';
+import {
+  selectCoursesList,
+  isCoursesToShow
+} from 'src/app/store/selectors/courses.selectors';
 
 @Component({
   selector: 'app-courses',
@@ -12,7 +23,9 @@ import { BaseComponent } from 'src/app/core/components/base/base.component';
   styleUrls: ['./courses.component.scss']
 })
 export class CoursesComponent extends BaseComponent implements OnInit {
-  courses: ICourse[] = [];
+  courses$: Observable<ICourse[]> = this.store.select(selectCoursesList);
+  isCoursesToShow$: Observable<boolean> = this.store.select(isCoursesToShow);
+
   isCourses: boolean = false;
   isCoursesToShow: boolean = false;
   breadcrumbs: IBreadcrumb[] = [{ url: '/courses', label: 'Courses' }];
@@ -21,7 +34,7 @@ export class CoursesComponent extends BaseComponent implements OnInit {
   countToLoad = 3;
   startToLoad = 0;
 
-  constructor(private coursesService: CoursesService, private router: Router) {
+  constructor(private router: Router, private store: Store<IAppState>) {
     super();
   }
 
@@ -30,17 +43,29 @@ export class CoursesComponent extends BaseComponent implements OnInit {
   }
 
   showCourses(): void {
-    this.subs = this.coursesService
-      .getList(this.startToLoad, this.countToLoad, this.searchStr)
-      .subscribe((courses) => {
-        this.isCoursesToShow = courses.length >= this.countToLoad;
-        this.courses = [...this.courses, ...courses];
+    this.store.dispatch(
+      CoursesInit({
+        start: this.startToLoad,
+        count: this.countToLoad,
+        textFragment: this.searchStr
+      })
+    );
 
-        this.isCourses = this.courses.length > 0;
+    this.subs = this.courses$
+      .pipe(
+        switchMap((courses) => {
+          this.isCourses = courses.length > 0;
+
+          return this.isCoursesToShow$;
+        })
+      )
+      .subscribe((isCoursesToShow) => {
+        this.isCoursesToShow = isCoursesToShow;
       });
   }
 
   onAddCourse(): void {
+    this.startToLoad = 0;
     this.router.navigate(['/courses/new']);
   }
 
@@ -53,18 +78,12 @@ export class CoursesComponent extends BaseComponent implements OnInit {
     return course.id;
   }
 
-  editCourse(id: number): void {
-    this.router.navigate([`/courses/:${id}`]);
-  }
-
-  deleteCourse($event: number): void {
+  deleteCourse(id: number): void {
     let confirmOnDelete = confirm('Do you really want to delete this course?');
     if (confirmOnDelete) {
-      this.subs = this.coursesService.removeItem($event).subscribe(() => {
-        this.resetPaging();
+      this.store.dispatch(DeleteCourse({ id }));
 
-        this.showCourses();
-      });
+      this.startToLoad = 0;
     }
   }
 
@@ -76,7 +95,7 @@ export class CoursesComponent extends BaseComponent implements OnInit {
   }
 
   resetPaging(): void {
-    this.courses = [];
+    this.store.dispatch(ResetCourses());
     this.startToLoad = 0;
   }
 }

@@ -7,7 +7,7 @@
 
   <div *ngIf="isCourses">
     <app-course-card
-      *ngFor="let course of courses; trackBy: identify"
+      *ngFor="let course of courses$ | async; trackBy: identify"
       [course]="course"
       (deleteItem)="deleteCourse($event)"
     >
