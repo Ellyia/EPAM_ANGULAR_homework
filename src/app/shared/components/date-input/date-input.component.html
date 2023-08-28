@@ -4,6 +4,10 @@
   type="text"
   name="date"
   id="date"
-  [ngModel]="date"
-  (ngModelChange)="dateChanged($event)"
+  [value]="value || ''"
+  (input)="onInputChange($event)"
+  (blur)="markAsTouched()"
 />
+
+<!-- [ngModel]="date" -->
+<!-- (ngModelChange)="dateChanged($event)" -->

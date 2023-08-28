@@ -1,9 +1,8 @@
-<label htmlFor="authors"> Authors:</label>
+<label htmlFor="authors-{{ i }}"> </label>
 <input
   placeholder="add autors..."
   type="text"
   name="authors"
-  id="authors"
-  [ngModel]="authors"
-  (ngModelChange)="dateChanged($event)"
+  id="authors-{{ i }}"
+  [formControlName]="i"
 />

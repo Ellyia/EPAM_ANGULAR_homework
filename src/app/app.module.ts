@@ -35,12 +35,12 @@ import { AuthEffects } from './store/effects/auth.effects';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,
+    // FormsModule,
     StoreModule.forRoot(appReducers),
     EffectsModule.forRoot([CoursesEffects, AuthEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
-    StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
-    ReactiveFormsModule
+    StoreRouterConnectingModule.forRoot({ stateKey: 'router' })
+    // ReactiveFormsModule
   ],
   providers: [
     {

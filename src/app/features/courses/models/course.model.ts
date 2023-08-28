@@ -5,5 +5,9 @@ export interface ICourse {
   length: number;
   description: string;
   isTopRated: boolean;
-  authors: string;
+  authors: {
+    id: number;
+    name: string;
+    lastName: string;
+  }[];
 }

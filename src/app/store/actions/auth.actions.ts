@@ -26,7 +26,7 @@ export const SetUser = createAction(
 
 export const LoginUser = createAction(
   EAuthUserActions.LoginUser,
-  props<{ login: string; password: string }>()
+  props<{ login: string | null; password: string | null }>()
 );
 
 export const LoginSuccess = createAction(

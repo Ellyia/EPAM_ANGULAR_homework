@@ -1,5 +1,5 @@
 export interface ICourseForm {
-  id: number | undefined;
+  id: number | undefined; // | null
   name: string | undefined;
   date: string | undefined;
   length: number | undefined;

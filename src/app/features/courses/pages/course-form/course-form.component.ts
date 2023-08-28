@@ -17,7 +17,7 @@ import {
   ResetCourses
 } from 'src/app/store/actions/courses.actions';
 
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-course-form',
@@ -25,36 +25,20 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./course-form.component.scss']
 })
 export class CourseFormComponent extends BaseComponent implements OnDestroy {
-  // courseForm: FormGroup | null = null;
-
-  // private _createForm() {
-  //   this.courseForm = new FormGroup({
-  //     id: new FormControl(null, Validators.required),
-  //     name: new FormControl(null, Validators.required),
-  //     date: new FormControl(null, Validators.required),
-  //     length: new FormControl(null, Validators.required),
-  //     description: new FormControl(null, Validators.required),
-  //     authors: new FormControl(null, Validators.required)
-  //   });
-  // }
-
   courseForm = new FormGroup({
-    id: new FormControl(null, Validators.required),
-    name: new FormControl(null, Validators.required),
-    date: new FormControl(null, Validators.required),
-    length: new FormControl(null, Validators.required),
-    description: new FormControl(null, Validators.required),
-    authors: new FormControl(null, Validators.required)
+    id: new FormControl<number | null>(null, Validators.required),
+    name: new FormControl<string | null>(null, Validators.required),
+    date: new FormControl<string | null>('', Validators.required),
+    length: new FormControl<number | null>(null, Validators.required),
+    description: new FormControl<string | null>(null, Validators.required),
+    authors: new FormArray([
+      new FormGroup({
+        id: new FormControl<number | null>(null),
+        name: new FormControl<string | null>(null),
+        lastName: new FormControl<string | null>(null)
+      })
+    ])
   });
-
-  course: ICourseForm = {
-    id: undefined,
-    name: undefined,
-    date: undefined,
-    length: undefined,
-    description: undefined,
-    authors: undefined
-  };
 
   breadcrumbs: IBreadcrumb[] = [{ url: '/courses', label: 'Courses' }];
 
@@ -65,11 +49,6 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
     private store: Store<IAppState>
   ) {
     super();
-    // this._createForm();
-  }
-
-  onSubmit() {
-    console.log(this.courseForm?.value);
   }
 
   ngOnInit() {
@@ -90,33 +69,35 @@ export class CourseFormComponent extends BaseComponent implements OnDestroy {
         })
       )
       .subscribe((course: ICourse) => {
-        this.course = course;
-        this.breadcrumbs.push({ label: this.course.name as string });
+        console.log(course);
+
+        this.courseForm.patchValue(course);
+
+        this.breadcrumbs.push({ label: this.courseForm.value.name as string });
 
         this.store.dispatch(ResetCourses());
       });
   }
 
-  getDuration(duration: number): void {
-    this.course.length = duration;
-  }
-
-  getDate(date: string): void {
-    this.course.date = date;
-  }
-
-  getAuthors(authors: string): void {
-    this.course.authors = authors;
-  }
-
   save(): void {
-    if (this.course.id) {
-      this.store.dispatch(EditCourse({ course: this.course }));
-    } else {
-      this.store.dispatch(AddCourse({ course: this.course }));
-    }
+    console.log('courseForm:', this.courseForm?.value);
 
-    this.reset();
+    const coursePayload = {
+      id: this.courseForm.value.id,
+      name: this.courseForm.value.name,
+      date: this.courseForm.value.date,
+      length: this.courseForm.value.length,
+      description: this.courseForm.value.description,
+      authors: this.courseForm.value.authors
+    };
+    console.log('coursePayload:', coursePayload);
+    // if (coursePayload.id) {
+    //   this.store.dispatch(EditCourse({ course: coursePayload }));
+    // } else {
+    //   this.store.dispatch(AddCourse({ course: coursePayload }));
+    // }
+
+    // this.reset();
   }
 
   cancel(): void {

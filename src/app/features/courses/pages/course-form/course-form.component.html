@@ -1,6 +1,10 @@
 <app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
-<form [formGroup]="courseForm">
+<form [formGroup]="courseForm" (ngSubmit)="save()">
+  <pre>{{ courseForm.value | json }}</pre>
   <div>
+    <!-- <div *ngIf="title.invalid && (title.dirty || title.touched)">
+      <div *ngIf="title.errors.required">Title is required.</div>
+    </div> -->
     <label htmlFor="title">Title:</label>
     <input
       required
@@ -8,12 +12,9 @@
       type="text"
       name="title"
       id="title"
-      formControlName="id"
+      formControlName="name"
       maxlength="50"
     />
-    <!-- <div *ngIf="title.invalid && (title.dirty || title.touched)">
-      <div *ngIf="title.errors.required">Title is required.</div>
-    </div> -->
   </div>
 
   <label htmlFor="description"> Description:</label>
@@ -24,25 +25,36 @@
     id="description"
     minLength="2"
     formControlName="description"
-    >{{ course.description }}</textarea
   >
+    {{ courseForm.value.description }}
+  </textarea>
 
-  <app-duration-input
-    [length]="course.length"
-    (durationEvent)="getDuration($event)"
-  ></app-duration-input>
+  <app-duration-input formControlName="length"></app-duration-input>
 
-  <app-date-input
-    [date]="course.date"
-    (dateEvent)="getDate($event)"
-  ></app-date-input>
+  <app-date-input formControlName="date"></app-date-input>
 
-  <app-authors-input (authorsEvent)="getAuthors($event)"></app-authors-input>
+  <fieldset formArrayName="authors">
+    <legend>Authors:</legend>
+    <div
+      class="form-field"
+      *ngFor="let author of courseForm.controls.authors.controls; index as i"
+    >
+      <!-- <app-authors-input [author]="author" *ngFor="let author of courseForm.controls.authors.controls; index as i"></app-authors-input> -->
+      <div>
+        <label htmlFor="{{ i }}"> </label>
+        <input
+          placeholder="add autors..."
+          type="text"
+          name="authors"
+          id="authors-{{ i }}"
+          [formControlName]="i"
+        />
+      </div>
+    </div>
+  </fieldset>
 
   <div>
-    <button (click)="save()" type="submit" [disabled]="!courseForm.valid">
-      Save
-    </button>
+    <button type="submit" [disabled]="!courseForm.valid">Save</button>
     <button (click)="cancel()">Cancel</button>
   </div>
 </form>

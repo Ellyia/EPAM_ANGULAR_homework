@@ -1,13 +1,13 @@
 <div class="login">
   <h3>Login</h3>
-  <form action="#">
+  <form [formGroup]="loginDataF" (ngSubmit)="login()">
     <label htmlFor="email">E-mail: <span>*required</span></label>
     <input
       type="text"
       name="email"
       id="email"
       placeholder="Enter e-mail"
-      [(ngModel)]="loginData.login"
+      formControlName="login"
       required
     />
 
@@ -20,13 +20,13 @@
       name="password"
       id="password"
       placeholder="Enter password"
-      [(ngModel)]="loginData.password"
+      formControlName="password"
       required
     />
 
     <div>
       <a href="#">Forgot password?</a>
-      <button (click)="login()">Login</button>
+      <button [disabled]="!loginDataF.valid">Login</button>
     </div>
   </form>
 </div>

@@ -14,10 +14,16 @@ import {
 })
 export class AuthorsInputComponent {
   @Input() authors?: [];
+  @Input() author?: {
+    id: number | null;
+    name: string | null;
+    lastName: string | null;
+  };
 
-  @Output() authorsEvent = new EventEmitter<string>();
+  // @Output() authorsEvent = new EventEmitter<string>();
 
-  dateChanged(value: string) {
-    this.authorsEvent.emit(value);
-  }
+  @Input() i?: any;
+  // dateChanged(value: string) {
+  //   this.authorsEvent.emit(value);
+  // }
 }
