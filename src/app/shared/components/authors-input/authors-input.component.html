@@ -1,8 +1,23 @@
-<label htmlFor="authors-{{ i }}"> </label>
-<input
-  placeholder="add autors..."
-  type="text"
-  name="authors"
-  id="authors-{{ i }}"
-  [formControlName]="i"
-/>
+<form [formGroup]="authorForm">
+  <label htmlFor="authors"> Authors: </label>
+  <input
+    placeholder="add autors..."
+    type="text"
+    name="authors"
+    formControlName="searchControl"
+    id="authors"
+    (blur)="sendAuthors()"
+  />
+</form>
+<ul *ngIf="filteredAuthors.length > 0">
+  <li *ngFor="let author of filteredAuthors" (click)="selectAuthor(author)">
+    {{ author.name }}
+  </li>
+</ul>
+
+<div class="authors">
+  <div *ngFor="let author of authorsOfCourse" class="author">
+    <div>{{ author.name }} {{ author.lastName }}</div>
+    <button type="button" (click)="deleteAuthor(author.id)">x</button>
+  </div>
+</div>

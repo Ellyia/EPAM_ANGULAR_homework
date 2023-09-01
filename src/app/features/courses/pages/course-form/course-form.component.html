@@ -24,6 +24,7 @@
     name="description"
     id="description"
     minLength="2"
+    maxlength="500"
     formControlName="description"
   >
     {{ courseForm.value.description }}
@@ -33,25 +34,11 @@
 
   <app-date-input formControlName="date"></app-date-input>
 
-  <fieldset formArrayName="authors">
-    <legend>Authors:</legend>
-    <div
-      class="form-field"
-      *ngFor="let author of courseForm.controls.authors.controls; index as i"
-    >
-      <!-- <app-authors-input [author]="author" *ngFor="let author of courseForm.controls.authors.controls; index as i"></app-authors-input> -->
-      <div>
-        <label htmlFor="{{ i }}"> </label>
-        <input
-          placeholder="add autors..."
-          type="text"
-          name="authors"
-          id="authors-{{ i }}"
-          [formControlName]="i"
-        />
-      </div>
-    </div>
-  </fieldset>
+  <app-authors-input
+    [authorsList]="authorsList"
+    [authorsOfCourse]="authorsOfCourse"
+    (authorsEvent)="getAuthorsOFCourse($event)"
+  ></app-authors-input>
 
   <div>
     <button type="submit" [disabled]="!courseForm.valid">Save</button>

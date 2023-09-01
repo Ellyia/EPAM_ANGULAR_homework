@@ -29,7 +29,7 @@ export class DurationInputComponent implements ControlValueAccessor {
   onTouched = () => {};
 
   onInputChange(e: any): void {
-    this.value = e.target.value; // changes in form
+    this.value = e.target.value;
     this.onChange(this.value);
   }
 
