@@ -8,3 +8,9 @@
 body {
   background-color: rgb(235, 232, 232);
 }
+
+button[disabled] {
+  pointer-events: none;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-color: rgba(0, 0, 0, 0.1);
+}

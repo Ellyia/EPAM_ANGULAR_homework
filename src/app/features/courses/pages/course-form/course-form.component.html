@@ -2,37 +2,71 @@
 <form [formGroup]="courseForm" (ngSubmit)="save()">
   <pre>{{ courseForm.value | json }}</pre>
   <div>
-    <!-- <div *ngIf="title.invalid && (title.dirty || title.touched)">
-      <div *ngIf="title.errors.required">Title is required.</div>
-    </div> -->
-    <label htmlFor="title">Title:</label>
+    <div class="label-req">
+      <label htmlFor="name">Title:</label>
+      <div class="required" *ngIf="isCommonRequired('name')">
+        <div *ngIf="courseForm.get('name')?.hasError('required')">
+          {{ requiredMsq }}
+        </div>
+        <div *ngIf="courseForm.get('name')?.hasError('maxlength')">
+          Max length = 50
+        </div>
+      </div>
+    </div>
     <input
-      required
       placeholder="type title..."
       type="text"
-      name="title"
-      id="title"
+      name="name"
+      id="name"
       formControlName="name"
-      maxlength="50"
     />
   </div>
 
-  <label htmlFor="description"> Description:</label>
-  <textarea
-    required
-    placeholder="type description..."
-    name="description"
-    id="description"
-    minLength="2"
-    maxlength="500"
-    formControlName="description"
-  >
-    {{ courseForm.value.description }}
-  </textarea>
+  <div>
+    <div class="label-req">
+      <label htmlFor="description"> Description:</label>
+      <div class="required" *ngIf="isCommonRequired('description')">
+        <div *ngIf="courseForm.get('description')?.hasError('required')">
+          {{ requiredMsq }}
+        </div>
+        <div *ngIf="courseForm.get('description')?.hasError('maxlength')">
+          * Max length: 500
+        </div>
+        <div *ngIf="courseForm.get('description')?.hasError('minlength')">
+          * Min length: 2
+        </div>
+      </div>
+    </div>
+    <textarea
+      placeholder="type description..."
+      name="description"
+      id="description"
+      formControlName="description"
+    >
+      {{ courseForm.value.description }}
+    </textarea>
+  </div>
 
-  <app-duration-input formControlName="length"></app-duration-input>
+  <div>
+    <div class="required" *ngIf="isCommonRequired('length')">
+      <div *ngIf="courseForm.get('length')?.hasError('required')">
+        {{ requiredMsq }}
+      </div>
+      <div *ngIf="courseForm.get('length')?.hasError('pattern')">
+        * only numbers are allowed
+      </div>
+    </div>
+    <app-duration-input formControlName="length"></app-duration-input>
+  </div>
 
-  <app-date-input formControlName="date"></app-date-input>
+  <div>
+    <div class="required" *ngIf="isCommonRequired('date')">
+      <div *ngIf="courseForm.get('date')?.hasError('required')">
+        {{ requiredMsq }}
+      </div>
+    </div>
+    <app-date-input formControlName="date"></app-date-input>
+  </div>
 
   <app-authors-input
     [authorsList]="authorsList"

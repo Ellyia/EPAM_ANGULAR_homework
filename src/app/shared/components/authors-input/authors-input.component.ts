@@ -2,21 +2,37 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  forwardRef,
   Input,
   OnInit,
   Output
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  NG_VALUE_ACCESSOR
+} from '@angular/forms';
 import { BaseComponent } from 'src/app/core/components/base/base.component';
 import { IAuthor } from 'src/app/features/courses/models/author.model';
 
+const AUTHORS_INPUT_CONTROL_VALUE_ACCESSOR: any = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => AuthorsInputComponent),
+  multi: true
+};
 @Component({
   selector: 'app-authors-input',
   templateUrl: './authors-input.component.html',
   styleUrls: ['./authors-input.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [AUTHORS_INPUT_CONTROL_VALUE_ACCESSOR]
 })
-export class AuthorsInputComponent extends BaseComponent implements OnInit {
+export class AuthorsInputComponent
+  extends BaseComponent
+  implements OnInit, ControlValueAccessor
+{
   @Input() authorsList: IAuthor[] = [];
   @Input() authorsOfCourse: IAuthor[] = [];
 
@@ -33,6 +49,16 @@ export class AuthorsInputComponent extends BaseComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     super();
+  }
+
+  writeValue(obj: any): void {
+    throw new Error('Method not implemented.');
+  }
+  registerOnChange(fn: any): void {
+    throw new Error('Method not implemented.');
+  }
+  registerOnTouched(fn: any): void {
+    throw new Error('Method not implemented.');
   }
 
   ngOnInit() {

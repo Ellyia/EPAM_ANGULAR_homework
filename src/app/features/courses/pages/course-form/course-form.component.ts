@@ -30,11 +30,21 @@ export class CourseFormComponent
   implements OnInit, OnDestroy
 {
   courseForm = new FormGroup({
-    id: new FormControl<number | null>(null, Validators.required),
-    name: new FormControl<string | null>(null, Validators.required),
+    id: new FormControl<number | null>(null),
+    name: new FormControl<string | null>('', [
+      Validators.required,
+      Validators.maxLength(50)
+    ]),
     date: new FormControl<string | null>('', Validators.required),
-    length: new FormControl<number | null>(null, Validators.required),
-    description: new FormControl<string | null>(null, Validators.required),
+    length: new FormControl<number | null>(null, [
+      Validators.required,
+      Validators.pattern(/^[0-9]+/)
+    ]),
+    description: new FormControl<string | null>(null, [
+      Validators.required,
+      Validators.maxLength(500),
+      Validators.minLength(2)
+    ]),
     authors: new FormArray([])
   });
 
@@ -51,6 +61,8 @@ export class CourseFormComponent
   ) {
     super();
   }
+
+  requiredMsq = '* Required';
 
   ngOnInit() {
     this.subs = this.activatedRoute.paramMap
@@ -104,10 +116,7 @@ export class CourseFormComponent
   getAuthorsOFCourse(authors: any): void {
     console.log('authors', authors);
 
-    // this.setAuthors(authors);
-
-    // this.authorsList = authors;
-    this.courseForm.value.authors = authors; // у якому вигляді має передаватись масив авторів iз authors-input.component? як у ICourse.authors
+    this.courseForm.value.authors = authors;
   }
 
   save(): void {
@@ -149,5 +158,12 @@ export class CourseFormComponent
         })
       );
     });
+  }
+
+  isCommonRequired(name: string) {
+    return (
+      this.courseForm.get(name)?.invalid &&
+      (this.courseForm.get(name)?.dirty || this.courseForm.get(name)?.touched)
+    );
   }
 }
