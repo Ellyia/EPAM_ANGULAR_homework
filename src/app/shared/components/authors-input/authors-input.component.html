@@ -10,7 +10,11 @@
   />
 </form>
 <ul *ngIf="filteredAuthors.length > 0">
-  <li *ngFor="let author of filteredAuthors" (click)="selectAuthor(author)">
+  <li
+    *ngFor="let author of filteredAuthors"
+    (click)="selectAuthor(author)"
+    (click)="sendAuthors()"
+  >
     {{ author.name }}
   </li>
 </ul>

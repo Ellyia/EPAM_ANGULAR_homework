@@ -79,8 +79,6 @@ export class AuthorsInputComponent
 
     this.authorsOfCourse.push(author);
 
-    this.sendAuthors();
-
     this.searchControl.setValue('');
     this.filteredAuthors = [];
   }

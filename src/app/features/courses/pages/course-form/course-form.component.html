@@ -30,10 +30,18 @@
           {{ requiredMsq }}
         </div>
         <div *ngIf="courseForm.get('description')?.hasError('maxlength')">
-          * Max length: 500
+          * Max length:
+          {{
+            courseForm.controls.description.getError('maxlength').requiredLength
+          }}
+          characters
         </div>
         <div *ngIf="courseForm.get('description')?.hasError('minlength')">
-          * Min length: 2
+          * Min length:
+          {{
+            courseForm.controls.description.getError('minlength').requiredLength
+          }}
+          characters
         </div>
       </div>
     </div>
