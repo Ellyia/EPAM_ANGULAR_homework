@@ -93,7 +93,6 @@ export class CourseFormComponent
           length: course.length,
           description: course.description,
           date: dateForUI
-          // date: course.date // записую формат UI. Окремо? Як авторів?
         });
 
         this.setAuthors(course.authors);
@@ -126,7 +125,6 @@ export class CourseFormComponent
       id: this.courseForm.value.id,
       name: this.courseForm.value.name,
       date: dateForBack,
-      // date: this.courseForm.value.date, // записую формат для беку
       length: this.courseForm.value.length,
       description: this.courseForm.value.description,
       authors: this.courseForm.value.authors

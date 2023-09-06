@@ -27,7 +27,7 @@ export class LoginComponent extends BaseComponent {
       login: this.loginDataF.value.login || null,
       password: this.loginDataF.value.password || null
     };
-    console.log(loginPayload);
+
     this.store.dispatch(LoginUser(loginPayload));
   }
 }

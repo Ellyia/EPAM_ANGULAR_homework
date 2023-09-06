@@ -36,7 +36,6 @@ export class DateInputComponent implements ControlValueAccessor {
   }
 
   writeValue(value: any) {
-    console.log('date', value);
     this.value = value || '';
   }
 

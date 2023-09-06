@@ -37,7 +37,6 @@ export class DurationInputComponent implements ControlValueAccessor {
   }
 
   writeValue(value: any) {
-    console.log('duration', value);
     this.value = value || null;
   }
 
