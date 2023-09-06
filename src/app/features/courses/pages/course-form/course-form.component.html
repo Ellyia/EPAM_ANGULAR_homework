@@ -9,7 +9,11 @@
           {{ requiredMsq }}
         </div>
         <div *ngIf="courseForm.get('name')?.hasError('maxlength')">
-          Max length = 50
+          * max length:
+          {{
+            courseForm.controls.name.getError('maxlength').requiredLength
+          }}
+          characters
         </div>
       </div>
     </div>
@@ -60,7 +64,7 @@
       <div *ngIf="courseForm.get('length')?.hasError('required')">
         {{ requiredMsq }}
       </div>
-      <div *ngIf="courseForm.get('length')?.hasError('pattern')">
+      <div *ngIf="courseForm.get('length')?.hasError('onlyNums')">
         * only numbers are allowed
       </div>
     </div>
@@ -72,15 +76,30 @@
       <div *ngIf="courseForm.get('date')?.hasError('required')">
         {{ requiredMsq }}
       </div>
+      <div *ngIf="courseForm.get('date')?.hasError('dateValid')">
+        * only dd/mm/yyyy format valid
+      </div>
     </div>
     <app-date-input formControlName="date"></app-date-input>
   </div>
 
-  <app-authors-input
-    [authorsList]="authorsList"
-    [authorsOfCourse]="authorsOfCourse"
-    (authorsEvent)="getAuthorsOFCourse($event)"
-  ></app-authors-input>
+  <div>
+    <div class="required" *ngIf="isCommonRequired('authors')">
+      <div *ngIf="courseForm.get('authors')?.hasError('required')">
+        {{ requiredMsq }}
+      </div>
+      <div
+        *ngIf="courseForm.get('authors')?.hasError('arrayMinLengthValidator')"
+      >
+        * should be at least 1 author
+      </div>
+    </div>
+    <app-authors-input
+      [authorsList]="authorsList"
+      [authorsOfCourse]="authorsOfCourse"
+      (authorsEvent)="getAuthorsOFCourse($event)"
+    ></app-authors-input>
+  </div>
 
   <div>
     <button type="submit" [disabled]="!courseForm.valid">Save</button>

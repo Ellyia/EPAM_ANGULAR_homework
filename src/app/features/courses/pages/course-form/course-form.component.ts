@@ -19,6 +19,9 @@ import {
 
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAuthor } from '../../models/author.model';
+import { onlyNums } from 'src/app/shared/validators/numbers-only.validator';
+import { dateValid } from 'src/app/shared/validators/date.validator';
+import { arrayMinLengthValidator } from 'src/app/shared/validators/at-least-one-character.validator';
 
 @Component({
   selector: 'app-course-form',
@@ -35,17 +38,17 @@ export class CourseFormComponent
       Validators.required,
       Validators.maxLength(50)
     ]),
-    date: new FormControl<string | null>('', Validators.required),
+    date: new FormControl<string | null>('', [Validators.required, dateValid]),
     length: new FormControl<number | null>(null, [
       Validators.required,
-      Validators.pattern(/^[0-9]+/)
+      onlyNums
     ]),
     description: new FormControl<string | null>(null, [
       Validators.required,
       Validators.maxLength(500),
       Validators.minLength(2)
     ]),
-    authors: new FormArray([])
+    authors: new FormArray([], [arrayMinLengthValidator])
   });
 
   authorsList: IAuthor[] = [];

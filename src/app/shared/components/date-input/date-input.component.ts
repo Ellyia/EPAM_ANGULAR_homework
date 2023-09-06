@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   forwardRef,
@@ -18,7 +18,6 @@ const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   selector: 'app-date-input',
   templateUrl: './date-input.component.html',
   styleUrls: ['./date-input.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
 })
 export class DateInputComponent implements ControlValueAccessor {
@@ -27,9 +26,13 @@ export class DateInputComponent implements ControlValueAccessor {
   onChange = (value: any) => {};
   onTouched = () => {};
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   onInputChange(e: any): void {
-    this.value = e.target.value; // changes in form
+    this.value = e.target.value;
     this.onChange(this.value);
+
+    this.cdr.detectChanges();
   }
 
   writeValue(value: any) {
