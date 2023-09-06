@@ -85,14 +85,15 @@ export class CourseFormComponent
         })
       )
       .subscribe((course: ICourse) => {
-        console.log(course);
+        const dateForUI = this.dateFormatUI(course.date);
 
         this.courseForm.patchValue({
           id: course.id,
           name: course.name,
           length: course.length,
           description: course.description,
-          date: course.date
+          date: dateForUI
+          // date: course.date // записую формат UI. Окремо? Як авторів?
         });
 
         this.setAuthors(course.authors);
@@ -110,23 +111,22 @@ export class CourseFormComponent
         })
       )
       .subscribe((authors: IAuthor[]) => {
-        console.log(authors);
-
         this.authorsList = authors;
       });
   }
 
   getAuthorsOFCourse(authors: any): void {
-    console.log('authors', authors);
-
     this.courseForm.value.authors = authors;
   }
 
   save(): void {
+    const dateForBack = this.dateFormatBack(this.courseForm.value.date || '');
+
     const coursePayload = {
       id: this.courseForm.value.id,
       name: this.courseForm.value.name,
-      date: this.courseForm.value.date,
+      date: dateForBack,
+      // date: this.courseForm.value.date, // записую формат для беку
       length: this.courseForm.value.length,
       description: this.courseForm.value.description,
       authors: this.courseForm.value.authors
@@ -161,6 +161,48 @@ export class CourseFormComponent
         })
       );
     });
+  }
+
+  dateFormatUI(date: string): string {
+    const dateUI = new Date(date || '');
+
+    const d = dateUI.getDate();
+    const dd = d < 10 ? '0' + d : d;
+
+    const m = dateUI.getMonth() + 1;
+    const mm = m < 10 ? '0' + m : m;
+
+    const yyyy = dateUI.getFullYear();
+
+    return dd + '/' + mm + '/' + yyyy;
+  }
+
+  dateFormatBack(date: string): string {
+    const dateParts = date?.split('/');
+    if (dateParts?.length !== 3) return date;
+
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ];
+
+    const day = dateParts[0];
+    const monthIndex = parseInt(dateParts[1]) - 1;
+    const year = dateParts[2];
+
+    if (monthIndex < 0 || monthIndex >= months.length) return date;
+
+    return `${months[monthIndex]} ${day} ${year}`;
   }
 
   isCommonRequired(name: string) {
