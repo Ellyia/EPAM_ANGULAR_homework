@@ -10,9 +10,7 @@
         </div>
         <div *ngIf="courseForm.get('name')?.hasError('maxlength')">
           * max length:
-          {{
-            courseForm.controls.name.getError('maxlength').requiredLength
-          }}
+          {{ courseForm.controls.name.getError('maxlength').requiredLength }}
           characters
         </div>
       </div>
@@ -95,6 +93,7 @@
       </div>
     </div>
     <app-authors-input
+      formArrayName="authors"
       [authorsList]="authorsList"
       [authorsOfCourse]="authorsOfCourse"
       (authorsEvent)="getAuthorsOFCourse($event)"

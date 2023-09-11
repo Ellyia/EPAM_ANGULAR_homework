@@ -26,7 +26,7 @@ const AUTHORS_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   selector: 'app-authors-input',
   templateUrl: './authors-input.component.html',
   styleUrls: ['./authors-input.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [AUTHORS_INPUT_CONTROL_VALUE_ACCESSOR]
 })
 export class AuthorsInputComponent
@@ -36,7 +36,11 @@ export class AuthorsInputComponent
   @Input() authorsList: IAuthor[] = [];
   @Input() authorsOfCourse: IAuthor[] = [];
 
+  value: IAuthor[] = [];
+
   @Output() authorsEvent = new EventEmitter<any>();
+
+  onChange = (value: any) => {};
 
   filteredAuthors: IAuthor[] = [];
   selectedAuthor: string = '';
@@ -51,15 +55,15 @@ export class AuthorsInputComponent
     super();
   }
 
-  writeValue(obj: any): void {
-    throw new Error('Method not implemented.');
+  writeValue(value: any): void {
+    this.value = value;
   }
+
   registerOnChange(fn: any): void {
-    throw new Error('Method not implemented.');
+    this.onChange = fn;
   }
-  registerOnTouched(fn: any): void {
-    throw new Error('Method not implemented.');
-  }
+
+  registerOnTouched(fn: any): void {}
 
   ngOnInit() {
     this.searchControl = this.formBuilder.control('');
@@ -77,7 +81,17 @@ export class AuthorsInputComponent
   selectAuthor(author: any) {
     this.searchControl.setValue(author.name);
 
-    this.authorsOfCourse.push(author);
+    const nameParts = author.name.split(' ');
+    if (nameParts?.length !== 2) {
+      this.authorsOfCourse.push(author);
+    } else {
+      const authorToCourse: IAuthor = {
+        id: author.id,
+        name: nameParts[0],
+        lastName: nameParts[1]
+      };
+      this.authorsOfCourse.push(authorToCourse);
+    }
 
     this.searchControl.setValue('');
     this.filteredAuthors = [];
