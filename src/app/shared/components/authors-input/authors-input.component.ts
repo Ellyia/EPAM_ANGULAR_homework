@@ -34,9 +34,9 @@ export class AuthorsInputComponent
   implements OnInit, ControlValueAccessor
 {
   @Input() authorsList: IAuthor[] = [];
-  @Input() authorsOfCourse: IAuthor[] = [];
+  // @Input() authorsOfCourse: IAuthor[] = [];
 
-  value: IAuthor[] = [];
+  @Input() value: IAuthor[] = [];
 
   @Output() authorsEvent = new EventEmitter<any>();
 
@@ -83,14 +83,14 @@ export class AuthorsInputComponent
 
     const nameParts = author.name.split(' ');
     if (nameParts?.length !== 2) {
-      this.authorsOfCourse.push(author);
+      this.value.push(author);
     } else {
       const authorToCourse: IAuthor = {
         id: author.id,
         name: nameParts[0],
         lastName: nameParts[1]
       };
-      this.authorsOfCourse.push(authorToCourse);
+      this.value.push(authorToCourse);
     }
 
     this.searchControl.setValue('');
@@ -98,14 +98,12 @@ export class AuthorsInputComponent
   }
 
   deleteAuthor(id: number) {
-    this.authorsOfCourse = this.authorsOfCourse.filter(
-      (author) => author.id !== id
-    );
+    this.value = this.value.filter((author) => author.id !== id);
 
     this.sendAuthors();
   }
 
   sendAuthors() {
-    this.authorsEvent.emit(this.authorsOfCourse);
+    this.authorsEvent.emit(this.value);
   }
 }

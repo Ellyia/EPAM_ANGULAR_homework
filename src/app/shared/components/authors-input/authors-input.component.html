@@ -21,7 +21,7 @@
 </ul>
 
 <div class="authors">
-  <div *ngFor="let author of authorsOfCourse" class="author">
+  <div *ngFor="let author of value" class="author">
     <div>{{ author.name }} {{ author.lastName }}</div>
     <button type="button" (click)="deleteAuthor(author.id)">x</button>
   </div>
