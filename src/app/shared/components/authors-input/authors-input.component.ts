@@ -36,7 +36,7 @@ export class AuthorsInputComponent
   @Input() authorsList: IAuthor[] = [];
   // @Input() authorsOfCourse: IAuthor[] = [];
 
-  @Input() value: IAuthor[] = [];
+  value: IAuthor[] = [];
 
   @Output() authorsEvent = new EventEmitter<any>();
 
@@ -61,6 +61,7 @@ export class AuthorsInputComponent
 
   registerOnChange(fn: any): void {
     this.onChange = fn;
+    this.authorsEvent.emit(this.value);
   }
 
   registerOnTouched(fn: any): void {}
@@ -99,11 +100,11 @@ export class AuthorsInputComponent
 
   deleteAuthor(id: number) {
     this.value = this.value.filter((author) => author.id !== id);
-
-    this.sendAuthors();
-  }
-
-  sendAuthors() {
     this.authorsEvent.emit(this.value);
+    // this.sendAuthors();
   }
+
+  // sendAuthors() {
+  //   this.authorsEvent.emit(this.value);
+  // }
 }

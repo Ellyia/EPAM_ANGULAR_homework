@@ -8,6 +8,7 @@ import {
 import { ICourse } from '../../models/course.model';
 
 import { Router } from '@angular/router';
+import { ICourseForm } from '../../models/course-form.model';
 
 @Component({
   selector: 'app-course-card',
@@ -16,7 +17,8 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CourseCardComponent {
-  @Input() course?: ICourse;
+  @Input()
+  course!: ICourse;
 
   @Output() deleteItem = new EventEmitter<number>();
 

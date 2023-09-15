@@ -1,21 +1,15 @@
 <form [formGroup]="authorForm">
   <label htmlFor="authors"> Authors: </label>
   <input
-    [value]="value"
     placeholder="add autors..."
     type="text"
     name="authors"
     formControlName="searchControl"
     id="authors"
-    (blur)="sendAuthors()"
   />
 </form>
 <ul *ngIf="filteredAuthors.length > 0">
-  <li
-    *ngFor="let author of filteredAuthors"
-    (click)="selectAuthor(author)"
-    (click)="sendAuthors()"
-  >
+  <li *ngFor="let author of filteredAuthors" (click)="selectAuthor(author)">
     {{ author.name }}
   </li>
 </ul>
@@ -26,5 +20,3 @@
     <button type="button" (click)="deleteAuthor(author.id)">x</button>
   </div>
 </div>
-
-<pre>{{ value }}</pre>

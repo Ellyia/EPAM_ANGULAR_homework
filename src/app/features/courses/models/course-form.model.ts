@@ -1,3 +1,5 @@
+import { IAuthor } from './author.model';
+
 export interface ICourseForm {
   id: number | undefined | null;
   name: string | undefined | null;
@@ -5,5 +7,5 @@ export interface ICourseForm {
   length: number | undefined | null;
   description: string | undefined | null;
   isTopRated?: boolean;
-  authors: never[] | undefined;
+  authors: IAuthor[] | null | undefined;
 }

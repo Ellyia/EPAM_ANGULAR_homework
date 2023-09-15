@@ -1,15 +1,14 @@
 <app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
 <form [formGroup]="courseForm" (ngSubmit)="save()">
-  <pre>{{ courseForm.value | json }}</pre>
   <div>
     <div class="label-req">
       <label htmlFor="name">Title:</label>
       <div class="required" *ngIf="isCommonRequired('name')">
         <div *ngIf="courseForm.get('name')?.hasError('required')">
-          {{ requiredMsq }}
+          {{ requiredMsg }}
         </div>
         <div *ngIf="courseForm.get('name')?.hasError('maxlength')">
-          * max length:
+          {{ maxLengthMsg }}
           {{ courseForm.controls.name.getError('maxlength').requiredLength }}
           characters
         </div>
@@ -29,17 +28,17 @@
       <label htmlFor="description"> Description:</label>
       <div class="required" *ngIf="isCommonRequired('description')">
         <div *ngIf="courseForm.get('description')?.hasError('required')">
-          {{ requiredMsq }}
+          {{ requiredMsg }}
         </div>
         <div *ngIf="courseForm.get('description')?.hasError('maxlength')">
-          * Max length:
+          {{ maxLengthMsg }}
           {{
             courseForm.controls.description.getError('maxlength').requiredLength
           }}
           characters
         </div>
         <div *ngIf="courseForm.get('description')?.hasError('minlength')">
-          * Min length:
+          {{ minLengthMsg }}
           {{
             courseForm.controls.description.getError('minlength').requiredLength
           }}
@@ -60,10 +59,10 @@
   <div>
     <div class="required" *ngIf="isCommonRequired('length')">
       <div *ngIf="courseForm.get('length')?.hasError('required')">
-        {{ requiredMsq }}
+        {{ requiredMsg }}
       </div>
       <div *ngIf="courseForm.get('length')?.hasError('onlyNums')">
-        * only numbers are allowed
+        {{ courseForm.controls.length.getError('onlyNums').value }}
       </div>
     </div>
     <app-duration-input formControlName="length"></app-duration-input>
@@ -72,10 +71,10 @@
   <div>
     <div class="required" *ngIf="isCommonRequired('date')">
       <div *ngIf="courseForm.get('date')?.hasError('required')">
-        {{ requiredMsq }}
+        {{ requiredMsg }}
       </div>
       <div *ngIf="courseForm.get('date')?.hasError('dateValid')">
-        * only dd/mm/yyyy format valid
+        {{ courseForm.controls.date.getError('dateValid').value }}
       </div>
     </div>
     <app-date-input formControlName="date"></app-date-input>
@@ -84,16 +83,18 @@
   <div>
     <div class="required" *ngIf="isCommonRequired('authors')">
       <div *ngIf="courseForm.get('authors')?.hasError('required')">
-        {{ requiredMsq }}
+        {{ requiredMsg }}
       </div>
       <div
         *ngIf="courseForm.get('authors')?.hasError('arrayMinLengthValidator')"
       >
-        * should be at least 1 author
+        {{
+          courseForm.controls.authors.getError('arrayMinLengthValidator').value
+        }}
       </div>
     </div>
     <app-authors-input
-      formArrayName="authors"
+      formControlName="authors"
       [authorsList]="authorsList"
       (authorsEvent)="getAuthorsOFCourse($event)"
     ></app-authors-input>

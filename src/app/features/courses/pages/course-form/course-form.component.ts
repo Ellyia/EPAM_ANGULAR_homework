@@ -22,6 +22,8 @@ import { IAuthor } from '../../models/author.model';
 import { onlyNums } from 'src/app/shared/validators/numbers-only.validator';
 import { dateValid } from 'src/app/shared/validators/date.validator';
 import { arrayMinLengthValidator } from 'src/app/shared/validators/at-least-one-character.validator';
+import { dateFormatBack } from 'src/app/shared/helpers/change-date-format-back.helper';
+import { dateFormatUI } from 'src/app/shared/helpers/change-date-format-UI.helper';
 
 @Component({
   selector: 'app-course-form',
@@ -48,11 +50,10 @@ export class CourseFormComponent
       Validators.maxLength(500),
       Validators.minLength(2)
     ]),
-    authors: new FormArray([], [arrayMinLengthValidator])
+    authors: new FormControl<IAuthor[] | null>([], [arrayMinLengthValidator(1)])
   });
 
   authorsList: IAuthor[] = [];
-  authorsOfCourse: any = [];
 
   breadcrumbs: IBreadcrumb[] = [{ url: '/courses', label: 'Courses' }];
 
@@ -65,7 +66,9 @@ export class CourseFormComponent
     super();
   }
 
-  requiredMsq = '* Required';
+  requiredMsg = '* Required';
+  maxLengthMsg = '* max length:';
+  minLengthMsg = '* min length:';
 
   ngOnInit() {
     this.subs = this.activatedRoute.paramMap
@@ -85,18 +88,16 @@ export class CourseFormComponent
         })
       )
       .subscribe((course: ICourse) => {
-        const dateForUI = this.dateFormatUI(course.date);
+        const dateForUI = dateFormatUI(course.date);
 
         this.courseForm.patchValue({
           id: course.id,
           name: course.name,
           length: course.length,
           description: course.description,
-          date: dateForUI
+          date: dateForUI,
+          authors: course.authors
         });
-
-        this.setAuthors(course.authors);
-        this.authorsOfCourse = course.authors;
 
         this.breadcrumbs.push({ label: this.courseForm.value.name as string });
 
@@ -119,7 +120,7 @@ export class CourseFormComponent
   }
 
   save(): void {
-    const dateForBack = this.dateFormatBack(this.courseForm.value.date || '');
+    const dateForBack = dateFormatBack(this.courseForm.value.date || '');
 
     const coursePayload = {
       id: this.courseForm.value.id,
@@ -146,61 +147,6 @@ export class CourseFormComponent
   reset(): void {
     this.store.dispatch(ResetCourses());
     this.router.navigate(['/courses']);
-  }
-
-  setAuthors(authors: any[]): void {
-    const authorsArray = this.courseForm.get('authors') as FormArray;
-    authors.forEach((author) => {
-      authorsArray.push(
-        new FormGroup({
-          id: new FormControl<number>(author.id),
-          name: new FormControl<string>(author.name),
-          lastName: new FormControl<string>(author.lastName)
-        })
-      );
-    });
-  }
-
-  dateFormatUI(date: string): string {
-    const dateUI = new Date(date || '');
-
-    const d = dateUI.getDate();
-    const dd = d < 10 ? '0' + d : d;
-
-    const m = dateUI.getMonth() + 1;
-    const mm = m < 10 ? '0' + m : m;
-
-    const yyyy = dateUI.getFullYear();
-
-    return dd + '/' + mm + '/' + yyyy;
-  }
-
-  dateFormatBack(date: string): string {
-    const dateParts = date?.split('/');
-    if (dateParts?.length !== 3) return date;
-
-    const months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December'
-    ];
-
-    const day = dateParts[0];
-    const monthIndex = parseInt(dateParts[1]) - 1;
-    const year = dateParts[2];
-
-    if (monthIndex < 0 || monthIndex >= months.length) return date;
-
-    return `${months[monthIndex]} ${day} ${year}`;
   }
 
   isCommonRequired(name: string) {
