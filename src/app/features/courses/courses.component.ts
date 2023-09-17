@@ -16,6 +16,7 @@ import {
   selectCoursesList,
   isCoursesToShow
 } from 'src/app/store/selectors/courses.selectors';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-courses',
@@ -37,6 +38,8 @@ export class CoursesComponent extends BaseComponent implements OnInit {
   constructor(private router: Router, private store: Store<IAppState>) {
     super();
   }
+
+  searchString = new FormControl<string>('');
 
   ngOnInit(): void {
     this.showCourses();

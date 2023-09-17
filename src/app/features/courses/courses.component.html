@@ -1,7 +1,10 @@
 <app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
 
 <div class="main">
-  <app-search-bar (searchItems)="searchCourses($event)"></app-search-bar>
+  <app-search-bar
+    formControlName="searchString"
+    (searchItems)="searchCourses($event)"
+  ></app-search-bar>
 
   <button class="btn" (click)="onAddCourse()">+ Add courses</button>
 
