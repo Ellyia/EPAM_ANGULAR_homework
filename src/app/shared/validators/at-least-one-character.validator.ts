@@ -7,6 +7,6 @@ export function arrayMinLengthValidator(minLength: number): ValidatorFn {
 
     return !!value && Array.isArray(value) && value.length >= minLength
       ? null
-      : { arrayMinLengthValidator: { value: '* should be at least 1 author' } };
+      : { arrayMinLengthValidator: { value: '* Should be at least 1 author' } };
   };
 }

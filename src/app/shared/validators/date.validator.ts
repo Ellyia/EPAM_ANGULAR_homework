@@ -9,7 +9,7 @@ export function dateValid(control: AbstractControl): ValidationErrors | null {
 
     return isVaidDate
       ? null
-      : { dateValid: { value: '* only dd/mm/yyyy format valid' } };
+      : { dateValid: { value: '* Only dd/mm/yyyy format valid' } };
   }
 
   return null;

@@ -2,12 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 
-import { ICourseForm } from '../../models/course-form.model';
 import { CoursesService } from '../../services/courses.service';
 import { IBreadcrumb } from 'src/app/core/models/breadcrumb.model';
-import { EMPTY, of } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { ICourse } from '../../models/course.model';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/core/components/base/base.component';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -17,7 +16,7 @@ import {
   ResetCourses
 } from 'src/app/store/actions/courses.actions';
 
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAuthor } from '../../models/author.model';
 import { onlyNums } from 'src/app/shared/validators/numbers-only.validator';
 import { dateValid } from 'src/app/shared/validators/date.validator';
@@ -50,7 +49,7 @@ export class CourseFormComponent
       Validators.maxLength(500),
       Validators.minLength(2)
     ]),
-    authors: new FormControl<IAuthor[] | null>([], [arrayMinLengthValidator(1)])
+    authors: new FormControl<IAuthor[]>([], [arrayMinLengthValidator(1)])
   });
 
   authorsList: IAuthor[] = [];
@@ -67,8 +66,8 @@ export class CourseFormComponent
   }
 
   requiredMsg = '* Required';
-  maxLengthMsg = '* max length:';
-  minLengthMsg = '* min length:';
+  maxLengthMsg = '* Max length:';
+  minLengthMsg = '* Min length:';
 
   ngOnInit() {
     this.subs = this.activatedRoute.paramMap
@@ -116,7 +115,7 @@ export class CourseFormComponent
   }
 
   getAuthorsOFCourse(authors: any): void {
-    this.courseForm.value.authors = authors;
+    this.courseForm.controls.authors.patchValue(authors);
   }
 
   save(): void {

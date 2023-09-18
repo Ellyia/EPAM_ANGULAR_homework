@@ -9,11 +9,11 @@ export function onlyNums(control: AbstractControl): ValidationErrors | null {
       const hasntFirstZero = /^[1-9]\d*$/.test(value);
       return hasntFirstZero
         ? null
-        : { onlyNums: { value: "* shouldn't start from 0" } };
+        : { onlyNums: { value: "* Shouldn't start from 0" } };
     } else {
       return hasOnlyNumeric
         ? null
-        : { onlyNums: { value: '* only numbers are allowed' } };
+        : { onlyNums: { value: '* Only numbers are allowed' } };
     }
   }
 

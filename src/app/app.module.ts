@@ -6,7 +6,6 @@ import { FooterComponent } from './core/components/footer/footer.component';
 import { HeaderComponent } from './core/components/header/header.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule, isDevMode } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IsAuthenticatedDirective } from './shared/directives/if-authenticated.directive';
 import { GlobalErrorComponent } from './core/components/global-error/global-error.component';
 import { AuthInterceptor } from './core/interceptor/auth.interceptor';
@@ -35,12 +34,10 @@ import { AuthEffects } from './store/effects/auth.effects';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    // FormsModule,
     StoreModule.forRoot(appReducers),
     EffectsModule.forRoot([CoursesEffects, AuthEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' })
-    // ReactiveFormsModule
   ],
   providers: [
     {

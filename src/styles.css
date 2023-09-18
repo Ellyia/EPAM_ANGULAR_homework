@@ -8,12 +8,6 @@ body {
   background-color: rgb(235, 232, 232);
 }
 
-button[disabled] {
-  pointer-events: none;
-  background-color: rgba(0, 0, 0, 0.15);
-  border-color: rgba(0, 0, 0, 0.1);
-}
-
 .required {
   color: red;
   margin-left: 10px;
@@ -21,8 +15,20 @@ button[disabled] {
 
 .ng-touched.ng-invalid:not(form) > #date,
 .ng-touched.ng-invalid:not(form) #duration,
-.ng-touched.ng-invalid:not(form) #author,
 .ng-touched.ng-invalid:not(form)#name,
 .ng-touched.ng-invalid:not(form)#description {
   border: 2px solid red;
+}
+
+.authors.ng-invalid:not(form) .add-author {
+  border: 2px solid red;
+}
+
+.pos-r {
+  position: relative;
+}
+
+.pos-a {
+  position: absolute;
+  left: 60px;
 }

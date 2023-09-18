@@ -56,8 +56,8 @@
     </textarea>
   </div>
 
-  <div>
-    <div class="required" *ngIf="isCommonRequired('length')">
+  <div class="pos-r">
+    <div class="required pos-a" *ngIf="isCommonRequired('length')">
       <div *ngIf="courseForm.get('length')?.hasError('required')">
         {{ requiredMsg }}
       </div>
@@ -68,8 +68,8 @@
     <app-duration-input formControlName="length"></app-duration-input>
   </div>
 
-  <div>
-    <div class="required" *ngIf="isCommonRequired('date')">
+  <div class="pos-r">
+    <div class="required pos-a" *ngIf="isCommonRequired('date')">
       <div *ngIf="courseForm.get('date')?.hasError('required')">
         {{ requiredMsg }}
       </div>
@@ -80,13 +80,10 @@
     <app-date-input formControlName="date"></app-date-input>
   </div>
 
-  <div>
-    <div class="required" *ngIf="isCommonRequired('authors')">
-      <div *ngIf="courseForm.get('authors')?.hasError('required')">
-        {{ requiredMsg }}
-      </div>
+  <div class="pos-r">
+    <div class="required pos-a" *ngIf="courseForm.controls.authors.invalid">
       <div
-        *ngIf="courseForm.get('authors')?.hasError('arrayMinLengthValidator')"
+        *ngIf="courseForm.controls.authors.hasError('arrayMinLengthValidator')"
       >
         {{
           courseForm.controls.authors.getError('arrayMinLengthValidator').value
@@ -94,10 +91,12 @@
       </div>
     </div>
     <app-authors-input
+      class="authors"
       formControlName="authors"
       [authorsList]="authorsList"
       (authorsEvent)="getAuthorsOFCourse($event)"
-    ></app-authors-input>
+    >
+    </app-authors-input>
   </div>
 
   <div>
