@@ -12,7 +12,6 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  NG_VALIDATORS,
   NG_VALUE_ACCESSOR
 } from '@angular/forms';
 import { BaseComponent } from 'src/app/core/components/base/base.component';
@@ -27,14 +26,7 @@ const AUTHORS_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   selector: 'app-authors-input',
   templateUrl: './authors-input.component.html',
   styleUrls: ['./authors-input.component.scss'],
-  providers: [
-    AUTHORS_INPUT_CONTROL_VALUE_ACCESSOR,
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => AuthorsInputComponent),
-      multi: true
-    }
-  ]
+  providers: [AUTHORS_INPUT_CONTROL_VALUE_ACCESSOR]
 })
 export class AuthorsInputComponent
   extends BaseComponent
@@ -83,9 +75,13 @@ export class AuthorsInputComponent
     });
 
     this.subs = this.searchControl.valueChanges.subscribe((value: string) => {
-      this.filteredAuthors = this.authorsList.filter((author) =>
-        author.name.toLowerCase().includes(value.toLowerCase())
-      );
+      if (value === '') {
+        this.filteredAuthors = [];
+      } else {
+        this.filteredAuthors = this.authorsList.filter((author) =>
+          author.name.toLowerCase().includes(value.toLowerCase())
+        );
+      }
     });
   }
 
@@ -93,9 +89,7 @@ export class AuthorsInputComponent
     this.searchControl.setValue(author.name);
 
     const nameParts = author.name.split(' ');
-    // if (nameParts?.length !== 2) {
-    //   this.value.push(author);
-    // } else {
+
     const authorToCourse: IAuthor = {
       id: author.id,
       name: nameParts[0],
@@ -103,9 +97,6 @@ export class AuthorsInputComponent
     };
     this.value.push(authorToCourse);
     this.authorsEvent.emit(this.value);
-    // }
-
-    // this.authorsEvent.emit(this.value);
 
     this.searchControl.setValue('');
     this.filteredAuthors = [];

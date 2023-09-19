@@ -1,6 +1,7 @@
 input {
   padding: 10px;
   margin: 10px 0;
+  width: 50%;
   display: flex;
   flex-direction: column;
 }
@@ -34,6 +35,8 @@ ul {
     list-style: none;
     margin-bottom: 5px;
     padding: 5px;
+    width: 40%;
     cursor: pointer;
+    border: 1px solid gray;
   }
 }
