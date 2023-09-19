@@ -42,9 +42,7 @@ export class AuthorsInputComponent
   filteredAuthors: IAuthor[] = [];
   selectedAuthor: string = '';
 
-  authorForm: FormGroup = new FormGroup({
-    author: new FormControl(null)
-  });
+  authorForm!: FormGroup;
 
   searchControl: any;
 
