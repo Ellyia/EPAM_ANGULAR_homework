@@ -1,7 +1,11 @@
 form {
   display: flex;
   flex-direction: column;
-  padding: 30px 50px;
+  padding: 30px;
+  margin: 50px;
+  background-color: #fff;
+  box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
+  border-radius: 5px;
 
   .label-req {
     display: flex;
