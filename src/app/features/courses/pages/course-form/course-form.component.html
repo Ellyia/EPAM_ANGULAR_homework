@@ -80,24 +80,13 @@
     <app-date-input formControlName="date"></app-date-input>
   </div>
 
-  <div class="pos-r">
-    <div class="required pos-a" *ngIf="courseForm.controls.authors.invalid">
-      <div
-        *ngIf="courseForm.controls.authors.hasError('arrayMinLengthValidator')"
-      >
-        {{
-          courseForm.controls.authors.getError('arrayMinLengthValidator').value
-        }}
-      </div>
-    </div>
-    <app-authors-input
-      class="authors"
-      formControlName="authors"
-      [authorsList]="authorsList"
-      (authorsEvent)="getAuthorsOFCourse($event)"
-    >
-    </app-authors-input>
-  </div>
+  <app-authors-input
+    class="authors"
+    formControlName="authors"
+    [authorsList]="authorsList"
+    (authorsEvent)="getAuthorsOFCourse($event)"
+  >
+  </app-authors-input>
 
   <div>
     <button type="submit" [disabled]="!courseForm.valid">Save</button>

@@ -1,23 +1,31 @@
 <form [formGroup]="authorForm">
-  <label htmlFor="authors"> Authors: </label>
-  <input
-    class="add-author"
-    placeholder="add autors..."
-    type="text"
-    name="authors"
-    formControlName="searchControl"
-    id="authors"
-  />
+  <div class="flex">
+    <label htmlFor="authors"> Authors: </label>
+
+    <div class="required" *ngIf="validationStr">
+      {{ errMsg }}
+    </div>
+  </div>
+
+  <div class="authors" [ngStyle]="{ border: validationStyle }">
+    <div *ngFor="let author of value" class="author">
+      <div>{{ author.name }} {{ author.lastName }}</div>
+      <button type="button" (click)="deleteAuthor(author.id)">x</button>
+    </div>
+
+    <input
+      class="add-author"
+      placeholder="add autors..."
+      type="text"
+      name="authors"
+      formControlName="searchControl"
+      id="authors"
+    />
+  </div>
 </form>
+
 <ul *ngIf="filteredAuthors.length > 0">
   <li *ngFor="let author of filteredAuthors" (click)="selectAuthor(author)">
     {{ author.name }}
   </li>
 </ul>
-
-<div class="authors">
-  <div *ngFor="let author of value" class="author">
-    <div>{{ author.name }} {{ author.lastName }}</div>
-    <button type="button" (click)="deleteAuthor(author.id)">x</button>
-  </div>
-</div>

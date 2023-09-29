@@ -46,6 +46,10 @@ export class AuthorsInputComponent
 
   searchControl: any;
 
+  validationStyle: string = 'original';
+  validationStr: string = '';
+  errMsg = '* Should be at least 1 author';
+
   constructor(
     private formBuilder: FormBuilder,
     private cdr: ChangeDetectorRef
@@ -96,6 +100,8 @@ export class AuthorsInputComponent
     this.value.push(authorToCourse);
     this.authorsEvent.emit(this.value);
 
+    this.onTouched();
+
     this.searchControl.setValue('');
     this.filteredAuthors = [];
   }
@@ -103,5 +109,17 @@ export class AuthorsInputComponent
   deleteAuthor(id: number) {
     this.value = this.value.filter((author) => author.id !== id);
     this.authorsEvent.emit(this.value);
+
+    this.onTouched();
+  }
+
+  onTouched() {
+    if (this.value.length === 0) {
+      this.validationStyle = '2px solid red';
+      this.validationStr = this.errMsg;
+    } else {
+      this.validationStyle = '1px solid gray';
+      this.validationStr = '';
+    }
   }
 }
