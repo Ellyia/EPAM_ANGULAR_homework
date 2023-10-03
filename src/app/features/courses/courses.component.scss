@@ -1,16 +1,17 @@
 .main {
   padding: 20px 50px;
+  margin: 0px 0px 70px;
   display: flex;
   flex-direction: column;
 
   .btn {
     width: 125px;
-    padding: 5px 10px;
+    padding: 10px;
     border: none;
     box-shadow: 0 0 5px 2px rgba(221, 221, 221, 1);
     background-color: #009ecc;
     color: #fff;
-    border-radius: 5px;
+    border-radius: 3px;
     cursor: pointer;
     font-size: 8px;
     margin-left: auto;
@@ -22,7 +23,6 @@
     justify-content: center;
     background-color: #fff;
     box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
-    margin: 0px 0px 20px;
     padding: 20px;
     border-radius: 5px;
     font-size: 12px;

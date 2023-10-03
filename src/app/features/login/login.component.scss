@@ -34,12 +34,19 @@ form {
   }
 
   button {
-    padding: 5px 10px;
+    padding: 5px 15px;
     border: none;
     border-radius: 2px;
-    background-color: rgb(185, 231, 116);
-    color: gray;
+    background-color: rgb(149, 190, 86);
+    color: #fff;
     cursor: pointer;
+  }
+
+  button[disabled] {
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.15);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: gray;
   }
 
   div {
@@ -51,7 +58,6 @@ form {
     a {
       color: dodgerblue;
       font-size: 10px;
-      margin-left: 10px;
     }
   }
 }

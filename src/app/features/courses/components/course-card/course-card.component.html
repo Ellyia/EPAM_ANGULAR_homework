@@ -1,37 +1,40 @@
 <div
   class="course-wrap"
-  [ngClass]="course?.isTopRated ? 'bg-lightlemon' : null"
+  [ngClass]="course.isTopRated ? 'bg-lightlemon' : null"
   appDateDependHighlight
-  [creationDate]="course?.date"
+  [creationDate]="course.date"
 >
   <div class="card">
     <div class="title">
-      <h3 [ngClass]="course?.isTopRated ? 'star' : null">
-        {{ course?.name | titlecase }}
+      <h3 [ngClass]="course.isTopRated ? 'star' : null">
+        {{ course.name | titlecase }}
       </h3>
+
       <div class="duration">
         <span
           ><img src="app/assets/images/duration.svg" alt="duration" />{{
-            course?.length | formatDuration
+            course.length | formatDuration
           }}</span
         >
         <span
           ><img src="app/assets/images/calendar.svg" alt="calendar" />{{
-            course?.date | date
+            course.date | date
           }}</span
         >
       </div>
     </div>
 
-    <p class="description">{{ course?.description }}</p>
-  </div>
+    <div class="title">
+      <p class="description">{{ course.description }}</p>
 
-  <div class="btns">
-    <button class="btn" (click)="onEdit()">
-      <img src="app/assets/images/edit.svg" alt="edit" />Edit
-    </button>
-    <button class="btn" (click)="onDelete()">
-      <img src="app/assets/images/delete.svg" alt="delete" />Delete
-    </button>
+      <div class="btns">
+        <button class="btn" (click)="onEdit()">
+          <img src="app/assets/images/edit.svg" alt="edit" />Edit
+        </button>
+        <button class="btn" (click)="onDelete()">
+          <img src="app/assets/images/delete.svg" alt="delete" />Delete
+        </button>
+      </div>
+    </div>
   </div>
 </div>

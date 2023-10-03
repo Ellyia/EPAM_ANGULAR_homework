@@ -5,6 +5,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { ErrorService } from 'src/app/core/services/error.service';
 import { environment } from 'src/environments/environment.prod';
+import { IAuthor } from '../models/author.model';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,12 @@ export class CoursesService {
   removeItem(id: number): Observable<ICourse[]> {
     return this.http
       .delete<ICourse[]>(`${this.url}/${id}`)
+      .pipe(catchError(this.errorHandler.bind(this)));
+  }
+
+  getAuthors(): Observable<IAuthor[]> {
+    return this.http
+      .get<IAuthor[]>(`${this.apiUrl}/authors`)
       .pipe(catchError(this.errorHandler.bind(this)));
   }
 

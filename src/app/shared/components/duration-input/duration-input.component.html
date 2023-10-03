@@ -2,11 +2,12 @@
 <div>
   <input
     placeholder="enter duration..."
-    type="text"
+    type="string"
     name="duration"
     id="duration"
-    [ngModel]="length"
-    (ngModelChange)="dataChanged($event)"
+    [value]="value || null"
+    (input)="onInputChange($event)"
+    (blur)="markAsTouched()"
   />
-  <p>{{ length | formatDuration }}</p>
+  <p>{{ value || 0 | formatDuration }}</p>
 </div>

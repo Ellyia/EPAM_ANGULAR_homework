@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Subject } from 'rxjs';
-import { filter, debounceTime } from 'rxjs/operators';
+import { FormControl, FormGroup } from '@angular/forms';
+import { debounceTime, filter } from 'rxjs';
 import { BaseComponent } from 'src/app/core/components/base/base.component';
 
 @Component({
@@ -11,18 +11,15 @@ import { BaseComponent } from 'src/app/core/components/base/base.component';
 export class SearchBarComponent extends BaseComponent implements OnInit {
   @Output() searchItems = new EventEmitter<string>();
 
-  subject = new Subject<string>();
-
   constructor() {
     super();
   }
-
-  onSearch(event: any): void {
-    this.subject.next(event.target.value);
-  }
+  searcher = new FormGroup({
+    searchStr: new FormControl<string>('', { nonNullable: true })
+  });
 
   ngOnInit(): void {
-    this.subs = this.subject
+    this.subs = this.searcher.controls.searchStr.valueChanges
       .pipe(
         debounceTime(500),
         filter(
